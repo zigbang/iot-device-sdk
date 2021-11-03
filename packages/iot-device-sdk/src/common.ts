@@ -4,6 +4,7 @@ import axios from "axios"
 
 type TuyaSdkAccountInfo = {
 	countryCode: string
+	username: string
 	email: string
 	password: string
 	homeid: number
@@ -54,6 +55,7 @@ export class TuyaSdkBridge {
 
 	private static TuyaInfo: TuyaSdkAccountInfo = {
 		countryCode: "82",
+		username: "zigbang@yopmail.com",
 		email: "zigbang@yopmail.com",
 		password: "zigbang",
 		homeid: 51757763,
@@ -62,10 +64,11 @@ export class TuyaSdkBridge {
 	private static Initialized: boolean = false
 
 	// Change Information pnu, dongho
-	public static SetInformation(pnu: string, donho: string, username: string) {
+	public static SetInformation(pnu: string, donho: string, username: string, host: string) {
 		TuyaSdkBridge.TargetPnu = pnu
 		TuyaSdkBridge.TargetDongho = donho
 		TuyaSdkBridge.ZigbangUserName = username
+		TuyaSdkBridge.host = host
 	}
 
 	private static log(params: any) {
@@ -75,7 +78,7 @@ export class TuyaSdkBridge {
 	}
 
 	// initilize Tuya Sdk Bridge
-	public static async Init(
+	public static async init(
 		isShowDebugLog: boolean,
 		pnu: string,
 		dongho: string,
@@ -85,20 +88,20 @@ export class TuyaSdkBridge {
 		// Set Debugging config
 		TuyaSdkBridge.isShowDebugLog = isShowDebugLog
 
-		TuyaSdkBridge.SetInformation(pnu, dongho, user)
+		TuyaSdkBridge.SetInformation(pnu, dongho, user, host)
 
 		let ErrorOccur = false
 		let ReturnValue: string = ""
 
 		// Login Tuya Handling
-		await TuyaSdkBridge.TuyaLogin(false).then(
+		await TuyaSdkBridge.TuyaLogin(true).then(
 			(OkRes: any) => {
 				TuyaNative.getHomeDetail({ homeId: TuyaSdkBridge.TuyaInfo.homeid }).then(
 					(OkRes: TuyaNative.GetHomeDetailResponse) => {
-						TuyaSdkBridge.log(OkRes)
+						// TuyaSdkBridge.log(OkRes)
 					},
 					(NgRes: any) => {
-						TuyaSdkBridge.log(NgRes)
+						// TuyaSdkBridge.log(NgRes)
 						ErrorOccur = true
 						ReturnValue = "getHomeDetail Error" + NgRes
 					}
@@ -120,7 +123,7 @@ export class TuyaSdkBridge {
 		})
 	}
 
-	public static StartSearchWiredGW(callback: (gw_id: string, product_id: string) => void): boolean {
+	public static startSearchWiredGW(callback: (gw_id: string, product_id: string) => void): boolean {
 		let ReturnValue: boolean = false
 
 		if (TuyaSdkBridge.Initialized == false) {
@@ -145,7 +148,7 @@ export class TuyaSdkBridge {
 		return ReturnValue
 	}
 
-	public static StopSearchWiredGW() {
+	public static stopSearchWiredGW() {
 		let ReturnValue: boolean = false
 
 		if (TuyaSdkBridge.subscriptionForGw != null) {
@@ -155,14 +158,14 @@ export class TuyaSdkBridge {
 			TuyaSdkBridge.subscriptionForGw = null
 			ReturnValue = true
 		} else {
-			console.error("StartSearchWiredGW is not called")
+			console.error("startSearchWiredGW is not called")
 		}
 
 		return ReturnValue
 	}
 
 	private static inProcessRegisterGw = false
-	public static async RegisterWiredGW(params: RegisterGwParam) {
+	public static async registerWiredGW(gw_id: string, product_id: string, timeout: number) {
 		let ReturnValue: any
 		let ErrorOccur: boolean = false
 
@@ -179,16 +182,16 @@ export class TuyaSdkBridge {
 			if (Platform.OS === "ios") {
 				passParam = {
 					homeId: TuyaSdkBridge.TuyaInfo.homeid,
-					time: params.timeout,
-					gwId: params.gw_id,
-					productId: params.product_id,
+					time: timeout,
+					gwId: gw_id,
+					productId: product_id,
 				}
 			} else {
 				passParam = {
 					homeId: TuyaSdkBridge.TuyaInfo.homeid,
-					time: params.timeout,
-					devId: params.gw_id,
-					productId: params.product_id, // Ignored
+					time: timeout,
+					devId: gw_id,
+					productId: product_id, // Ignored
 				}
 			}
 
@@ -228,7 +231,7 @@ export class TuyaSdkBridge {
 
 	private static TargetGwIdForSubDevice: string = ""
 	// 이벤트 리스너 등록 및 등록 시작
-	public static async StartRegisterZigbeeSubDevice(
+	public static async startRegisterZigbeeSubDevice(
 		gw_id: string,
 		timeout: number,
 		callback: (result: any) => void
@@ -279,12 +282,12 @@ export class TuyaSdkBridge {
 	}
 
 	// 이벤트 리스너 해제
-	public static async StopRegisterZigbeeSubDevice() {
+	public static stopRegisterZigbeeSubDevice() {
 		let ReturnValue: boolean = false
 
 		if (TuyaSdkBridge.subscriptionForSubDevice) {
 			if (Platform.OS === "ios") {
-				await TuyaNative.stopNewGwSubDevActivatorConfig({ devId: TuyaSdkBridge.TargetGwIdForSubDevice }) // Todo : make this for android
+				TuyaNative.stopNewGwSubDevActivatorConfig({ devId: TuyaSdkBridge.TargetGwIdForSubDevice }) // Todo : make this for android
 			}
 			TuyaNative.removeSubscribtion(TuyaSdkBridge.subscriptionForSubDevice)
 			TuyaNative.removeEvent(TuyaSdkBridge.SearchingSubDeviceEventName)
@@ -303,7 +306,7 @@ export class TuyaSdkBridge {
 		TuyaSdkBridge.log(result)
 		if (result.result == "onError") {
 			TuyaSdkBridge.log("onError")
-			TuyaSdkBridge.StopRegisterZigbeeSubDevice()
+			TuyaSdkBridge.stopRegisterZigbeeSubDevice()
 		} else if (result.result == "onActiveSuccess") {
 			TuyaSdkBridge.log("onActiveSuccess")
 			let CombinationName: string = TuyaSdkBridge.GetCombinationTuyaName(result.var1, result.var1.name)
@@ -362,7 +365,7 @@ export class TuyaSdkBridge {
 			}
 			TuyaSdkBridge.SearchingCallbackFunction(gw_id, product_id)
 		} else {
-			TuyaSdkBridge.StopSearchWiredGW() // adjust sync problem
+			TuyaSdkBridge.stopSearchWiredGW() // adjust sync problem
 		}
 	}
 
@@ -441,10 +444,10 @@ export class TuyaSdkBridge {
 
 					TuyaSdkBridge.log(UserInfo)
 
-					if (UserInfo.email === "") {
+					if (UserInfo.username === "") {
 						TuyaSdkBridge.log("No logged info.")
 						NeedLogin = true
-					} else if (UserInfo.email != TuyaSdkBridge.TuyaInfo.email) {
+					} else if (UserInfo.username != TuyaSdkBridge.TuyaInfo.username) {
 						// Todo: Change it for iOS
 						TuyaSdkBridge.log("Remained Account Session")
 						TuyaSdkBridge.log("Maybe Remained Anonymous Account session")
