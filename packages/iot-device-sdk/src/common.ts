@@ -71,7 +71,7 @@ export class TuyaSdkBridge {
 	}
 
 	// Change Information pnu, dongho
-	public static setInformation(pnu: string, donho: string, username: string) {
+	private static setInformation(pnu: string, donho: string, username: string) {
 		TuyaSdkBridge.targetPnu = pnu
 		TuyaSdkBridge.targetDongho = donho
 		TuyaSdkBridge.zigbangUserName = username
@@ -95,7 +95,7 @@ export class TuyaSdkBridge {
 		let ReturnValue: string = ""
 
 		// Login Tuya Handling, true - target, false - test
-		await TuyaSdkBridge.tuyaLogin(false).then(
+		await TuyaSdkBridge.tuyaLogin(true).then(
 			(OkRes: any) => {
 				TuyaNative.getHomeDetail({ homeId: TuyaSdkBridge.tuyaInfo.homeid }).then(
 					(OkRes: TuyaNative.GetHomeDetailResponse) => {
