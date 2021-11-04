@@ -94,15 +94,15 @@ export class TuyaSdkBridge {
 		let ErrorOccur = false
 		let ReturnValue: string = ""
 
-		// Login Tuya Handling
-		await TuyaSdkBridge.tuyaLogin(true).then(
+		// Login Tuya Handling, true - target, false - test
+		await TuyaSdkBridge.tuyaLogin(false).then(
 			(OkRes: any) => {
 				TuyaNative.getHomeDetail({ homeId: TuyaSdkBridge.tuyaInfo.homeid }).then(
 					(OkRes: TuyaNative.GetHomeDetailResponse) => {
-						// TuyaSdkBridge.log(OkRes)
+						TuyaSdkBridge.log(OkRes)
 					},
 					(NgRes: any) => {
-						// TuyaSdkBridge.log(NgRes)
+						TuyaSdkBridge.log(NgRes)
 						ErrorOccur = true
 						ReturnValue = "getHomeDetail Error" + NgRes
 					}
@@ -288,7 +288,9 @@ export class TuyaSdkBridge {
 
 		if (TuyaSdkBridge.subscriptionForSubDevice) {
 			if (Platform.OS === "ios") {
-				await TuyaNative.stopNewGwSubDevActivatorConfig({ devId: TuyaSdkBridge.targetGwIdForSubDevice }) // TODO: make this for android
+				await TuyaNative.stopNewGwSubDevActivatorConfig({ devId: TuyaSdkBridge.targetGwIdForSubDevice })
+			} else {
+				TuyaNative.stopConfig()
 			}
 			TuyaNative.removeSubscribtion(TuyaSdkBridge.subscriptionForSubDevice)
 			TuyaNative.removeEvent(TuyaSdkBridge.searchingSubDeviceEventName)
