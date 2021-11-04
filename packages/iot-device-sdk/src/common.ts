@@ -4,6 +4,7 @@ import axios from "axios"
 
 type TuyaSdkAccountInfo = {
 	countryCode: string
+	username: string
 	email: string
 	password: string
 	homeid: number
@@ -55,6 +56,7 @@ export class TuyaSdkBridge {
 
 	private static tuyaInfo: TuyaSdkAccountInfo = {
 		countryCode: "82",
+		username: "zigbang@yopmail.com",
 		email: "zigbang@yopmail.com",
 		password: "zigbang",
 		homeid: 51757763,
@@ -87,19 +89,20 @@ export class TuyaSdkBridge {
 		TuyaSdkBridge.isShowDebugLog = isShowDebugLog
 
 		TuyaSdkBridge.setInformation(pnu, dongho, user)
+		TuyaSdkBridge.host = host
 
 		let ErrorOccur = false
 		let ReturnValue: string = ""
 
 		// Login Tuya Handling
-		await TuyaSdkBridge.tuyaLogin(false).then(
+		await TuyaSdkBridge.tuyaLogin(true).then(
 			(OkRes: any) => {
 				TuyaNative.getHomeDetail({ homeId: TuyaSdkBridge.tuyaInfo.homeid }).then(
 					(OkRes: TuyaNative.GetHomeDetailResponse) => {
-						TuyaSdkBridge.log(OkRes)
+						// TuyaSdkBridge.log(OkRes)
 					},
 					(NgRes: any) => {
-						TuyaSdkBridge.log(NgRes)
+						// TuyaSdkBridge.log(NgRes)
 						ErrorOccur = true
 						ReturnValue = "getHomeDetail Error" + NgRes
 					}
@@ -127,7 +130,7 @@ export class TuyaSdkBridge {
 		if (TuyaSdkBridge.initialized == false) {
 			console.error("Call TuyaSdkBridge.Init() first")
 		} else if (!TuyaSdkBridge.subscriptionForGw) {
-			TuyaNative.StartSearcingGwDevice()
+			TuyaNative.startSearcingGwDevice()
 			TuyaSdkBridge.wiredGwSearchingEventFunctionPointer = callback
 			if (Platform.OS === "ios") {
 				TuyaSdkBridge.subscriptionForGw = TuyaNative.addEvent(
@@ -156,7 +159,7 @@ export class TuyaSdkBridge {
 			TuyaSdkBridge.subscriptionForGw = null
 			ReturnValue = true
 		} else {
-			console.error("StartSearchWiredGW is not called")
+			console.error("startSearchWiredGW is not called")
 		}
 
 		return ReturnValue
@@ -193,7 +196,7 @@ export class TuyaSdkBridge {
 				}
 			}
 
-			await TuyaNative.InitSearchedGwDevice(passParam).then(
+			await TuyaNative.initSearchedGwDevice(passParam).then(
 				(okRes: any) => {
 					returnValue = okRes
 					let CombinationName: string = TuyaSdkBridge.getCombinationTuyaName(okRes, okRes.name)
@@ -256,7 +259,7 @@ export class TuyaSdkBridge {
 				time: timeout,
 			}
 
-			TuyaNative.StartGwSubDevActivator(passParam).then(
+			TuyaNative.startGwSubDevActivator(passParam).then(
 				(okRes: any) => {
 					returnValue = okRes
 				},
@@ -300,7 +303,7 @@ export class TuyaSdkBridge {
 
 	// 콜백함수 : 기기 이름 변경 수행
 	private static async subDeviceEventInternalFunction(result: any) {
-		TuyaSdkBridge.log("SubDeviceEventInternalFunction is called")
+		TuyaSdkBridge.log("subDeviceEventInternalFunction is called")
 		TuyaSdkBridge.log(result)
 		if (result.result == "onError") {
 			TuyaSdkBridge.log("onError")
@@ -359,7 +362,7 @@ export class TuyaSdkBridge {
 	private static async searchingInternalFunction(gwId: string, productId: string) {
 		if (TuyaSdkBridge.subscriptionForGw != null) {
 			if (Platform.OS === "android") {
-				TuyaNative.StartSearcingGwDevice() // Call again continuously called events
+				TuyaNative.startSearcingGwDevice() // Call again continuously called events
 			}
 			TuyaSdkBridge.wiredGwSearchingEventFunctionPointer(gwId, productId)
 		} else {
@@ -377,10 +380,10 @@ export class TuyaSdkBridge {
 	}
 
 	private static async addHomeMemberByPaaS(userName: string): Promise<string> {
-		let timestamp = new Date().getTime()
+		let timeStamp = new Date().getTime()
 
 		return await axios.get(
-			`http://${TuyaSdkBridge.host}/add_home_member/51757763?member_account=${userName}&name=synced_user_${timestamp}`
+			`http://${TuyaSdkBridge.host}/add_home_member/51757763?member_account=${userName}&name=synced_user_${timeStamp}`
 		)
 	}
 
@@ -444,11 +447,11 @@ export class TuyaSdkBridge {
 
 					TuyaSdkBridge.log(userInfo)
 
-					if (userInfo.email === "") {
+					if (userInfo.username === "") {
 						TuyaSdkBridge.log("No logged info.")
 						needLogin = true
-					} else if (userInfo.email != TuyaSdkBridge.tuyaInfo.email) {
-						// TODO: Change it for iOS
+					} else if (userInfo.username != TuyaSdkBridge.tuyaInfo.username) {
+						// Todo: Change it for iOS
 						TuyaSdkBridge.log("Remained Account Session")
 						TuyaSdkBridge.log("Maybe Remained Anonymous Account session")
 						returnValue = true
