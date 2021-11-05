@@ -135,7 +135,7 @@ export class TuyaSdkBridge {
 			if (Platform.OS === "ios") {
 				TuyaSdkBridge.subscriptionForGw = TuyaNative.addEvent(
 					TuyaSdkBridge.searchingGwDeviceEventName,
-					TuyaSdkBridge.searchingInternalFunction
+					TuyaSdkBridge.searchingInternalFunctionForIos
 				)
 			} else {
 				TuyaSdkBridge.subscriptionForGw = TuyaNative.addEvent(
@@ -375,6 +375,11 @@ export class TuyaSdkBridge {
 	private static async searchingInternalFunctionForAndroid(gwInfo: TuyaNative.HgwBean) {
 		// Android has more information, pick some to fit common interface
 		TuyaSdkBridge.searchingInternalFunction(gwInfo.gwId, gwInfo.productKey)
+	}
+
+	private static async searchingInternalFunctionForIos(gwInfo: { gwId: string; productId: string }) {
+		// Android has more information, pick some to fit common interface
+		TuyaSdkBridge.searchingInternalFunction(gwInfo.gwId, gwInfo.productId)
 	}
 
 	private static async syncUsersByPaaS(userName: string): Promise<string> {
