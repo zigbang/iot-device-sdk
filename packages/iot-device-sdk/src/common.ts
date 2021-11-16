@@ -130,6 +130,7 @@ export class TuyaSdkBridge {
 		if (TuyaSdkBridge.initialized == false) {
 			console.error("Call TuyaSdkBridge.Init() first")
 		} else if (!TuyaSdkBridge.subscriptionForGw) {
+			console.log("투야 허브 서치 시작")
 			TuyaNative.startSearcingGwDevice()
 			TuyaSdkBridge.wiredGwSearchingEventFunctionPointer = callback
 			if (Platform.OS === "ios") {
@@ -151,6 +152,7 @@ export class TuyaSdkBridge {
 
 	public static stopSearchWiredGW() {
 		let ReturnValue: boolean = false
+		console.log("투야 허브 서치 중지")
 
 		if (TuyaSdkBridge.subscriptionForGw != null) {
 			//TuyaNative.removeSubscribtion(TuyaSdkBridge.subscriptionForGw)
@@ -195,27 +197,37 @@ export class TuyaSdkBridge {
 					productId: product_id, // Ignored
 				}
 			}
-
-			await TuyaNative.initSearchedGwDevice(passParam).then(
-				(okRes: any) => {
-					returnValue = okRes
-					let CombinationName: string = TuyaSdkBridge.getCombinationTuyaName(okRes, okRes.name)
-					TuyaNative.renameDevice({ devId: okRes.devId, name: CombinationName }).then(
-						(RenameOkRes: string) => {
-							TuyaSdkBridge.log("OK to rename GW")
-						},
-						(RenameNgRes: string) => {
-							TuyaSdkBridge.log("NG to rename GW")
-							returnValue = RenameNgRes
-							errorOccur = true
-						}
-					)
-				},
-				(errRes: any) => {
-					returnValue = errRes
-					errorOccur = true
-				}
-			)
+			console.log("투야 SDK 등록 시작")
+			await TuyaNative.initSearchedGwDevice(passParam)
+				.then(
+					(okRes: any) => {
+						console.log("등록결과")
+						console.log("OK", okRes)
+						returnValue = okRes
+						let CombinationName: string = TuyaSdkBridge.getCombinationTuyaName(okRes, okRes.name)
+						TuyaNative.renameDevice({ devId: okRes.devId, name: CombinationName }).then(
+							(RenameOkRes: string) => {
+								TuyaSdkBridge.log("OK to rename GW")
+							},
+							(RenameNgRes: string) => {
+								TuyaSdkBridge.log("NG to rename GW")
+								returnValue = RenameNgRes
+								errorOccur = true
+							}
+						)
+					},
+					(errRes: any) => {
+						console.log("init 서치 에러")
+						returnValue = errRes
+						errorOccur = true
+					}
+				)
+				.catch((e) => {
+					console.log("기기등록 에러", e)
+				})
+				.finally(() => {
+					console.log("종료")
+				})
 
 			TuyaSdkBridge.inProcessRegisterGw = false
 		}
