@@ -198,6 +198,7 @@ export class TuyaSdkBridge {
 				}
 			}
 			console.log("투야 SDK 등록 시작")
+			console.log("passParam", passParam)
 			await TuyaNative.initSearchedGwDevice(passParam)
 				.then(
 					(okRes: any) => {
