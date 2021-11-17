@@ -1,6 +1,7 @@
 import * as TuyaNative from "@zigbang/react-native-tuya"
 import { EmitterSubscription, Platform } from "react-native"
 import axios from "axios"
+import { RegisterTuyaGWResponse, registerSubDeviceResponse } from "@types"
 
 type TuyaSdkAccountInfo = {
 	countryCode: string
@@ -95,26 +96,22 @@ export class TuyaSdkBridge {
 		let ReturnValue: string = ""
 
 		// Login Tuya Handling, true - target, false - test
-		await TuyaSdkBridge.tuyaLogin(true).then(
-			(OkRes: any) => {
-				TuyaNative.getHomeDetail({ homeId: TuyaSdkBridge.tuyaInfo.homeid }).then(
-					(OkRes: TuyaNative.GetHomeDetailResponse) => {
-						TuyaSdkBridge.log(OkRes)
-					},
-					(NgRes: any) => {
-						TuyaSdkBridge.log(NgRes)
-						ErrorOccur = true
-						ReturnValue = "getHomeDetail Error" + NgRes
-					}
-				)
-			},
-			(NgRes: any) => {
+		try {
+			const loginres = await TuyaSdkBridge.tuyaLogin(true)
+			try {
+				const getHomeDetailRes = await TuyaNative.getHomeDetail({ homeId: TuyaSdkBridge.tuyaInfo.homeid })
+				TuyaSdkBridge.log(getHomeDetailRes)
+			} catch (e) {
+				TuyaSdkBridge.log(e)
 				ErrorOccur = true
-				ReturnValue = "Tuya Login Error: " + NgRes
+				ReturnValue = "getHomeDetail Error" + e
 			}
-		)
+		} catch (e) {
+			ErrorOccur = true
+			ReturnValue = "Tuya Login Error: " + e
+		}
 
-		return new Promise(function (resolve, reject) {
+		return new Promise((resolve, reject) => {
 			if (ErrorOccur) {
 				reject(ReturnValue)
 			} else {
@@ -130,7 +127,6 @@ export class TuyaSdkBridge {
 		if (TuyaSdkBridge.initialized == false) {
 			console.error("Call TuyaSdkBridge.Init() first")
 		} else if (!TuyaSdkBridge.subscriptionForGw) {
-			console.log("투야 허브 서치 시작")
 			TuyaNative.startSearcingGwDevice()
 			TuyaSdkBridge.wiredGwSearchingEventFunctionPointer = callback
 			if (Platform.OS === "ios") {
@@ -152,7 +148,6 @@ export class TuyaSdkBridge {
 
 	public static stopSearchWiredGW() {
 		let ReturnValue: boolean = false
-		console.log("투야 허브 서치 중지")
 
 		if (TuyaSdkBridge.subscriptionForGw != null) {
 			//TuyaNative.removeSubscribtion(TuyaSdkBridge.subscriptionForGw)
@@ -168,7 +163,7 @@ export class TuyaSdkBridge {
 	}
 
 	private static inProcessRegisterGw = false
-	public static async registerWiredGW(gw_id: string, product_id: string, timeout: number) {
+	public static async registerWiredGW(gw_id: string, product_id: string, timeout: number): RegisterTuyaGWResponse {
 		let returnValue: any
 		let errorOccur: boolean = false
 
@@ -197,38 +192,27 @@ export class TuyaSdkBridge {
 					productId: product_id, // Ignored
 				}
 			}
-			console.log("투야 SDK 등록 시작")
-			console.log("passParam", passParam)
-			await TuyaNative.initSearchedGwDevice(passParam)
-				.then(
-					(okRes: any) => {
-						console.log("등록결과")
-						console.log("OK", okRes)
-						returnValue = okRes
-						let CombinationName: string = TuyaSdkBridge.getCombinationTuyaName(okRes, okRes.name)
-						TuyaNative.renameDevice({ devId: okRes.devId, name: CombinationName }).then(
-							(RenameOkRes: string) => {
-								TuyaSdkBridge.log("OK to rename GW")
-							},
-							(RenameNgRes: string) => {
-								TuyaSdkBridge.log("NG to rename GW")
-								returnValue = RenameNgRes
-								errorOccur = true
-							}
-						)
-					},
-					(errRes: any) => {
-						console.log("init 서치 에러")
-						returnValue = errRes
-						errorOccur = true
-					}
-				)
-				.catch((e) => {
-					console.log("기기등록 에러", e)
-				})
-				.finally(() => {
-					console.log("종료")
-				})
+
+			await TuyaNative.initSearchedGwDevice(passParam).then(
+				(okRes: any) => {
+					returnValue = okRes
+					const CombinationName: string = TuyaSdkBridge.getCombinationTuyaName(okRes, okRes.name)
+					TuyaNative.renameDevice({ devId: okRes.devId, name: CombinationName }).then(
+						(RenameOkRes: string) => {
+							TuyaSdkBridge.log("OK to rename GW")
+						},
+						(RenameNgRes: string) => {
+							TuyaSdkBridge.log("NG to rename GW")
+							returnValue = RenameNgRes
+							errorOccur = true
+						}
+					)
+				},
+				(errRes: any) => {
+					returnValue = errRes
+					errorOccur = true
+				}
+			)
 
 			TuyaSdkBridge.inProcessRegisterGw = false
 		}
@@ -248,7 +232,7 @@ export class TuyaSdkBridge {
 	public static async startRegisterZigbeeSubDevice(
 		gw_id: string,
 		timeout: number,
-		callback: (result: any) => void
+		callback: (result: registerSubDeviceResponse) => void
 	): Promise<boolean> {
 		let errorOccur = false
 		let returnValue: any
@@ -325,10 +309,9 @@ export class TuyaSdkBridge {
 			TuyaSdkBridge.stopRegisterZigbeeSubDevice()
 		} else if (result.result == "onActiveSuccess") {
 			TuyaSdkBridge.log("onActiveSuccess")
-			let combinationName: string = TuyaSdkBridge.getCombinationTuyaName(result.var1, result.var1.name)
+			const combinationName: string = TuyaSdkBridge.getCombinationTuyaName(result.var1, result.var1.name)
 			await TuyaNative.renameDevice({ devId: result.var1.devId, name: combinationName }).then(
 				(okRes: string) => {
-					console.log("OK to rename GW")
 					TuyaSdkBridge.log("OK to rename GW")
 				},
 				(errRes: string) => {
@@ -343,7 +326,7 @@ export class TuyaSdkBridge {
 
 	private static readonly delimiter: string = "_"
 	private static getCombinationTuyaName(tuyaDevice: TuyaDeviceEntry, deviceName: string): string {
-		let tokens: string[] = deviceName.split(TuyaSdkBridge.delimiter)
+		const tokens: string[] = deviceName.split(TuyaSdkBridge.delimiter)
 
 		if (tokens.length > 3) {
 			// This make bug if user set name with 3 times of '_'
@@ -357,13 +340,13 @@ export class TuyaSdkBridge {
 			TuyaSdkBridge.zigbangUserName,
 		]
 
-		let returnValue = elements.join(TuyaSdkBridge.delimiter)
+		const returnValue = elements.join(TuyaSdkBridge.delimiter)
 
 		return returnValue
 	}
 
 	private static getNameFromCombinationTuya(combinationName: string): string {
-		let tokens: string[] = combinationName.split(TuyaSdkBridge.delimiter)
+		const tokens: string[] = combinationName.split(TuyaSdkBridge.delimiter)
 
 		if (tokens.length > 3) {
 			tokens.pop() // remove "NoInfo"
@@ -400,7 +383,7 @@ export class TuyaSdkBridge {
 	}
 
 	private static async addHomeMemberByPaaS(userName: string): Promise<string> {
-		let timeStamp = new Date().getTime()
+		const timeStamp = new Date().getTime()
 
 		return await axios.get(
 			`http://${TuyaSdkBridge.host}/add_home_member/51757763?member_account=${userName}&name=synced_user_${timeStamp}`
@@ -510,21 +493,20 @@ export class TuyaSdkBridge {
 							TuyaSdkBridge.log(loginOkRes)
 							await TuyaNative.getCurrentUser().then(async (appUserOkRes: TuyaNative.User) => {
 								TuyaSdkBridge.log("getCurrentUser OK: ")
-								const uid = appUserOkRes.uid
+								const { uid } = appUserOkRes
 								let username: string
 
 								await TuyaSdkBridge.getUserInfoByPaaS(uid).then(async (paasUserOkRes) => {
-									var msg = JSON.parse(JSON.stringify(paasUserOkRes))
-									var response = JSON.parse(msg.request._response)
+									const msg = JSON.parse(JSON.stringify(paasUserOkRes))
+									const response = JSON.parse(msg.request._response)
 
 									username = response.result.username
 									TuyaSdkBridge.log(username)
 
 									await TuyaSdkBridge.syncUsersByPaaS(username).then(async (syncOkRes) => {
 										await TuyaSdkBridge.addHomeMemberByPaaS(username).then(async (memberOkRes) => {
-											var msg = JSON.parse(JSON.stringify(memberOkRes))
-											var response = JSON.parse(msg.request._response)
-
+											const msg = JSON.parse(JSON.stringify(memberOkRes))
+											const response = JSON.parse(msg.request._response)
 											TuyaSdkBridge.log(response)
 											returnValue = true
 										})
@@ -543,7 +525,7 @@ export class TuyaSdkBridge {
 			}
 		}
 
-		return new Promise(function (resolve, reject) {
+		return new Promise((resolve, reject) => {
 			if (returnValue) {
 				TuyaSdkBridge.log("Return OK")
 				resolve(returnValue)
