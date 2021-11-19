@@ -302,6 +302,7 @@ export class TuyaSdkBridge {
 
 	// 콜백함수 : 기기 이름 변경 수행
 	private static async subDeviceEventInternalFunction(result: any) {
+		console.log(result)
 		TuyaSdkBridge.log("subDeviceEventInternalFunction is called")
 		TuyaSdkBridge.log(result)
 		if (result.result == "onError") {
