@@ -96,8 +96,8 @@ export class TuyaSdkBridge {
 
 		// Login Tuya Handling, true - target, false - test
 		await TuyaSdkBridge.tuyaLogin(true).then(
-			(OkRes: any) => {
-				TuyaNative.getHomeDetail({ homeId: TuyaSdkBridge.tuyaInfo.homeid }).then(
+			async (OkRes: any) => {
+				await TuyaNative.getHomeDetail({ homeId: TuyaSdkBridge.tuyaInfo.homeid }).then(
 					(OkRes: TuyaNative.GetHomeDetailResponse) => {
 						TuyaSdkBridge.log(OkRes)
 					},
@@ -403,7 +403,7 @@ export class TuyaSdkBridge {
 			TuyaSdkBridge.log("Option - Common User Account(With Email)")
 			await TuyaNative.getCurrentUser().then(
 				async (okRes: TuyaNative.User) => {
-					TuyaSdkBridge.log("getCurrentUser - OK")
+					TuyaSdkBridge.log("getCurrentUser(Email) - OK")
 					userInfo = okRes
 					if (userInfo.username != TuyaSdkBridge.tuyaInfo.email) {
 						TuyaSdkBridge.log("logout")
@@ -415,7 +415,7 @@ export class TuyaSdkBridge {
 					}
 				},
 				async (errReg: any) => {
-					TuyaSdkBridge.log("getCurrentUser - NG")
+					TuyaSdkBridge.log("getCurrentUser(Email) - NG")
 					TuyaSdkBridge.log(errReg)
 					needLogin = true
 				}
@@ -490,29 +490,42 @@ export class TuyaSdkBridge {
 						try {
 							TuyaSdkBridge.log("Anonymous Account OK")
 							TuyaSdkBridge.log(loginOkRes)
-							await TuyaNative.getCurrentUser().then(async (appUserOkRes: TuyaNative.User) => {
-								TuyaSdkBridge.log("getCurrentUser OK: ")
-								const uid = appUserOkRes.uid
-								let username: string
+							await TuyaNative.getCurrentUser().then(
+								async (appUserOkRes: TuyaNative.User) => {
+									TuyaSdkBridge.log("getCurrentUser(in Creating) OK: ")
+									const uid = appUserOkRes.uid
+									let username: string
 
-								await TuyaSdkBridge.getUserInfoByPaaS(uid).then(async (paasUserOkRes) => {
-									var msg = JSON.parse(JSON.stringify(paasUserOkRes))
-									var response = JSON.parse(msg.request._response)
-
-									username = response.result.username
-									TuyaSdkBridge.log(username)
-
-									await TuyaSdkBridge.syncUsersByPaaS(username).then(async (syncOkRes) => {
-										await TuyaSdkBridge.addHomeMemberByPaaS(username).then(async (memberOkRes) => {
-											var msg = JSON.parse(JSON.stringify(memberOkRes))
+									await TuyaSdkBridge.getUserInfoByPaaS(uid).then(
+										async (paasUserOkRes) => {
+											var msg = JSON.parse(JSON.stringify(paasUserOkRes))
 											var response = JSON.parse(msg.request._response)
 
-											TuyaSdkBridge.log(response)
-											returnValue = true
-										})
-									})
-								})
-							})
+											username = response.result.username
+											TuyaSdkBridge.log(username)
+
+											await TuyaSdkBridge.syncUsersByPaaS(username).then(async (syncOkRes) => {
+												await TuyaSdkBridge.addHomeMemberByPaaS(username).then(
+													async (memberOkRes) => {
+														var msg = JSON.parse(JSON.stringify(memberOkRes))
+														var response = JSON.parse(msg.request._response)
+
+														TuyaSdkBridge.log(response)
+														returnValue = true
+													}
+												)
+											})
+										},
+										async (paasUserNgRes) => {
+											TuyaSdkBridge.log("getUserInfoByPaaS(in Creating) NG: ")
+											TuyaSdkBridge.log(paasUserNgRes)
+										}
+									)
+								},
+								async (appUserErrRes: any) => {
+									TuyaSdkBridge.log("getCurrentUser(in Creating) NG")
+								}
+							)
 						} catch (err) {
 							console.error(err) // TODO: handling error
 						}
