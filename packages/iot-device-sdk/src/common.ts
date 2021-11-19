@@ -33,10 +33,14 @@ type TuyaDeviceEntry = {
 
 export class TuyaSdkBridge {
 	public static readonly noValueYet: string = "0"
+	private static readonly TuyaNameElimentsCount: number = 5
+	private static readonly ThingNameMaxLength: number = 20
+	private static readonly CombinationNameMaxLength: number = 50
 
 	// for pass meta information to activator
 	private static targetPnu: string = "temp-pnu"
-	private static targetDongho: string = "temp-dongho"
+	private static targetDong: string = "temp-dong"
+	private static targetHo: string = "temp-ho"
 	private static zigbangUserName: string = "temp-name"
 	private static host: string = ""
 
@@ -71,24 +75,37 @@ export class TuyaSdkBridge {
 	}
 
 	// Change Information pnu, dongho
-	private static setInformation(pnu: string, donho: string, username: string) {
+	private static setInformation(pnu: string, dong: string, ho: string, username: string) {
 		TuyaSdkBridge.targetPnu = pnu
-		TuyaSdkBridge.targetDongho = donho
+		TuyaSdkBridge.targetDong = dong
+		TuyaSdkBridge.targetHo = ho
 		TuyaSdkBridge.zigbangUserName = username
+
+		TuyaSdkBridge.log(
+			"Set Info: " +
+				TuyaSdkBridge.targetPnu +
+				" " +
+				TuyaSdkBridge.targetDong +
+				" " +
+				TuyaSdkBridge.targetHo +
+				" " +
+				TuyaSdkBridge.zigbangUserName
+		)
 	}
 
 	// initilize Tuya Sdk Bridge
 	public static async init(
 		isShowDebugLog: boolean,
 		pnu: string,
-		dongho: string,
+		dong: string,
+		ho: string,
 		user: string,
 		host: string
 	): Promise<string> {
 		// Set Debugging config
 		TuyaSdkBridge.isShowDebugLog = isShowDebugLog
 
-		TuyaSdkBridge.setInformation(pnu, dongho, user)
+		TuyaSdkBridge.setInformation(pnu, dong, ho, user)
 		TuyaSdkBridge.host = host
 
 		let ErrorOccur = false
@@ -199,7 +216,7 @@ export class TuyaSdkBridge {
 			await TuyaNative.initSearchedGwDevice(passParam).then(
 				(okRes: any) => {
 					returnValue = okRes
-					let CombinationName: string = TuyaSdkBridge.getCombinationTuyaName(okRes, okRes.name)
+					let CombinationName: string = TuyaSdkBridge.getCombinationTuyaName(okRes.name)
 					TuyaNative.renameDevice({ devId: okRes.devId, name: CombinationName }).then(
 						(RenameOkRes: string) => {
 							TuyaSdkBridge.log("OK to rename GW")
@@ -312,7 +329,7 @@ export class TuyaSdkBridge {
 			TuyaSdkBridge.stopRegisterZigbeeSubDevice()
 		} else if (result.result == "onActiveSuccess") {
 			TuyaSdkBridge.log("onActiveSuccess")
-			let combinationName: string = TuyaSdkBridge.getCombinationTuyaName(result.var1, result.var1.name)
+			let combinationName: string = TuyaSdkBridge.getCombinationTuyaName(result.var1.name)
 			await TuyaNative.renameDevice({ devId: result.var1.devId, name: combinationName }).then(
 				(okRes: string) => {
 					console.log("OK to rename GW")
@@ -328,23 +345,35 @@ export class TuyaSdkBridge {
 		}
 	}
 
-	private static readonly delimiter: string = "_"
-	private static getCombinationTuyaName(tuyaDevice: TuyaDeviceEntry, deviceName: string): string {
+	private static readonly delimiter: string = "/"
+	private static getCombinationTuyaName(deviceName: string): string {
 		let tokens: string[] = deviceName.split(TuyaSdkBridge.delimiter)
 
-		if (tokens.length > 3) {
-			// This make bug if user set name with 3 times of '_'
+		if (tokens.length >= TuyaSdkBridge.TuyaNameElimentsCount) {
+			// This make bug if user set name with 3 times of '/'
 			deviceName = TuyaSdkBridge.getNameFromCombinationTuya(deviceName)
+		} else {
+			deviceName = tokens[0]
+			if (deviceName.length > TuyaSdkBridge.ThingNameMaxLength) {
+				deviceName = deviceName.substring(0, TuyaSdkBridge.ThingNameMaxLength)
+				TuyaSdkBridge.log("Thing Name is too big, so substring")
+			}
 		}
 
 		const elements: string[] = [
 			deviceName,
 			TuyaSdkBridge.targetPnu,
-			TuyaSdkBridge.targetDongho,
+			TuyaSdkBridge.targetDong,
+			TuyaSdkBridge.targetHo,
 			TuyaSdkBridge.zigbangUserName,
 		]
 
 		let returnValue = elements.join(TuyaSdkBridge.delimiter)
+
+		if (returnValue.length > TuyaSdkBridge.CombinationNameMaxLength) {
+			returnValue = deviceName.substring(0, TuyaSdkBridge.CombinationNameMaxLength)
+			TuyaSdkBridge.log("Combination Name is too big, so substring")
+		}
 
 		return returnValue
 	}
@@ -352,10 +381,11 @@ export class TuyaSdkBridge {
 	private static getNameFromCombinationTuya(combinationName: string): string {
 		let tokens: string[] = combinationName.split(TuyaSdkBridge.delimiter)
 
-		if (tokens.length > 3) {
-			tokens.pop() // remove "NoInfo"
-			tokens.pop() // remove Dongho
+		if (tokens.length >= TuyaSdkBridge.TuyaNameElimentsCount) {
+			tokens.pop() // remove Ho
+			tokens.pop() // remove Dong
 			tokens.pop() // remove PNU
+			tokens.pop() // remove userName
 		}
 
 		return tokens.join(TuyaSdkBridge.delimiter)
@@ -391,6 +421,56 @@ export class TuyaSdkBridge {
 
 	private static async getUserInfoByPaaS(uid: string): Promise<string> {
 		return await axios.get(`http://${TuyaSdkBridge.host}/get_user_info/${uid}`)
+	}
+
+	public static async TestFunctions(): Promise<boolean> {
+		let returnValue: boolean = false
+
+		const testNames: Array<string> = [
+			"텐플 도어 센서 3_1129011500102910002_1/101_백광록",
+			"gr button_1929129192919_301호_백광록",
+			"gr gw_1129011500102910002_101동/101호_백광록",
+			"gr gw/1129011500102910002/101동/101호/백광록",
+			"gr gw/1129011500102910002//101호/백광록",
+			"//1129011500102910002//101호_백광록",
+		]
+
+		TuyaSdkBridge.setInformation("pnu", "dong", "ho", "user")
+		for (let i = 0; i < testNames.length; i++) {
+			let testName: string = testNames[i]
+			console.log("-------------------")
+			console.log("test name is :" + testName)
+			console.log("parsed name is :" + TuyaSdkBridge.getNameFromCombinationTuya(testName))
+			console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
+		}
+
+		TuyaSdkBridge.setInformation("154545455454", "202동", "303호", "서진우")
+		for (let i = 0; i < testNames.length; i++) {
+			let testName: string = testNames[i]
+			console.log("-------------------")
+			console.log("test name is :" + testName)
+			console.log("parsed name is :" + TuyaSdkBridge.getNameFromCombinationTuya(testName))
+			console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
+		}
+
+		TuyaSdkBridge.setInformation("8784847887848", "", "101호", "아무개")
+		for (let i = 0; i < testNames.length; i++) {
+			let testName: string = testNames[i]
+			console.log("-------------------")
+			console.log("test name is :" + testName)
+			console.log("parsed name is :" + TuyaSdkBridge.getNameFromCombinationTuya(testName))
+			console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
+		}
+
+		return new Promise(function (resolve, reject) {
+			if (returnValue) {
+				TuyaSdkBridge.log("Return OK")
+				resolve(returnValue)
+			} else {
+				TuyaSdkBridge.log("Return Fail")
+				reject(returnValue)
+			}
+		})
 	}
 
 	private static async tuyaLogin(isAnonymous: boolean): Promise<boolean> {
