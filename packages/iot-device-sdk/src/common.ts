@@ -285,7 +285,7 @@ export class TuyaSdkBridge {
 
 		if (TuyaSdkBridge.subscriptionForSubDevice) {
 			if (Platform.OS === "ios") {
-				await TuyaNative.stopNewGwSubDevActivatorConfig({ devId: TuyaSdkBridge.targetGwIdForSubDevice })
+				TuyaNative.stopNewGwSubDevActivatorConfig({ devId: TuyaSdkBridge.targetGwIdForSubDevice })
 			} else {
 				TuyaNative.stopConfig()
 			}
