@@ -128,12 +128,9 @@ export class TuyaSdkBridge {
 			},
 			(NgRes: any) => {
 				ErrorOccur = true
-				ReturnValue = "getHomeDetail Error" + e
+				ReturnValue = "Tuya Login Error" + NgRes
 			}
-		} catch (e) {
-			ErrorOccur = true
-			ReturnValue = "Tuya Login Error: " + e
-		}
+		)
 
 		return new Promise((resolve, reject) => {
 			if (ErrorOccur) {
@@ -429,6 +426,7 @@ export class TuyaSdkBridge {
 	}
 
 	private static async getUserInfoByPaaS(uid: string): Promise<string> {
+		console.log(TuyaSdkBridge.host)
 		return await axios.get(`http://${TuyaSdkBridge.host}/get_user_info/${uid}`)
 	}
 
