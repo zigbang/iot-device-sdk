@@ -34,10 +34,14 @@ type TuyaDeviceEntry = {
 
 export class TuyaSdkBridge {
 	public static readonly noValueYet: string = "0"
+	private static readonly TuyaNameElimentsCount: number = 5
+	private static readonly ThingNameMaxLength: number = 20
+	private static readonly CombinationNameMaxLength: number = 50
 
 	// for pass meta information to activator
 	private static targetPnu: string = "temp-pnu"
-	private static targetDongho: string = "temp-dongho"
+	private static targetDong: string = "temp-dong"
+	private static targetHo: string = "temp-ho"
 	private static zigbangUserName: string = "temp-name"
 	private static host: string = ""
 
@@ -72,37 +76,57 @@ export class TuyaSdkBridge {
 	}
 
 	// Change Information pnu, dongho
-	private static setInformation(pnu: string, donho: string, username: string) {
+	private static setInformation(pnu: string, dong: string, ho: string, username: string) {
 		TuyaSdkBridge.targetPnu = pnu
-		TuyaSdkBridge.targetDongho = donho
+		TuyaSdkBridge.targetDong = dong
+		TuyaSdkBridge.targetHo = ho
 		TuyaSdkBridge.zigbangUserName = username
+
+		TuyaSdkBridge.log(
+			"Set Info: " +
+				TuyaSdkBridge.targetPnu +
+				" " +
+				TuyaSdkBridge.targetDong +
+				" " +
+				TuyaSdkBridge.targetHo +
+				" " +
+				TuyaSdkBridge.zigbangUserName
+		)
 	}
 
 	// initilize Tuya Sdk Bridge
 	public static async init(
 		isShowDebugLog: boolean,
 		pnu: string,
-		dongho: string,
+		dong: string,
+		ho: string,
 		user: string,
 		host: string
 	): Promise<string> {
 		// Set Debugging config
 		TuyaSdkBridge.isShowDebugLog = isShowDebugLog
 
-		TuyaSdkBridge.setInformation(pnu, dongho, user)
+		TuyaSdkBridge.setInformation(pnu, dong, ho, user)
 		TuyaSdkBridge.host = host
 
 		let ErrorOccur = false
 		let ReturnValue: string = ""
 
 		// Login Tuya Handling, true - target, false - test
-		try {
-			const loginres = await TuyaSdkBridge.tuyaLogin(true)
-			try {
-				const getHomeDetailRes = await TuyaNative.getHomeDetail({ homeId: TuyaSdkBridge.tuyaInfo.homeid })
-				TuyaSdkBridge.log(getHomeDetailRes)
-			} catch (e) {
-				TuyaSdkBridge.log(e)
+		await TuyaSdkBridge.tuyaLogin(true).then(
+			async (OkRes: any) => {
+				await TuyaNative.getHomeDetail({ homeId: TuyaSdkBridge.tuyaInfo.homeid }).then(
+					(OkRes: TuyaNative.GetHomeDetailResponse) => {
+						TuyaSdkBridge.log(OkRes)
+					},
+					(NgRes: any) => {
+						TuyaSdkBridge.log(NgRes)
+						ErrorOccur = true
+						ReturnValue = "getHomeDetail Error" + NgRes
+					}
+				)
+			},
+			(NgRes: any) => {
 				ErrorOccur = true
 				ReturnValue = "getHomeDetail Error" + e
 			}
@@ -196,7 +220,7 @@ export class TuyaSdkBridge {
 			await TuyaNative.initSearchedGwDevice(passParam).then(
 				(okRes: any) => {
 					returnValue = okRes
-					const CombinationName: string = TuyaSdkBridge.getCombinationTuyaName(okRes, okRes.name)
+					let CombinationName: string = TuyaSdkBridge.getCombinationTuyaName(okRes.name)
 					TuyaNative.renameDevice({ devId: okRes.devId, name: CombinationName }).then(
 						(RenameOkRes: string) => {
 							TuyaSdkBridge.log("OK to rename GW")
@@ -310,7 +334,7 @@ export class TuyaSdkBridge {
 			TuyaSdkBridge.stopRegisterZigbeeSubDevice()
 		} else if (result.result == "onActiveSuccess") {
 			TuyaSdkBridge.log("onActiveSuccess")
-			const combinationName: string = TuyaSdkBridge.getCombinationTuyaName(result.var1, result.var1.name)
+			let combinationName: string = TuyaSdkBridge.getCombinationTuyaName(result.var1.name)
 			await TuyaNative.renameDevice({ devId: result.var1.devId, name: combinationName }).then(
 				(okRes: string) => {
 					TuyaSdkBridge.log("OK to rename GW")
@@ -325,23 +349,35 @@ export class TuyaSdkBridge {
 		}
 	}
 
-	private static readonly delimiter: string = "_"
-	private static getCombinationTuyaName(tuyaDevice: TuyaDeviceEntry, deviceName: string): string {
-		const tokens: string[] = deviceName.split(TuyaSdkBridge.delimiter)
+	private static readonly delimiter: string = "/"
+	private static getCombinationTuyaName(deviceName: string): string {
+		let tokens: string[] = deviceName.split(TuyaSdkBridge.delimiter)
 
-		if (tokens.length > 3) {
-			// This make bug if user set name with 3 times of '_'
+		if (tokens.length >= TuyaSdkBridge.TuyaNameElimentsCount) {
+			// This make bug if user set name with 3 times of '/'
 			deviceName = TuyaSdkBridge.getNameFromCombinationTuya(deviceName)
+		} else {
+			deviceName = tokens[0]
+			if (deviceName.length > TuyaSdkBridge.ThingNameMaxLength) {
+				deviceName = deviceName.substring(0, TuyaSdkBridge.ThingNameMaxLength)
+				TuyaSdkBridge.log("Thing Name is too big, so substring")
+			}
 		}
 
 		const elements: string[] = [
 			deviceName,
 			TuyaSdkBridge.targetPnu,
-			TuyaSdkBridge.targetDongho,
+			TuyaSdkBridge.targetDong,
+			TuyaSdkBridge.targetHo,
 			TuyaSdkBridge.zigbangUserName,
 		]
 
 		const returnValue = elements.join(TuyaSdkBridge.delimiter)
+
+		if (returnValue.length > TuyaSdkBridge.CombinationNameMaxLength) {
+			returnValue = deviceName.substring(0, TuyaSdkBridge.CombinationNameMaxLength)
+			TuyaSdkBridge.log("Combination Name is too big, so substring")
+		}
 
 		return returnValue
 	}
@@ -349,10 +385,11 @@ export class TuyaSdkBridge {
 	private static getNameFromCombinationTuya(combinationName: string): string {
 		const tokens: string[] = combinationName.split(TuyaSdkBridge.delimiter)
 
-		if (tokens.length > 3) {
-			tokens.pop() // remove "NoInfo"
-			tokens.pop() // remove Dongho
+		if (tokens.length >= TuyaSdkBridge.TuyaNameElimentsCount) {
+			tokens.pop() // remove Ho
+			tokens.pop() // remove Dong
 			tokens.pop() // remove PNU
+			tokens.pop() // remove userName
 		}
 
 		return tokens.join(TuyaSdkBridge.delimiter)
@@ -395,6 +432,56 @@ export class TuyaSdkBridge {
 		return await axios.get(`http://${TuyaSdkBridge.host}/get_user_info/${uid}`)
 	}
 
+	public static async TestFunctions(): Promise<boolean> {
+		let returnValue: boolean = false
+
+		const testNames: Array<string> = [
+			"텐플 도어 센서 3_1129011500102910002_1/101_백광록",
+			"gr button_1929129192919_301호_백광록",
+			"gr gw_1129011500102910002_101동/101호_백광록",
+			"gr gw/1129011500102910002/101동/101호/백광록",
+			"gr gw/1129011500102910002//101호/백광록",
+			"//1129011500102910002//101호_백광록",
+		]
+
+		TuyaSdkBridge.setInformation("pnu", "dong", "ho", "user")
+		for (let i = 0; i < testNames.length; i++) {
+			let testName: string = testNames[i]
+			console.log("-------------------")
+			console.log("test name is :" + testName)
+			console.log("parsed name is :" + TuyaSdkBridge.getNameFromCombinationTuya(testName))
+			console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
+		}
+
+		TuyaSdkBridge.setInformation("154545455454", "202동", "303호", "서진우")
+		for (let i = 0; i < testNames.length; i++) {
+			let testName: string = testNames[i]
+			console.log("-------------------")
+			console.log("test name is :" + testName)
+			console.log("parsed name is :" + TuyaSdkBridge.getNameFromCombinationTuya(testName))
+			console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
+		}
+
+		TuyaSdkBridge.setInformation("8784847887848", "", "101호", "아무개")
+		for (let i = 0; i < testNames.length; i++) {
+			let testName: string = testNames[i]
+			console.log("-------------------")
+			console.log("test name is :" + testName)
+			console.log("parsed name is :" + TuyaSdkBridge.getNameFromCombinationTuya(testName))
+			console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
+		}
+
+		return new Promise(function (resolve, reject) {
+			if (returnValue) {
+				TuyaSdkBridge.log("Return OK")
+				resolve(returnValue)
+			} else {
+				TuyaSdkBridge.log("Return Fail")
+				reject(returnValue)
+			}
+		})
+	}
+
 	private static async tuyaLogin(isAnonymous: boolean): Promise<boolean> {
 		let returnValue: boolean = false
 
@@ -405,7 +492,7 @@ export class TuyaSdkBridge {
 			TuyaSdkBridge.log("Option - Common User Account(With Email)")
 			await TuyaNative.getCurrentUser().then(
 				async (okRes: TuyaNative.User) => {
-					TuyaSdkBridge.log("getCurrentUser - OK")
+					TuyaSdkBridge.log("getCurrentUser(Email) - OK")
 					userInfo = okRes
 					if (userInfo.username != TuyaSdkBridge.tuyaInfo.email) {
 						TuyaSdkBridge.log("logout")
@@ -417,7 +504,7 @@ export class TuyaSdkBridge {
 					}
 				},
 				async (errReg: any) => {
-					TuyaSdkBridge.log("getCurrentUser - NG")
+					TuyaSdkBridge.log("getCurrentUser(Email) - NG")
 					TuyaSdkBridge.log(errReg)
 					needLogin = true
 				}
@@ -492,28 +579,42 @@ export class TuyaSdkBridge {
 						try {
 							TuyaSdkBridge.log("Anonymous Account OK")
 							TuyaSdkBridge.log(loginOkRes)
-							await TuyaNative.getCurrentUser().then(async (appUserOkRes: TuyaNative.User) => {
-								TuyaSdkBridge.log("getCurrentUser OK: ")
-								const { uid } = appUserOkRes
-								let username: string
+							await TuyaNative.getCurrentUser().then(
+								async (appUserOkRes: TuyaNative.User) => {
+									TuyaSdkBridge.log("getCurrentUser(in Creating) OK: ")
+									const uid = appUserOkRes.uid
+									let username: string
 
-								await TuyaSdkBridge.getUserInfoByPaaS(uid).then(async (paasUserOkRes) => {
-									const msg = JSON.parse(JSON.stringify(paasUserOkRes))
-									const response = JSON.parse(msg.request._response)
+									await TuyaSdkBridge.getUserInfoByPaaS(uid).then(
+										async (paasUserOkRes) => {
+											var msg = JSON.parse(JSON.stringify(paasUserOkRes))
+											var response = JSON.parse(msg.request._response)
 
-									username = response.result.username
-									TuyaSdkBridge.log(username)
+											username = response.result.username
+											TuyaSdkBridge.log(username)
 
-									await TuyaSdkBridge.syncUsersByPaaS(username).then(async (syncOkRes) => {
-										await TuyaSdkBridge.addHomeMemberByPaaS(username).then(async (memberOkRes) => {
-											const msg = JSON.parse(JSON.stringify(memberOkRes))
-											const response = JSON.parse(msg.request._response)
-											TuyaSdkBridge.log(response)
-											returnValue = true
-										})
-									})
-								})
-							})
+											await TuyaSdkBridge.syncUsersByPaaS(username).then(async (syncOkRes) => {
+												await TuyaSdkBridge.addHomeMemberByPaaS(username).then(
+													async (memberOkRes) => {
+														var msg = JSON.parse(JSON.stringify(memberOkRes))
+														var response = JSON.parse(msg.request._response)
+
+														TuyaSdkBridge.log(response)
+														returnValue = true
+													}
+												)
+											})
+										},
+										async (paasUserNgRes) => {
+											TuyaSdkBridge.log("getUserInfoByPaaS(in Creating) NG: ")
+											TuyaSdkBridge.log(paasUserNgRes)
+										}
+									)
+								},
+								async (appUserErrRes: any) => {
+									TuyaSdkBridge.log("getCurrentUser(in Creating) NG")
+								}
+							)
 						} catch (err) {
 							console.error(err) // TODO: handling error
 						}
