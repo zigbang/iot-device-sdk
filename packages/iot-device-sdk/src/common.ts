@@ -105,7 +105,7 @@ export class TuyaSdkBridge {
 	): Promise<string> {
 		// Set Debugging config
 		TuyaSdkBridge.isShowDebugLog = isShowDebugLog
-
+		console.log(pnu, dong, ho, user)
 		TuyaSdkBridge.setInformation(pnu, dong, ho, user)
 		TuyaSdkBridge.host = host
 
@@ -418,6 +418,7 @@ export class TuyaSdkBridge {
 	}
 
 	private static async addHomeMemberByPaaS(userName: string): Promise<string> {
+		console.log("유저네임", userName)
 		const timeStamp = new Date().getTime()
 
 		return await axios.get(
