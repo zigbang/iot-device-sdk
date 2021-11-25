@@ -369,7 +369,7 @@ export class TuyaSdkBridge {
 			TuyaSdkBridge.zigbangUserName,
 		]
 
-		const returnValue = elements.join(TuyaSdkBridge.delimiter)
+		let returnValue = elements.join(TuyaSdkBridge.delimiter)
 
 		if (returnValue.length > TuyaSdkBridge.CombinationNameMaxLength) {
 			returnValue = deviceName.substring(0, TuyaSdkBridge.CombinationNameMaxLength)
@@ -433,34 +433,45 @@ export class TuyaSdkBridge {
 	public static async TestFunctions(): Promise<boolean> {
 		let returnValue: boolean = false
 
-		const testNames: Array<string> = [
-			"텐플 도어 센서 3_1129011500102910002_1/101_백광록",
-			"gr button_1929129192919_301호_백광록",
-			"gr gw_1129011500102910002_101동/101호_백광록",
-			"gr gw/1129011500102910002/101동/101호/백광록",
-			"gr gw/1129011500102910002//101호/백광록",
-			"//1129011500102910002//101호_백광록",
-		]
+		// const testNames: Array<string> = [
+		// 	"텐플 도어 센서 3_1129011500102910002_1/101_백광록",
+		// 	"gr button_1929129192919_301호_백광록",
+		// 	"gr gw_1129011500102910002_101동/101호_백광록",
+		// 	"gr gw/1129011500102910002/101동/101호/백광록",
+		// 	"gr gw/1129011500102910002//101호/백광록",
+		// 	"//1129011500102910002//101호_백광록",
+		// ]
 
-		TuyaSdkBridge.setInformation("pnu", "dong", "ho", "user")
-		for (let i = 0; i < testNames.length; i++) {
-			let testName: string = testNames[i]
-			console.log("-------------------")
-			console.log("test name is :" + testName)
-			console.log("parsed name is :" + TuyaSdkBridge.getNameFromCombinationTuya(testName))
-			console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
-		}
+		// TuyaSdkBridge.setInformation("pnu", "dong", "ho", "user")
+		// for (let i = 0; i < testNames.length; i++) {
+		// 	let testName: string = testNames[i]
+		// 	console.log("-------------------")
+		// 	console.log("test name is :" + testName)
+		// 	console.log("parsed name is :" + TuyaSdkBridge.getNameFromCombinationTuya(testName))
+		// 	console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
+		// }
 
-		TuyaSdkBridge.setInformation("154545455454", "202동", "303호", "서진우")
-		for (let i = 0; i < testNames.length; i++) {
-			let testName: string = testNames[i]
-			console.log("-------------------")
-			console.log("test name is :" + testName)
-			console.log("parsed name is :" + TuyaSdkBridge.getNameFromCombinationTuya(testName))
-			console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
-		}
+		// TuyaSdkBridge.setInformation("154545455454", "202동", "303호", "서진우")
+		// for (let i = 0; i < testNames.length; i++) {
+		// 	let testName: string = testNames[i]
+		// 	console.log("-------------------")
+		// 	console.log("test name is :" + testName)
+		// 	console.log("parsed name is :" + TuyaSdkBridge.getNameFromCombinationTuya(testName))
+		// 	console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
+		// }
 
-		TuyaSdkBridge.setInformation("8784847887848", "", "101호", "아무개")
+		// TuyaSdkBridge.setInformation("8784847887848", "", "101호", "아무개")
+		// for (let i = 0; i < testNames.length; i++) {
+		// 	let testName: string = testNames[i]
+		// 	console.log("-------------------")
+		// 	console.log("test name is :" + testName)
+		// 	console.log("parsed name is :" + TuyaSdkBridge.getNameFromCombinationTuya(testName))
+		// 	console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
+		// }
+
+		const testNames: Array<string> = ["텐플 도어 센서 3_1129011500102910002_1/101_백광록"]
+
+		TuyaSdkBridge.setInformation("1129011500102910002", "101동", "102호", "이창주")
 		for (let i = 0; i < testNames.length; i++) {
 			let testName: string = testNames[i]
 			console.log("-------------------")
@@ -627,10 +638,10 @@ export class TuyaSdkBridge {
 
 		return new Promise((resolve, reject) => {
 			if (returnValue) {
-				TuyaSdkBridge.log("Return OK")
+				TuyaSdkBridge.log("tuyaLogin - Return OK")
 				resolve(returnValue)
 			} else {
-				TuyaSdkBridge.log("Return Fail")
+				TuyaSdkBridge.log("tuyaLogin - Return Fail")
 				reject(returnValue)
 			}
 		})
