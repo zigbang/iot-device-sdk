@@ -128,7 +128,6 @@ export class TuyaSdkBridge {
 	): Promise<string> {
 		// Set Debugging config
 		TuyaSdkBridge.isShowDebugLog = isShowDebugLog
-		console.log(pnu, dong, ho, user)
 		TuyaSdkBridge.setInformation(pnu, dong, ho, user)
 		TuyaSdkBridge.host = host
 
@@ -346,7 +345,6 @@ export class TuyaSdkBridge {
 
 	// 콜백함수 : 기기 이름 변경 수행
 	private static async subDeviceEventInternalFunction(result: any) {
-		console.log(result)
 		TuyaSdkBridge.log("subDeviceEventInternalFunction is called")
 		TuyaSdkBridge.log(result)
 		if (result.result == "onError") {
@@ -354,15 +352,14 @@ export class TuyaSdkBridge {
 			TuyaSdkBridge.stopRegisterZigbeeSubDevice()
 		} else if (result.result == "onActiveSuccess") {
 			TuyaSdkBridge.log("onActiveSuccess")
-			let combinationName: string = TuyaSdkBridge.getCombinationTuyaName(result.var1.name)
-			await TuyaNative.renameDevice({ devId: result.var1.devId, name: combinationName }).then(
-				(okRes: string) => {
-					TuyaSdkBridge.log("OK to rename GW")
-				},
-				(errRes: string) => {
-					TuyaSdkBridge.log("NG to rename GW")
-				}
-			)
+			const combinationName: string = TuyaSdkBridge.getCombinationTuyaName(result.var1.name)
+			try {
+				await TuyaNative.renameDevice({ devId: result.var1.devId, name: combinationName })
+				result.var1.name = combinationName
+				TuyaSdkBridge.log("OK to rename GW")
+			} catch (e) {
+				TuyaSdkBridge.log("NG to rename GW")
+			}
 			TuyaSdkBridge.subDeviceRegisterEventFunctionPointer(result)
 		} else {
 			TuyaSdkBridge.log("Others")
@@ -434,7 +431,6 @@ export class TuyaSdkBridge {
 	}
 
 	private static async addHomeMemberByPaaS(userName: string): Promise<string> {
-		console.log("유저네임", userName)
 		const timeStamp = new Date().getTime()
 
 		return await axios.get(
