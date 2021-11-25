@@ -35,7 +35,10 @@ type TuyaDeviceEntry = {
 export class TuyaSdkBridge {
 	public static readonly noValueYet: string = "0"
 	private static readonly TuyaNameElimentsCount: number = 5
-	private static readonly ThingNameMaxLength: number = 20
+	private static readonly PnuMaxLength: number = 19
+	private static readonly DongMaxLength: number = 10
+	private static readonly HoMaxLength: number = 10
+	private static readonly UserMaxLength: number = 4
 	private static readonly CombinationNameMaxLength: number = 50
 
 	// for pass meta information to activator
@@ -77,6 +80,26 @@ export class TuyaSdkBridge {
 
 	// Change Information pnu, dongho
 	private static setInformation(pnu: string, dong: string, ho: string, username: string) {
+		if (pnu.length > TuyaSdkBridge.PnuMaxLength) {
+			pnu = pnu.substring(0, TuyaSdkBridge.PnuMaxLength)
+			console.error("pnu is too long")
+		}
+
+		if (dong.length > TuyaSdkBridge.DongMaxLength) {
+			dong = dong.substring(0, TuyaSdkBridge.PnuMaxLength)
+			console.error("dong is too long")
+		}
+
+		if (ho.length > TuyaSdkBridge.HoMaxLength) {
+			ho = ho.substring(0, TuyaSdkBridge.HoMaxLength)
+			console.error("ho is too long")
+		}
+
+		if (username.length > TuyaSdkBridge.UserMaxLength) {
+			username = username.substring(0, TuyaSdkBridge.UserMaxLength)
+			console.warn("User name will be shortened")
+		}
+
 		TuyaSdkBridge.targetPnu = pnu
 		TuyaSdkBridge.targetDong = dong
 		TuyaSdkBridge.targetHo = ho
@@ -351,32 +374,25 @@ export class TuyaSdkBridge {
 		let tokens: string[] = deviceName.split(TuyaSdkBridge.delimiter)
 
 		if (tokens.length >= TuyaSdkBridge.TuyaNameElimentsCount) {
-			// This make bug if user set name with 3 times of '/'
 			deviceName = TuyaSdkBridge.getNameFromCombinationTuya(deviceName)
 		} else {
 			deviceName = tokens[0]
-			if (deviceName.length > TuyaSdkBridge.ThingNameMaxLength) {
-				deviceName = deviceName.substring(0, TuyaSdkBridge.ThingNameMaxLength)
-				TuyaSdkBridge.log("Thing Name is too big, so substring")
-			}
 		}
 
 		const elements: string[] = [
-			deviceName,
 			TuyaSdkBridge.targetPnu,
 			TuyaSdkBridge.targetDong,
 			TuyaSdkBridge.targetHo,
 			TuyaSdkBridge.zigbangUserName,
 		]
 
-		let returnValue = elements.join(TuyaSdkBridge.delimiter)
+		let postNameValue = elements.join(TuyaSdkBridge.delimiter)
 
-		if (returnValue.length > TuyaSdkBridge.CombinationNameMaxLength) {
-			returnValue = deviceName.substring(0, TuyaSdkBridge.CombinationNameMaxLength)
-			TuyaSdkBridge.log("Combination Name is too big, so substring")
+		if (postNameValue.length + deviceName.length + 1 > TuyaSdkBridge.CombinationNameMaxLength) {
+			deviceName = deviceName.substring(0, TuyaSdkBridge.CombinationNameMaxLength - postNameValue.length - 1)
 		}
 
-		return returnValue
+		return deviceName + "/" + postNameValue
 	}
 
 	private static getNameFromCombinationTuya(combinationName: string): string {
@@ -470,14 +486,14 @@ export class TuyaSdkBridge {
 		// 	console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
 		// }
 
-		const testNames: Array<string> = ["텐플 도어 센서 3_1129011500102910002_1/101_백광록"]
+		//const testNames: Array<string> = ["텐플 도어 센서 1234567890/1129011500102910002/1/101/백광록"]
 
-		TuyaSdkBridge.setInformation("1129011500102910002", "101동", "102호", "이창주")
+		const testNames: Array<string> = ["0123456789ABCDEFGHIJKLMNOP"]
+
+		TuyaSdkBridge.setInformation("0123456789012345PNU49", "123456789동", "123456789호", "이창주123456")
 		for (let i = 0; i < testNames.length; i++) {
 			let testName: string = testNames[i]
 			console.log("-------------------")
-			console.log("test name is :" + testName)
-			console.log("parsed name is :" + TuyaSdkBridge.getNameFromCombinationTuya(testName))
 			console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
 		}
 
