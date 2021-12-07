@@ -206,7 +206,7 @@ export class TuyaSdkBridge {
 	}
 
 	private static inProcessRegisterGw = false
-	public static async registerWiredGW(gw_id: string, product_id: string, timeout: number): RegisterTuyaGWResponse {
+	public static async registerWiredGW(gw_id: string, product_id: string, timeout: number): Promise<any> {
 		let returnValue: any
 		let errorOccur: boolean = false
 
