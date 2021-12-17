@@ -135,7 +135,7 @@ export class TuyaSdkBridge {
 		let ReturnValue: string = ""
 
 		// Login Tuya Handling, true - target, false - test
-		await TuyaSdkBridge.tuyaLogin(false).then(
+		await TuyaSdkBridge.tuyaLogin(true).then(
 			async (OkRes: any) => {
 				await TuyaNative.getHomeDetail({ homeId: TuyaSdkBridge.tuyaInfo.homeid }).then(
 					(OkRes: TuyaNative.GetHomeDetailResponse) => {
