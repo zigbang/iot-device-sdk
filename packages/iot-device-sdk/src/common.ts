@@ -2,6 +2,8 @@ import * as TuyaNative from "@zigbang/react-native-tuya"
 import { EmitterSubscription, Platform } from "react-native"
 import axios from "axios"
 import { RegisterTuyaGWResponse, registerSubDeviceResponse } from "@types"
+import { V1AdminTuya } from "@zigbang/iot-sdk"
+import { loginStore } from "@zigbang/account-sdk-reactnative"
 
 type TuyaSdkAccountInfo = {
 	countryCode: string
@@ -67,7 +69,7 @@ export class TuyaSdkBridge {
 		username: "zigbang@yopmail.com",
 		email: "zigbang@yopmail.com",
 		password: "zigbang",
-		homeid: 51757763,
+		homeid: 57807164,
 	}
 
 	private static initialized: boolean = false
@@ -135,8 +137,9 @@ export class TuyaSdkBridge {
 		let ReturnValue: string = ""
 
 		// Login Tuya Handling, true - target, false - test
-		await TuyaSdkBridge.tuyaLogin(false).then(
+		await TuyaSdkBridge.tuyaLogin(true).then(
 			async (OkRes: any) => {
+				console.log(TuyaSdkBridge.tuyaInfo.homeid)
 				await TuyaNative.getHomeDetail({ homeId: TuyaSdkBridge.tuyaInfo.homeid }).then(
 					(OkRes: TuyaNative.GetHomeDetailResponse) => {
 						TuyaSdkBridge.log(OkRes)
@@ -593,6 +596,7 @@ export class TuyaSdkBridge {
 
 			if (needLogin) {
 				TuyaSdkBridge.log("Create New Anonymous Account")
+
 				await TuyaNative.touristRegisterAndLogin({
 					countryCode: "82",
 					username: "anonymousUser",
@@ -607,28 +611,18 @@ export class TuyaSdkBridge {
 									const uid = appUserOkRes.uid
 									let username: string
 
-									await TuyaSdkBridge.getUserInfoByPaaS(uid).then(
+									const accessToken = await loginStore.getAccessToken()
+									const v1AdminTuya = new V1AdminTuya({
+										basePath: "https://iot-api.zigbang.in",
+										accessToken: accessToken ? accessToken : "",
+									})
+									await v1AdminTuya.sync({ tuyaId: uid }).then(
 										async (paasUserOkRes) => {
-											var msg = JSON.parse(JSON.stringify(paasUserOkRes))
-											var response = JSON.parse(msg.request._response)
-
-											username = response.result.username
-											TuyaSdkBridge.log(username)
-
-											await TuyaSdkBridge.syncUsersByPaaS(username).then(async (syncOkRes) => {
-												await TuyaSdkBridge.addHomeMemberByPaaS(username).then(
-													async (memberOkRes) => {
-														var msg = JSON.parse(JSON.stringify(memberOkRes))
-														var response = JSON.parse(msg.request._response)
-
-														TuyaSdkBridge.log(response)
-														returnValue = true
-													}
-												)
-											})
+											TuyaSdkBridge.log(paasUserOkRes)
+											returnValue = true
 										},
 										async (paasUserNgRes) => {
-											TuyaSdkBridge.log("getUserInfoByPaaS(in Creating) NG: ")
+											TuyaSdkBridge.log("V1AdminTuya NG: ")
 											TuyaSdkBridge.log(paasUserNgRes)
 										}
 									)
