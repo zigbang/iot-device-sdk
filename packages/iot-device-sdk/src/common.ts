@@ -69,7 +69,7 @@ export class TuyaSdkBridge {
 		username: "zigbang@yopmail.com",
 		email: "zigbang@yopmail.com",
 		password: "zigbang",
-		homeid: 57807164,
+		homeid: process.env.STAGE === "dev" ? 57807164 : 51757763,
 	}
 
 	private static initialized: boolean = false
