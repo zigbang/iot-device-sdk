@@ -71,7 +71,8 @@ export class TuyaSdkBridge {
 		username: "zigbang@yopmail.com",
 		email: "zigbang@yopmail.com",
 		password: "zigbang",
-		homeid: process.env.STAGE === "dev" ? TUYA_HOME_ID_DEV : TUYA_HOME_ID,
+		//TODO
+		homeid: TUYA_HOME_ID,
 	}
 
 	private static initialized: boolean = false
@@ -204,7 +205,7 @@ export class TuyaSdkBridge {
 			TuyaSdkBridge.subscriptionForGw = null
 			ReturnValue = true
 		} else {
-			console.error("startSearchWiredGW is not called")
+			console.warn("startSearchWiredGW is not called")
 		}
 
 		return ReturnValue
@@ -342,7 +343,7 @@ export class TuyaSdkBridge {
 			TuyaSdkBridge.subscriptionForSubDevice = null
 			returnValue = true
 		} else {
-			console.error("StartRegisterZigbeeSubDevice is not called")
+			console.warn("StartRegisterZigbeeSubDevice is not called")
 		}
 
 		return returnValue
