@@ -33,7 +33,9 @@ type TuyaDeviceEntry = {
 	categoryCode: string // 추가 점검 필요
 	uuid: string // 추가 점검 필요
 }
+const TUYA_HOME_ID = 57807164
 
+const TUYA_HOME_ID_DEV = 51757763
 export class TuyaSdkBridge {
 	public static readonly noValueYet: string = "0"
 	private static readonly TuyaNameElimentsCount: number = 5
@@ -69,7 +71,8 @@ export class TuyaSdkBridge {
 		username: "zigbang@yopmail.com",
 		email: "zigbang@yopmail.com",
 		password: "zigbang",
-		homeid: process.env.STAGE === "dev" ? 57807164 : 51757763,
+		//TODO
+		homeid: TUYA_HOME_ID,
 	}
 
 	private static initialized: boolean = false
@@ -202,7 +205,7 @@ export class TuyaSdkBridge {
 			TuyaSdkBridge.subscriptionForGw = null
 			ReturnValue = true
 		} else {
-			console.error("startSearchWiredGW is not called")
+			console.warn("startSearchWiredGW is not called")
 		}
 
 		return ReturnValue
@@ -340,7 +343,7 @@ export class TuyaSdkBridge {
 			TuyaSdkBridge.subscriptionForSubDevice = null
 			returnValue = true
 		} else {
-			console.error("StartRegisterZigbeeSubDevice is not called")
+			console.warn("StartRegisterZigbeeSubDevice is not called")
 		}
 
 		return returnValue
