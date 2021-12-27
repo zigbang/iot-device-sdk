@@ -1,37 +1,13 @@
 import * as TuyaNative from "@zigbang/react-native-tuya"
 import { EmitterSubscription, Platform } from "react-native"
-import axios from "axios"
-import { RegisterTuyaGWResponse, registerSubDeviceResponse } from "@types"
+import { registerSubDeviceResponse } from "@types"
 import { V1AdminTuya } from "@zigbang/iot-sdk"
-import { loginStore } from "@zigbang/account-sdk-reactnative"
-
-type TuyaSdkAccountInfo = {
-	countryCode: string
-	username: string
-	email: string
-	password: string
-	homeid: number
-}
 
 // ToDo Use elements
 export type RegisterGwParam = {
 	gw_id: string
 	product_id: string
 	timeout: number
-}
-
-type TuyaDeviceEntry = {
-	name: string
-	devId: string
-	deviceType: number
-	productId: string
-	iconUrl: string
-	isOnline: boolean
-	isNewFirmware: boolean
-	verSw: string
-	zigBeeWifi: boolean // 추가 점검 필요
-	categoryCode: string // 추가 점검 필요
-	uuid: string // 추가 점검 필요
 }
 
 export class TuyaSdkBridge {
@@ -43,12 +19,19 @@ export class TuyaSdkBridge {
 	private static readonly UserMaxLength: number = 4
 	private static readonly CombinationNameMaxLength: number = 50
 
+	private static readonly DefaultCountryCode: string = "82"
+	private static readonly DefaultAnonymousName: string = "anonymousUser"
+
 	// for pass meta information to activator
 	private static targetPnu: string = "temp-pnu"
 	private static targetDong: string = "temp-dong"
 	private static targetHo: string = "temp-ho"
 	private static zigbangUserName: string = "temp-name"
-	private static host: string = ""
+
+	// for using access iot sdk
+	private static homeId: number = 0
+	private static basePath: string = ""
+	private static accessToken: string = ""
 
 	// Event Name which is shared with Native Module
 	private static readonly searchingGwDeviceEventName = "kNotificationFindGatewayDevice"
@@ -63,14 +46,6 @@ export class TuyaSdkBridge {
 	// Function variable to callback
 	private static wiredGwSearchingEventFunctionPointer: (gw_id: string, product_id: string) => void
 	private static subDeviceRegisterEventFunctionPointer: (result: any) => void
-
-	private static tuyaInfo: TuyaSdkAccountInfo = {
-		countryCode: "82",
-		username: "zigbang@yopmail.com",
-		email: "zigbang@yopmail.com",
-		password: "zigbang",
-		homeid: Number(process.env.TUYA_HOME_ID),
-	}
 
 	private static initialized: boolean = false
 
@@ -126,21 +101,26 @@ export class TuyaSdkBridge {
 		dong: string,
 		ho: string,
 		user: string,
-		host: string
+		host: string,
+		homeID: number, // avoid duplicate name in home
+		token: string
 	): Promise<string> {
 		// Set Debugging config
 		TuyaSdkBridge.isShowDebugLog = isShowDebugLog
 		TuyaSdkBridge.setInformation(pnu, dong, ho, user)
-		TuyaSdkBridge.host = host
+		TuyaSdkBridge.basePath = host
+		TuyaSdkBridge.accessToken = token
+		TuyaSdkBridge.homeId = homeID
+
+		console.log(host, homeID, token)
 
 		let ErrorOccur = false
 		let ReturnValue: string = ""
 
-		// Login Tuya Handling, true - target, false - test
-		await TuyaSdkBridge.tuyaLogin(true).then(
+		await TuyaSdkBridge.tuyaLogin().then(
 			async (OkRes: any) => {
-				console.log(TuyaSdkBridge.tuyaInfo.homeid)
-				await TuyaNative.getHomeDetail({ homeId: TuyaSdkBridge.tuyaInfo.homeid }).then(
+				OkRes += "" // avoid unused variable warning
+				await TuyaNative.getHomeDetail({ homeId: homeID }).then(
 					(OkRes: TuyaNative.GetHomeDetailResponse) => {
 						TuyaSdkBridge.log(OkRes)
 					},
@@ -148,6 +128,7 @@ export class TuyaSdkBridge {
 						TuyaSdkBridge.log(NgRes)
 						ErrorOccur = true
 						ReturnValue = "getHomeDetail Error" + NgRes
+						TuyaNative.logout()
 					}
 				)
 			},
@@ -196,7 +177,6 @@ export class TuyaSdkBridge {
 		let ReturnValue: boolean = false
 
 		if (TuyaSdkBridge.subscriptionForGw != null) {
-			//TuyaNative.removeSubscribtion(TuyaSdkBridge.subscriptionForGw)
 			TuyaNative.removeEvent(TuyaSdkBridge.searchingGwDeviceEventName)
 
 			TuyaSdkBridge.subscriptionForGw = null
@@ -225,14 +205,14 @@ export class TuyaSdkBridge {
 			let passParam: any
 			if (Platform.OS === "ios") {
 				passParam = {
-					homeId: TuyaSdkBridge.tuyaInfo.homeid,
+					homeId: TuyaSdkBridge.homeId,
 					time: timeout,
 					gwId: gw_id,
 					productId: product_id,
 				}
 			} else {
 				passParam = {
-					homeId: TuyaSdkBridge.tuyaInfo.homeid,
+					homeId: TuyaSdkBridge.homeId,
 					time: timeout,
 					devId: gw_id,
 					productId: product_id, // Ignored
@@ -246,6 +226,7 @@ export class TuyaSdkBridge {
 					TuyaNative.renameDevice({ devId: okRes.devId, name: CombinationName }).then(
 						(RenameOkRes: string) => {
 							TuyaSdkBridge.log("OK to rename GW")
+							RenameOkRes += "" // avoid unused variable warning
 						},
 						(RenameNgRes: string) => {
 							TuyaSdkBridge.log("NG to rename GW")
@@ -429,218 +410,92 @@ export class TuyaSdkBridge {
 		TuyaSdkBridge.searchingInternalFunction(gwInfo.gwId, gwInfo.productId)
 	}
 
-	private static async syncUsersByPaaS(userName: string): Promise<string> {
-		return await axios.get(`http://${TuyaSdkBridge.host}/sync_user?username=${userName}`)
-	}
-
-	private static async addHomeMemberByPaaS(userName: string): Promise<string> {
-		const timeStamp = new Date().getTime()
-
-		return await axios.get(
-			`http://${TuyaSdkBridge.host}/add_home_member/51757763?member_account=${userName}&name=synced_user_${timeStamp}`
-		)
-	}
-
-	private static async getUserInfoByPaaS(uid: string): Promise<string> {
-		console.log(TuyaSdkBridge.host)
-		return await axios.get(`http://${TuyaSdkBridge.host}/get_user_info/${uid}`)
-	}
-
-	public static async TestFunctions(): Promise<boolean> {
-		let returnValue: boolean = false
-
-		// const testNames: Array<string> = [
-		// 	"텐플 도어 센서 3_1129011500102910002_1/101_백광록",
-		// 	"gr button_1929129192919_301호_백광록",
-		// 	"gr gw_1129011500102910002_101동/101호_백광록",
-		// 	"gr gw/1129011500102910002/101동/101호/백광록",
-		// 	"gr gw/1129011500102910002//101호/백광록",
-		// 	"//1129011500102910002//101호_백광록",
-		// ]
-
-		// TuyaSdkBridge.setInformation("pnu", "dong", "ho", "user")
-		// for (let i = 0; i < testNames.length; i++) {
-		// 	let testName: string = testNames[i]
-		// 	console.log("-------------------")
-		// 	console.log("test name is :" + testName)
-		// 	console.log("parsed name is :" + TuyaSdkBridge.getNameFromCombinationTuya(testName))
-		// 	console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
-		// }
-
-		// TuyaSdkBridge.setInformation("154545455454", "202동", "303호", "서진우")
-		// for (let i = 0; i < testNames.length; i++) {
-		// 	let testName: string = testNames[i]
-		// 	console.log("-------------------")
-		// 	console.log("test name is :" + testName)
-		// 	console.log("parsed name is :" + TuyaSdkBridge.getNameFromCombinationTuya(testName))
-		// 	console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
-		// }
-
-		// TuyaSdkBridge.setInformation("8784847887848", "", "101호", "아무개")
-		// for (let i = 0; i < testNames.length; i++) {
-		// 	let testName: string = testNames[i]
-		// 	console.log("-------------------")
-		// 	console.log("test name is :" + testName)
-		// 	console.log("parsed name is :" + TuyaSdkBridge.getNameFromCombinationTuya(testName))
-		// 	console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
-		// }
-
-		//const testNames: Array<string> = ["텐플 도어 센서 1234567890/1129011500102910002/1/101/백광록"]
-
-		const testNames: Array<string> = ["0123456789ABCDEFGHIJKLMNOP"]
-
-		TuyaSdkBridge.setInformation("0123456789012345PNU49", "123456789동", "123456789호", "이창주123456")
-		for (let i = 0; i < testNames.length; i++) {
-			let testName: string = testNames[i]
-			console.log("-------------------")
-			console.log("combination name is :" + TuyaSdkBridge.getCombinationTuyaName(testName))
-		}
-
-		return new Promise(function (resolve, reject) {
-			if (returnValue) {
-				TuyaSdkBridge.log("Return OK")
-				resolve(returnValue)
-			} else {
-				TuyaSdkBridge.log("Return Fail")
-				reject(returnValue)
-			}
-		})
-	}
-
-	private static async tuyaLogin(isAnonymous: boolean): Promise<boolean> {
+	private static async tuyaLogin(): Promise<boolean> {
 		let returnValue: boolean = false
 
 		let userInfo
 		let needLogin: boolean = false
 
-		if (isAnonymous == false) {
-			TuyaSdkBridge.log("Option - Common User Account(With Email)")
-			await TuyaNative.getCurrentUser().then(
-				async (okRes: TuyaNative.User) => {
-					TuyaSdkBridge.log("getCurrentUser(Email) - OK")
-					userInfo = okRes
-					if (userInfo.username != TuyaSdkBridge.tuyaInfo.email) {
-						TuyaSdkBridge.log("logout")
-						await TuyaNative.logout()
-						needLogin = true
-					} else {
-						TuyaSdkBridge.log("Already Logged in")
-						returnValue = true
+		await TuyaNative.getCurrentUser().then(
+			async (OkRes: TuyaNative.User | null) => {
+				userInfo = OkRes
+
+				TuyaSdkBridge.log(userInfo)
+
+				if (userInfo == null) {
+					TuyaSdkBridge.log("No logged info. [null]")
+					needLogin = true
+				} else if (userInfo.username === "") {
+					TuyaSdkBridge.log("No logged info. [username is empty]")
+					needLogin = true
+				} else {
+					// Todo: Change it for iOS
+					TuyaSdkBridge.log("Remained Account Session")
+					TuyaSdkBridge.log("Maybe Remained Anonymous Account session")
+					returnValue = true
+					needLogin = false
+				}
+			},
+			async (NgRes: any) => {
+				TuyaSdkBridge.log("No logged info.")
+				needLogin = true
+				NgRes = null // avoid unused variable warning
+			}
+		)
+
+		// Test Code in case session is expired
+		// if (ReturnValue) {
+		// 	TuyaSdkBridge.log("Forced Loggout")
+		// 	await logout()
+		// 	ReturnValue = false
+		// 	NeedLogin = true
+		// }
+
+		if (needLogin) {
+			TuyaSdkBridge.log("Create New Anonymous Account")
+
+			await TuyaNative.touristRegisterAndLogin({
+				countryCode: TuyaSdkBridge.DefaultCountryCode,
+				username: TuyaSdkBridge.DefaultAnonymousName,
+			}).then(
+				async (loginOkRes: TuyaNative.User) => {
+					try {
+						TuyaSdkBridge.log("Anonymous Account OK")
+						TuyaSdkBridge.log(loginOkRes)
+						await TuyaNative.getCurrentUser().then(
+							async (appUserOkRes: TuyaNative.User | null) => {
+								TuyaSdkBridge.log("getCurrentUser(in Creating) OK: ")
+								const uid = appUserOkRes!.uid
+
+								const v1AdminTuya = new V1AdminTuya({
+									basePath: TuyaSdkBridge.basePath,
+									accessToken: TuyaSdkBridge.accessToken,
+								})
+								await v1AdminTuya.sync({ tuyaId: uid }).then(
+									async (paasUserOkRes) => {
+										TuyaSdkBridge.log(paasUserOkRes)
+										returnValue = true
+									},
+									async (paasUserNgRes) => {
+										TuyaSdkBridge.log("V1AdminTuya NG: ")
+										TuyaSdkBridge.log(paasUserNgRes)
+									}
+								)
+							},
+							async (appUserErrRes: any) => {
+								TuyaSdkBridge.log("getCurrentUser(in Creating) NG")
+								appUserErrRes = null // avoid unused variable warning
+							}
+						)
+					} catch (err) {
+						console.error(err) // TODO: handling error
 					}
 				},
-				async (errReg: any) => {
-					TuyaSdkBridge.log("getCurrentUser(Email) - NG")
-					TuyaSdkBridge.log(errReg)
-					needLogin = true
+				async (loginErrRes: any) => {
+					TuyaSdkBridge.log("Anonymous Account NG")
+					TuyaSdkBridge.log(loginErrRes)
 				}
 			)
-
-			if (needLogin) {
-				TuyaSdkBridge.log("login with Email")
-				await TuyaNative.loginWithEmail({
-					countryCode: TuyaSdkBridge.tuyaInfo.countryCode,
-					email: TuyaSdkBridge.tuyaInfo.email,
-					password: TuyaSdkBridge.tuyaInfo.password,
-				}).then(
-					(okRes: TuyaNative.User) => {
-						userInfo = okRes
-						TuyaSdkBridge.log(okRes)
-						returnValue = true
-					},
-					(errRes: any) => {
-						TuyaSdkBridge.log(errRes) // TODO: Risk there is no handleing about error
-					}
-				)
-			}
-
-			TuyaSdkBridge.log("User Info:")
-			TuyaSdkBridge.log(userInfo)
-		} else {
-			TuyaSdkBridge.log("Option - Anonymous Account")
-			await TuyaNative.getCurrentUser().then(
-				async (OkRes: TuyaNative.User) => {
-					userInfo = OkRes
-
-					TuyaSdkBridge.log(userInfo)
-
-					if (userInfo.username === "") {
-						TuyaSdkBridge.log("No logged info.")
-						needLogin = true
-					} else if (userInfo.username != TuyaSdkBridge.tuyaInfo.username) {
-						// Todo: Change it for iOS
-						TuyaSdkBridge.log("Remained Account Session")
-						TuyaSdkBridge.log("Maybe Remained Anonymous Account session")
-						returnValue = true
-						needLogin = false
-					} else {
-						// TODO: Change it for iOS
-						TuyaSdkBridge.log("Remained Account Session")
-						TuyaSdkBridge.log("Remained Common Account session")
-						await TuyaNative.logout()
-						needLogin = true
-					}
-				},
-				async (NgRes: any) => {
-					TuyaSdkBridge.log("No logged info.")
-					needLogin = true
-				}
-			)
-
-			// Test Code in case session is expired
-			// if (ReturnValue) {
-			// 	TuyaSdkBridge.log("Forced Loggout")
-			// 	await logout()
-			// 	ReturnValue = false
-			// 	NeedLogin = true
-			// }
-
-			if (needLogin) {
-				TuyaSdkBridge.log("Create New Anonymous Account")
-
-				await TuyaNative.touristRegisterAndLogin({
-					countryCode: "82",
-					username: "anonymousUser",
-				}).then(
-					async (loginOkRes: TuyaNative.User) => {
-						try {
-							TuyaSdkBridge.log("Anonymous Account OK")
-							TuyaSdkBridge.log(loginOkRes)
-							await TuyaNative.getCurrentUser().then(
-								async (appUserOkRes: TuyaNative.User) => {
-									TuyaSdkBridge.log("getCurrentUser(in Creating) OK: ")
-									const uid = appUserOkRes.uid
-									let username: string
-
-									const accessToken = await loginStore.getAccessToken()
-									const v1AdminTuya = new V1AdminTuya({
-										basePath: "https://iot-api.zigbang.in",
-										accessToken: accessToken ? accessToken : "",
-									})
-									await v1AdminTuya.sync({ tuyaId: uid }).then(
-										async (paasUserOkRes) => {
-											TuyaSdkBridge.log(paasUserOkRes)
-											returnValue = true
-										},
-										async (paasUserNgRes) => {
-											TuyaSdkBridge.log("V1AdminTuya NG: ")
-											TuyaSdkBridge.log(paasUserNgRes)
-										}
-									)
-								},
-								async (appUserErrRes: any) => {
-									TuyaSdkBridge.log("getCurrentUser(in Creating) NG")
-								}
-							)
-						} catch (err) {
-							console.error(err) // TODO: handling error
-						}
-					},
-					async (loginErrRes: any) => {
-						TuyaSdkBridge.log("Anonymous Account NG")
-						TuyaSdkBridge.log(loginErrRes)
-					}
-				)
-			}
 		}
 
 		return new Promise((resolve, reject) => {
