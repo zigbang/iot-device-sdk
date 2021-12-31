@@ -10,6 +10,28 @@ export type RegisterGwParam = {
 	timeout: number
 }
 
+// const debugCode = {
+// 	INF_NO_SESSION: { code: 100, message: "로그인 세션이 없습니다" },
+// 	INF_EXIST_SESSION: { code: 100, message: "이미 로그인 세션이 존재합니다" },
+// 	INF_CREATE_ANONYACCOUNT: { code: 100, message: "익명 계정을 생성했습니다" },
+// 	INF_SUCCESS: { code: 200, message: "성공" },
+// 	ERR_INIT_FIRST: { code: 400, message: "TuyaSdkBridge.Init()이 호출되지 않았습니다" },
+// 	ERR_PNU_LONG: { code: 400, message: "pnu가 너무 깁니다" },
+// 	ERR_LOGIN: { code: 500, message: "투야 로그인에 실패했습니다" },
+// 	ERR_HOMEDETAIL: { code: 500, message: "홈 정보를 불러오는데 실패했습니다" },
+// }
+
+// const enum debugCode {
+// 	INF_NO_SESSION, 		 // 0, 로그인 세션이 없습니다
+// 	INF_EXIST_SESSION,  	 // 1, 이미 로그인 세션이 존재합니다
+// 	INF_CREATE_ANONYACCOUNT, // 2, 익명 계정을 생성했습니다
+// 	INF_SUCCESS, 			 // 3, 성공
+// 	ERR_INIT_FIRST, 		 // 4, TuyaSdkBridge.Init()이 호출되지 않았습니다
+// 	ERR_PNU_LONG, 			 // 5, pnu가 너무 깁니다
+// 	ERR_LOGIN, 				 // 6, 투야 로그인에 실패했습니다
+// 	ERR_HOMEDETAIL, 		 // 7, 홈 정보를 불러오는데 실패했습니다
+// }
+
 export class TuyaSdkBridge {
 	public static readonly noValueYet: string = "0"
 	private static readonly TuyaNameElimentsCount: number = 5
@@ -46,6 +68,7 @@ export class TuyaSdkBridge {
 	// Function variable to callback
 	private static wiredGwSearchingEventFunctionPointer: (gw_id: string, product_id: string) => void
 	private static subDeviceRegisterEventFunctionPointer: (result: any) => void
+	// private static debugLogEventFunctionPointer: (code: any, message: any) => void
 
 	private static initialized: boolean = false
 
@@ -104,6 +127,7 @@ export class TuyaSdkBridge {
 		host: string,
 		homeID: number, // avoid duplicate name in home
 		token: string
+		// logCallback: (code: any, message: any) => void
 	): Promise<string> {
 		// Set Debugging config
 		TuyaSdkBridge.isShowDebugLog = isShowDebugLog
@@ -111,6 +135,7 @@ export class TuyaSdkBridge {
 		TuyaSdkBridge.basePath = host
 		TuyaSdkBridge.accessToken = token
 		TuyaSdkBridge.homeId = homeID
+		// TuyaSdkBridge.debugLogEventFunctionPointer = logCallback
 
 		console.log(host, homeID, token)
 
@@ -123,6 +148,7 @@ export class TuyaSdkBridge {
 				await TuyaNative.getHomeDetail({ homeId: homeID }).then(
 					(OkRes: TuyaNative.GetHomeDetailResponse) => {
 						TuyaSdkBridge.log(OkRes)
+						// TuyaSdkBridge.debugLogEventInternalFunction(debugCode.INF_SUCCESS.code, debugCode.INF_SUCCESS.message)
 					},
 					(NgRes: any) => {
 						TuyaSdkBridge.log(NgRes)
@@ -326,6 +352,37 @@ export class TuyaSdkBridge {
 
 		return returnValue
 	}
+
+	// 디바이스 삭제
+	// <iOS> 성공 - success 리턴, 실패 - 아무런 응답 없음. <android> 성공 - success 리턴, 실패 - [Error: device is removed] 리턴
+	public static async removeDevice(devId: TuyaNative.RemoveDeviceParams): Promise<boolean> {
+		let returnValue: boolean = false
+		const result = await TuyaNative.removeDevice(devId).catch((e) => {
+			console.log(e, "Error!")
+		})
+		if (result) {
+			console.log(result, "Success!")
+			returnValue = true
+		}
+		return returnValue
+	}
+
+	// 디바이스 공장초기화
+	// <iOS> 성공 - success 리턴, 실패 - 아무런 응답 없음. <android> 성공 - success 리턴, 실패 - [Error: device is removed] 리턴
+	public static async resetDevice(devId: TuyaNative.resetDeviceParams): Promise<boolean> {
+		let returnValue: boolean = false
+		const result = await TuyaNative.resetDevice(devId).catch((e) => {
+			console.log(e, "Error!")
+		})
+		if (result) {
+			console.log(result, "Success!")
+			returnValue = true
+		}
+		return returnValue
+	}
+
+	// private static debugLogEventInternalFunction(log: any) {
+	// }
 
 	// 콜백함수 : 기기 이름 변경 수행
 	private static async subDeviceEventInternalFunction(result: any) {
