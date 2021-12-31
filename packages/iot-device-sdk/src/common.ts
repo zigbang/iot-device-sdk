@@ -381,6 +381,29 @@ export class TuyaSdkBridge {
 		return returnValue
 	}
 
+	// 투야 계정 로그아웃
+	public static async logout(): Promise<boolean> {
+		let returnValue: boolean = false
+		await TuyaNative.getCurrentUser()
+			.then(async (result) => {
+				if (Platform.OS === "ios" && result.username === "") {
+					console.log("Login First!")
+					return
+				}
+
+				await TuyaNative.logout()
+				// <iOS> 성공 - success 리턴, 실패 - (세션이 없는 경우) success 리턴, (세션이 만료된 경우) 체크 필요
+				// <android> 성공 - success 리턴, 실패 - (세션이 없는 경우) [Error: Session is not exist and need login again] 리턴, (세션이 만료된 경우) 체크 필요
+
+				console.log("Logout Success!")
+				returnValue = true
+			})
+			.catch((e) => {
+				console.log(e, "Login First!")
+			})
+		return returnValue
+	}
+
 	// private static debugLogEventInternalFunction(log: any) {
 	// }
 
