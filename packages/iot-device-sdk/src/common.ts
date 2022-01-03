@@ -142,34 +142,30 @@ export class TuyaSdkBridge {
 		let ErrorOccur = false
 		let ReturnValue: string = ""
 
-		await TuyaSdkBridge.tuyaLogin().then(
-			async (OkRes: any) => {
-				OkRes += "" // avoid unused variable warning
-				await TuyaNative.getHomeDetail({ homeId: homeID }).then(
-					(OkRes: TuyaNative.GetHomeDetailResponse) => {
-						TuyaSdkBridge.log(OkRes)
-						// TuyaSdkBridge.debugLogEventInternalFunction(debugCode.INF_SUCCESS.code, debugCode.INF_SUCCESS.message)
-					},
-					(NgRes: any) => {
-						TuyaSdkBridge.log(NgRes)
-						ErrorOccur = true
-						ReturnValue = "getHomeDetail Error" + NgRes
-						TuyaNative.logout()
-					}
-				)
-			},
-			(NgRes: any) => {
-				ErrorOccur = true
-				ReturnValue = "Tuya Login Error" + NgRes
-			}
-		)
+		const result = await TuyaSdkBridge.tuyaLogin()
+		if (result) {
+			console.log("[Tuya Login] 성공")
+			await TuyaNative.getHomeDetail({ homeId: homeID })
+				.then(() => {
+					console.log("[getHomeDetail] 성공")
+					// TuyaSdkBridge.debugLogEventInternalFunction(debugCode.INF_SUCCESS.code, debugCode.INF_SUCCESS.message)
+				})
+				.catch(async (NgRes: any) => {
+					await this.logout()
+					ErrorOccur = true
+					ReturnValue = "[getHomeDetail] " + NgRes
+				})
+		} else {
+			ErrorOccur = true
+			ReturnValue = "[Tuya Login] 실패"
+		}
 
 		return new Promise((resolve, reject) => {
 			if (ErrorOccur) {
 				reject(ReturnValue)
 			} else {
 				TuyaSdkBridge.initialized = true
-				resolve("OK")
+				resolve("성공")
 			}
 		})
 	}
@@ -382,11 +378,11 @@ export class TuyaSdkBridge {
 	}
 
 	// 투야 계정 로그아웃
-	public static async logout(): Promise<boolean> {
+	private static async logout(): Promise<boolean> {
 		let returnValue: boolean = false
 		await TuyaNative.getCurrentUser()
 			.then(async (result) => {
-				if (Platform.OS === "ios" && result.username === "") {
+				if (Platform.OS === "ios" && result?.username === "") {
 					console.log("Login First!")
 					return
 				}
@@ -490,102 +486,53 @@ export class TuyaSdkBridge {
 		TuyaSdkBridge.searchingInternalFunction(gwInfo.gwId, gwInfo.productId)
 	}
 
-	private static async tuyaLogin(): Promise<boolean> {
+	public static async tuyaLogin(): Promise<boolean> {
 		let returnValue: boolean = false
 
-		let userInfo
-		let needLogin: boolean = false
-
-		await TuyaNative.getCurrentUser().then(
-			async (OkRes: TuyaNative.User | null) => {
-				userInfo = OkRes
-
-				TuyaSdkBridge.log(userInfo)
-
-				if (userInfo == null) {
-					TuyaSdkBridge.log("No logged info. [null]")
-					needLogin = true
-				} else if (userInfo.username === "") {
-					TuyaSdkBridge.log("No logged info. [username is empty]")
-					needLogin = true
-				} else {
-					// Todo: Change it for iOS
-					TuyaSdkBridge.log("Remained Account Session")
-					TuyaSdkBridge.log("Maybe Remained Anonymous Account session")
-					returnValue = true
-					needLogin = false
+		await TuyaNative.getCurrentUser()
+			.then((result) => {
+				if (Platform.OS === "ios" && result?.username === "") {
+					console.log("세션 부재", result)
+					throw new Error("Session does not exist")
 				}
-			},
-			async (NgRes: any) => {
-				TuyaSdkBridge.log("No logged info.")
-				needLogin = true
-				NgRes = null // avoid unused variable warning
-			}
-		)
-
-		// Test Code in case session is expired
-		// if (ReturnValue) {
-		// 	TuyaSdkBridge.log("Forced Loggout")
-		// 	await logout()
-		// 	ReturnValue = false
-		// 	NeedLogin = true
-		// }
-
-		if (needLogin) {
-			TuyaSdkBridge.log("Create New Anonymous Account")
-
-			await TuyaNative.touristRegisterAndLogin({
-				countryCode: TuyaSdkBridge.DefaultCountryCode,
-				username: TuyaSdkBridge.DefaultAnonymousName,
-			}).then(
-				async (loginOkRes: TuyaNative.User) => {
-					try {
-						TuyaSdkBridge.log("Anonymous Account OK")
-						TuyaSdkBridge.log(loginOkRes)
-						await TuyaNative.getCurrentUser().then(
-							async (appUserOkRes: TuyaNative.User | null) => {
-								TuyaSdkBridge.log("getCurrentUser(in Creating) OK: ")
-								const uid = appUserOkRes!.uid
-
+				console.log("세션 존재", result)
+				returnValue = true
+			})
+			.catch(async (error) => {
+				console.log("세션 부재", error)
+				await TuyaNative.touristRegisterAndLogin({
+					countryCode: TuyaSdkBridge.DefaultCountryCode,
+					username: TuyaSdkBridge.DefaultAnonymousName,
+				})
+					.then(async () => {
+						console.log("익명 계정 생성 완료")
+						await TuyaNative.getCurrentUser()
+							.then(async (result: TuyaNative.User | null) => {
+								const uid = result!.uid
 								const v1AdminTuya = new V1AdminTuya({
 									basePath: TuyaSdkBridge.basePath,
 									accessToken: TuyaSdkBridge.accessToken,
 								})
-								await v1AdminTuya.sync({ tuyaId: uid }).then(
-									async (paasUserOkRes) => {
-										TuyaSdkBridge.log(paasUserOkRes)
+								await v1AdminTuya
+									.sync({ tuyaId: uid })
+									.then(async (paasUserOkRes) => {
+										console.log(paasUserOkRes)
 										returnValue = true
-									},
-									async (paasUserNgRes) => {
-										TuyaSdkBridge.log("V1AdminTuya NG: ")
-										TuyaSdkBridge.log(paasUserNgRes)
-									}
-								)
-							},
-							async (appUserErrRes: any) => {
-								TuyaSdkBridge.log("getCurrentUser(in Creating) NG")
-								appUserErrRes = null // avoid unused variable warning
-							}
-						)
-					} catch (err) {
-						console.error(err) // TODO: handling error
-					}
-				},
-				async (loginErrRes: any) => {
-					TuyaSdkBridge.log("Anonymous Account NG")
-					TuyaSdkBridge.log(loginErrRes)
-				}
-			)
-		}
+									})
+									.catch(async (paasUserNgRes) => {
+										console.log("V1AdminTuya 오류", paasUserNgRes)
+										await this.logout()
+									})
+							})
+							.catch((error) => {
+								console.log("내부 유저 조회 오류", error)
+							})
+					})
+					.catch((error) => {
+						console.log("내부 익명 계정 생성 오류", error)
+					})
+			})
 
-		return new Promise((resolve, reject) => {
-			if (returnValue) {
-				TuyaSdkBridge.log("tuyaLogin - Return OK")
-				resolve(returnValue)
-			} else {
-				TuyaSdkBridge.log("tuyaLogin - Return Fail")
-				reject(returnValue)
-			}
-		})
+		return returnValue
 	}
 }
