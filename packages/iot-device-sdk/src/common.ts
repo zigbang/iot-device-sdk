@@ -350,30 +350,27 @@ export class TuyaSdkBridge {
 	}
 
 	// 디바이스 삭제
-	public static async removeDevice(devId: TuyaNative.RemoveDeviceParams): Promise<boolean> {
+	public static async removeDevice(devId: TuyaNative.RemoveDeviceParams, reset: boolean): Promise<boolean> {
 		let returnValue: any = false
-		await TuyaNative.removeDevice(devId)
-			.then((result) => {
-				console.log(result, "Success!")
-				returnValue = true
-			})
-			.catch((e) => {
-				console.log(e, "Error!")
-			})
-		return returnValue
-	}
-
-	// 디바이스 공장초기화
-	public static async resetDevice(devId: TuyaNative.resetDeviceParams): Promise<boolean> {
-		let returnValue: boolean = false
-		await TuyaNative.resetDevice(devId)
-			.then((result) => {
-				console.log(result, "Success!")
-				returnValue = true
-			})
-			.catch((e) => {
-				console.log(e, "Error!")
-			})
+		if (reset) {
+			await TuyaNative.resetDevice(devId)
+				.then((result) => {
+					console.log(result, "Success!")
+					returnValue = true
+				})
+				.catch((e) => {
+					console.log(e, "Error!")
+				})
+		} else {
+			await TuyaNative.removeDevice(devId)
+				.then((result) => {
+					console.log(result, "Success!")
+					returnValue = true
+				})
+				.catch((e) => {
+					console.log(e, "Error!")
+				})
+		}
 		return returnValue
 	}
 
