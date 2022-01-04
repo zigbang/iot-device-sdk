@@ -10,27 +10,34 @@ export type RegisterGwParam = {
 	timeout: number
 }
 
-// const debugCode = {
-// 	INF_NO_SESSION: { code: 100, message: "로그인 세션이 없습니다" },
-// 	INF_EXIST_SESSION: { code: 100, message: "이미 로그인 세션이 존재합니다" },
-// 	INF_CREATE_ANONYACCOUNT: { code: 100, message: "익명 계정을 생성했습니다" },
-// 	INF_SUCCESS: { code: 200, message: "성공" },
-// 	ERR_INIT_FIRST: { code: 400, message: "TuyaSdkBridge.Init()이 호출되지 않았습니다" },
-// 	ERR_PNU_LONG: { code: 400, message: "pnu가 너무 깁니다" },
-// 	ERR_LOGIN: { code: 500, message: "투야 로그인에 실패했습니다" },
-// 	ERR_HOMEDETAIL: { code: 500, message: "홈 정보를 불러오는데 실패했습니다" },
-// }
-
-// const enum debugCode {
-// 	INF_NO_SESSION, 		 // 0, 로그인 세션이 없습니다
-// 	INF_EXIST_SESSION,  	 // 1, 이미 로그인 세션이 존재합니다
-// 	INF_CREATE_ANONYACCOUNT, // 2, 익명 계정을 생성했습니다
-// 	INF_SUCCESS, 			 // 3, 성공
-// 	ERR_INIT_FIRST, 		 // 4, TuyaSdkBridge.Init()이 호출되지 않았습니다
-// 	ERR_PNU_LONG, 			 // 5, pnu가 너무 깁니다
-// 	ERR_LOGIN, 				 // 6, 투야 로그인에 실패했습니다
-// 	ERR_HOMEDETAIL, 		 // 7, 홈 정보를 불러오는데 실패했습니다
-// }
+export const enum debugCode {
+	INF_NO_SESSION, // 0, 로그인 세션이 없습니다
+	INF_EXIST_SESSION, // 1, 이미 로그인 세션이 존재합니다
+	INF_CREATE_ANONYMOUS_ACCOUNT, // 2, 익명 계정을 생성했습니다
+	INF_LOGIN, // 3, 로그인에 성공했습니다
+	INF_LOGOUT, // 4, 로그아웃에 성공했습니다
+	INF_HOMEDETAIL, // 5, 홈 정보를 불러오는데에 성공했습니다
+	INF_RENAME_GW, // 6, 게이트웨이 이름 변경에 성공했습니다
+	INF_RESET_DEVICE, // 7, 기기 공장초기화에 성공했습니다
+	INF_REMOVE_DEVICE, // 8, 기기 삭제에 성공했습니다
+	WARN_START_SEARCH_WIREDGW_FIRST, // 9, TuyaSdkBridge.startSearchWiredGw()가 호출되지 않았습니다
+	WARN_START_REGISTER_ZIGBEE_SUBDEVICE_FIRST, // 10, TuyaSdkBridge.startRegisterZigbeeSubDevice()가 호출되지 않았습니다
+	WARN_CUT_USERNAME, // 11, 사용자 이름을 축약합니다
+	ERR_INIT_FIRST, // 12, TuyaSdkBridge.Init()이 호출되지 않았습니다
+	ERR_LOGIN, // 13, 투야 로그인에 실패했습니다
+	ERR_SYNC, // 14, 투야 계정을 Cloud에 Sync하는데에 실패했습니다
+	ERR_GET_CURRENT_USER, // 15, 유저를 조회하는데 실패했습니다
+	ERR_CREATE_ANONYMOUS_ACCOUNT, // 16, 익명 계정 생성에 실패했습니다
+	ERR_HOMEDETAIL, // 17, 홈 정보를 불러오는데 실패했습니다
+	ERR_REGISTER_WIREDGW_ALREADY, // 18, TuyaSdkBridge.registerWiredGW()가 이미 호출되었습니다.
+	ERR_START_REGISTER_ZIGBEE_SUBDEVICE_ALREAY, // 19, TuyaSdkBridge.startRegisterZigbeeSubDevice()가 이미 호출되었습니다.
+	ERR_RENAME_GW, // 20, 게이트웨이 이름 변경에 실패했습니다
+	ERR_RESET_DEVICE, // 21, 기기 공장초기화에 실패했습니다
+	ERR_REMOVE_DEVICE, // 22, 기기 삭제에 실패했습니다
+	ERR_PNU_TOO_LONG, // 23, pnu가 너무 깁니다
+	ERR_DONG_TOO_LONG, // 24, 동의 글자수가 너무 깁니다
+	ERR_HO_TOO_LONG, // 25, 호의 글자수가 너무 깁니다
+}
 
 export class TuyaSdkBridge {
 	public static readonly noValueYet: string = "0"
@@ -68,7 +75,7 @@ export class TuyaSdkBridge {
 	// Function variable to callback
 	private static wiredGwSearchingEventFunctionPointer: (gw_id: string, product_id: string) => void
 	private static subDeviceRegisterEventFunctionPointer: (result: any) => void
-	// private static debugLogEventFunctionPointer: (code: any, message: any) => void
+	private static debugLogEventFunctionPointer: (code: any) => void
 
 	private static initialized: boolean = false
 
@@ -82,21 +89,25 @@ export class TuyaSdkBridge {
 	private static setInformation(pnu: string, dong: string, ho: string, username: string) {
 		if (pnu.length > TuyaSdkBridge.PnuMaxLength) {
 			pnu = pnu.substring(0, TuyaSdkBridge.PnuMaxLength)
+			TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_PNU_TOO_LONG)
 			console.error("pnu is too long")
 		}
 
 		if (dong.length > TuyaSdkBridge.DongMaxLength) {
 			dong = dong.substring(0, TuyaSdkBridge.PnuMaxLength)
+			TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_DONG_TOO_LONG)
 			console.error("dong is too long")
 		}
 
 		if (ho.length > TuyaSdkBridge.HoMaxLength) {
 			ho = ho.substring(0, TuyaSdkBridge.HoMaxLength)
+			TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_HO_TOO_LONG)
 			console.error("ho is too long")
 		}
 
 		if (username.length > TuyaSdkBridge.UserMaxLength) {
 			username = username.substring(0, TuyaSdkBridge.UserMaxLength)
+			TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.WARN_CUT_USERNAME)
 			console.warn("User name will be shortened")
 		}
 
@@ -126,8 +137,8 @@ export class TuyaSdkBridge {
 		user: string,
 		host: string,
 		homeID: number, // avoid duplicate name in home
-		token: string
-		// logCallback: (code: any, message: any) => void
+		token: string,
+		logCallback: (code: any) => void
 	): Promise<string> {
 		// Set Debugging config
 		TuyaSdkBridge.isShowDebugLog = isShowDebugLog
@@ -135,29 +146,28 @@ export class TuyaSdkBridge {
 		TuyaSdkBridge.basePath = host
 		TuyaSdkBridge.accessToken = token
 		TuyaSdkBridge.homeId = homeID
-		// TuyaSdkBridge.debugLogEventFunctionPointer = logCallback
-
-		console.log(host, homeID, token)
+		this.debugLogEventFunctionPointer = logCallback
 
 		let ErrorOccur = false
 		let ReturnValue: string = ""
 
 		const result = await TuyaSdkBridge.tuyaLogin()
 		if (result) {
-			console.log("[Tuya Login] 성공")
+			TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_LOGIN)
 			await TuyaNative.getHomeDetail({ homeId: homeID })
 				.then(() => {
-					console.log("[getHomeDetail] 성공")
-					// TuyaSdkBridge.debugLogEventInternalFunction(debugCode.INF_SUCCESS.code, debugCode.INF_SUCCESS.message)
+					TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_HOMEDETAIL)
 				})
 				.catch(async (NgRes: any) => {
 					await this.logout()
 					ErrorOccur = true
 					ReturnValue = "[getHomeDetail] " + NgRes
+					TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_HOMEDETAIL)
 				})
 		} else {
 			ErrorOccur = true
 			ReturnValue = "[Tuya Login] 실패"
+			TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_LOGIN)
 		}
 
 		return new Promise((resolve, reject) => {
@@ -174,6 +184,7 @@ export class TuyaSdkBridge {
 		let returnValue: boolean = false
 
 		if (TuyaSdkBridge.initialized == false) {
+			TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_INIT_FIRST)
 			console.error("Call TuyaSdkBridge.Init() first")
 		} else if (!TuyaSdkBridge.subscriptionForGw) {
 			TuyaNative.startSearcingGwDevice()
@@ -204,6 +215,7 @@ export class TuyaSdkBridge {
 			TuyaSdkBridge.subscriptionForGw = null
 			ReturnValue = true
 		} else {
+			TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.WARN_START_SEARCH_WIREDGW_FIRST)
 			console.warn("startSearchWiredGW is not called")
 		}
 
@@ -218,9 +230,11 @@ export class TuyaSdkBridge {
 		if (TuyaSdkBridge.initialized == false) {
 			errorOccur = true
 			returnValue = "Call TuyaSdkBridge.init() first"
+			TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_INIT_FIRST)
 		} else if (TuyaSdkBridge.inProcessRegisterGw) {
 			errorOccur = true
 			returnValue = "registerWiredGW is started already"
+			TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_REGISTER_WIREDGW_ALREADY)
 		} else {
 			TuyaSdkBridge.inProcessRegisterGw = true
 
@@ -247,11 +261,11 @@ export class TuyaSdkBridge {
 					let CombinationName: string = TuyaSdkBridge.getCombinationTuyaName(okRes.name)
 					TuyaNative.renameDevice({ devId: okRes.devId, name: CombinationName }).then(
 						(RenameOkRes: string) => {
-							TuyaSdkBridge.log("OK to rename GW")
+							TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_RENAME_GW)
 							RenameOkRes += "" // avoid unused variable warning
 						},
 						(RenameNgRes: string) => {
-							TuyaSdkBridge.log("NG to rename GW")
+							TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_RENAME_GW)
 							returnValue = RenameNgRes
 							errorOccur = true
 						}
@@ -289,9 +303,11 @@ export class TuyaSdkBridge {
 		if (TuyaSdkBridge.initialized == false) {
 			errorOccur = true
 			returnValue = "Call TuyaSdkBridge.Init() first"
+			TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_INIT_FIRST)
 		} else if (TuyaSdkBridge.subscriptionForSubDevice) {
 			errorOccur = true
 			returnValue = "StartRegisterZigbeeSubDevice is started already"
+			TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_START_REGISTER_ZIGBEE_SUBDEVICE_ALREAY)
 		} else {
 			TuyaSdkBridge.subscriptionForSubDevice = TuyaNative.addEvent(
 				TuyaSdkBridge.searchingSubDeviceEventName,
@@ -344,6 +360,7 @@ export class TuyaSdkBridge {
 			returnValue = true
 		} else {
 			console.warn("StartRegisterZigbeeSubDevice is not called")
+			TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.WARN_START_REGISTER_ZIGBEE_SUBDEVICE_FIRST)
 		}
 
 		return returnValue
@@ -356,19 +373,23 @@ export class TuyaSdkBridge {
 			await TuyaNative.resetDevice(devId)
 				.then((result) => {
 					console.log(result, "Success!")
+					TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_RESET_DEVICE)
 					returnValue = true
 				})
 				.catch((e) => {
 					console.log(e, "Error!")
+					TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_RESET_DEVICE)
 				})
 		} else {
 			await TuyaNative.removeDevice(devId)
 				.then((result) => {
 					console.log(result, "Success!")
+					TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_REMOVE_DEVICE)
 					returnValue = true
 				})
 				.catch((e) => {
 					console.log(e, "Error!")
+					TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_REMOVE_DEVICE)
 				})
 		}
 		return returnValue
@@ -380,7 +401,7 @@ export class TuyaSdkBridge {
 		await TuyaNative.getCurrentUser()
 			.then(async (result) => {
 				if (Platform.OS === "ios" && result?.username === "") {
-					console.log("Login First!")
+					TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_NO_SESSION)
 					return
 				}
 
@@ -388,11 +409,12 @@ export class TuyaSdkBridge {
 				// <iOS> 성공 - success 리턴, 실패 - (세션이 없는 경우) success 리턴, (세션이 만료된 경우) 체크 필요
 				// <android> 성공 - success 리턴, 실패 - (세션이 없는 경우) [Error: Session is not exist and need login again] 리턴, (세션이 만료된 경우) 체크 필요
 
-				console.log("Logout Success!")
+				TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_LOGOUT)
 				returnValue = true
 			})
 			.catch((e) => {
 				console.log(e, "Login First!")
+				TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_NO_SESSION)
 			})
 		return returnValue
 	}
@@ -402,7 +424,6 @@ export class TuyaSdkBridge {
 
 	// 콜백함수 : 기기 이름 변경 수행
 	private static async subDeviceEventInternalFunction(result: any) {
-		TuyaSdkBridge.log("subDeviceEventInternalFunction is called")
 		TuyaSdkBridge.log(result)
 		if (result.result == "onError") {
 			TuyaSdkBridge.log("onError")
@@ -413,9 +434,9 @@ export class TuyaSdkBridge {
 			try {
 				await TuyaNative.renameDevice({ devId: result.var1.devId, name: combinationName })
 				result.var1.name = combinationName
-				TuyaSdkBridge.log("OK to rename GW")
+				TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_RENAME_GW)
 			} catch (e) {
-				TuyaSdkBridge.log("NG to rename GW")
+				TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_RENAME_GW)
 			}
 			TuyaSdkBridge.subDeviceRegisterEventFunctionPointer(result)
 		} else {
@@ -490,19 +511,22 @@ export class TuyaSdkBridge {
 			.then((result) => {
 				if (Platform.OS === "ios" && result?.username === "") {
 					console.log("세션 부재", result)
+					TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_NO_SESSION)
 					throw new Error("Session does not exist")
 				}
 				console.log("세션 존재", result)
+				TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_EXIST_SESSION)
 				returnValue = true
 			})
 			.catch(async (error) => {
 				console.log("세션 부재", error)
+				TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_NO_SESSION)
 				await TuyaNative.touristRegisterAndLogin({
 					countryCode: TuyaSdkBridge.DefaultCountryCode,
 					username: TuyaSdkBridge.DefaultAnonymousName,
 				})
 					.then(async () => {
-						console.log("익명 계정 생성 완료")
+						TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_CREATE_ANONYMOUS_ACCOUNT)
 						await TuyaNative.getCurrentUser()
 							.then(async (result: TuyaNative.User | null) => {
 								const uid = result!.uid
@@ -518,15 +542,18 @@ export class TuyaSdkBridge {
 									})
 									.catch(async (paasUserNgRes) => {
 										console.log("V1AdminTuya 오류", paasUserNgRes)
+										TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_SYNC)
 										await this.logout()
 									})
 							})
 							.catch((error) => {
-								console.log("내부 유저 조회 오류", error)
+								console.log("유저 조회 오류", error)
+								TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_GET_CURRENT_USER)
 							})
 					})
 					.catch((error) => {
-						console.log("내부 익명 계정 생성 오류", error)
+						console.log("익명 계정 생성 오류", error)
+						TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_CREATE_ANONYMOUS_ACCOUNT)
 					})
 			})
 
