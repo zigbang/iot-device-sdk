@@ -141,12 +141,12 @@ export class TuyaSdkBridge {
 		logCallback: (code: any) => void
 	): Promise<string> {
 		// Set Debugging config
+		this.debugLogEventFunctionPointer = logCallback
 		TuyaSdkBridge.isShowDebugLog = isShowDebugLog
 		TuyaSdkBridge.setInformation(pnu, dong, ho, user)
 		TuyaSdkBridge.basePath = host
 		TuyaSdkBridge.accessToken = token
 		TuyaSdkBridge.homeId = homeID
-		this.debugLogEventFunctionPointer = logCallback
 
 		let ErrorOccur = false
 		let ReturnValue: string = ""
