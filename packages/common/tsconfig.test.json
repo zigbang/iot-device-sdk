@@ -1,0 +1,11 @@
+{
+    "extends": "../tsconfig.json",
+    "include": ["./**/*.ts"],
+    "compilerOptions": {
+        "sourceMap": true,
+        "declaration": false,
+        "strictPropertyInitialization": false,
+        "isolatedModules": false,
+        "experimentalDecorators": true,
+    }
+}
