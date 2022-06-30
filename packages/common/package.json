@@ -1,22 +1,28 @@
 {
-    "name": "@lernaskeleton/common",
-    "version": "0.0.1-beta.1",
+    "name": "iot-device-sdk-react",
+    "version": "0.0.1-beta.3",
     "description": "Common Library",
     "license": "UNLICENSED",
-    "author": "wckim@zigbang.com",
+    "author": "seojw@zigbang.com",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "engines": {
         "node": ">=12.0.0"
     },
+    "keywords": [
+        "iot",
+        "tuya",
+        "ThinQ",
+        "SmartThings"
+    ],
     "scripts": {
         "lint": "npx eslint src test",
         "test": "npx jest",
         "compile": "npx tsc -p tsconfig.json",
         "clean": "rm -rf ./dist",
         "build": "npm run clean && npm run compile",
-        "deploy": "npm run test && npm run build && npm publish --registry http://npm.zigbang.io/",
-        "deploy:beta": "npm run test && npm run build && npm publish --tag beta --registry http://npm.zigbang.io/"
+        "deploy": "npm run test && npm run build && npm publish --registry https://registry.npmjs.org/",
+        "deploy:beta": "npm run test && npm run build && npm publish --tag beta --registry https://registry.npmjs.org/"
     },
     "dependencies": {
         "lodash": "^4.17.21"
