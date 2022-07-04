@@ -19,6 +19,7 @@ jobs:
         uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
+          package: "./packages/iot-device-sdk-react/package.json"
 
 
 
