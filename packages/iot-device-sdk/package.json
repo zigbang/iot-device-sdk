@@ -16,6 +16,7 @@
         "SmartThings"
     ],
     "scripts": {
+        "postinstall": "cd .. && cd .. && husky install packages/iot-device-sdk-react/.husky",
         "lint": "npx eslint src test",
         "test": "npx jest",
         "compile": "npx tsc -p tsconfig.json",
@@ -26,5 +27,10 @@
     },
     "dependencies": {
         "lodash": "^4.17.21"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^17.0.3",
+        "@commitlint/config-conventional": "^17.0.3",
+        "husky": "^8.0.1"
     }
 }
