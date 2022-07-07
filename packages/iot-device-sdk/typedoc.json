@@ -1,0 +1,9 @@
+{
+    "customTitle": "runtime-data-validation-js.github.io",
+    "customTitleLink": "https://runtime-data-validation-js.github.io/",
+    "name": "Runtime data validation for TypeScript",
+    "includeVersion": true,
+    "hideGenerator": true,
+    "out": "dist/docs",
+    "readme": "README-api.md"
+}

@@ -16,6 +16,8 @@
         "SmartThings"
     ],
     "scripts": {
+        "doc": "typedoc --plugin typedoc-plugin-extras --options typedoc.json ./src/index.ts",
+        "web-doc": "live-server ./dist/docs &",
         "postinstall": "cd .. && cd .. && husky install packages/iot-device-sdk-react/.husky",
         "lint": "npx eslint src test",
         "test": "npx jest",
@@ -31,6 +33,9 @@
     "devDependencies": {
         "@commitlint/cli": "^17.0.3",
         "@commitlint/config-conventional": "^17.0.3",
-        "husky": "^8.0.1"
+        "@compodoc/live-server": "^1.2.3",
+        "husky": "^8.0.1",
+        "typedoc": "^0.23.5",
+        "typedoc-plugin-extras": "^2.2.3"
     }
 }
