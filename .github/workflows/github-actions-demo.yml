@@ -25,12 +25,10 @@ jobs:
           node-version: 16.13.0
       - name: Git Docs Generate
         run: |
-          cd packages/iot-device-sdk-react && yarn && yarn doc
-        with: 
-          INPUT_TOKEN: ${{ secrets.NPM_TOKEN }}
+          cd packages/iot-device-sdk-react && npm ci
       - name: Docs to Github pages
         run: |
-          yarn pub-doc
+          npm doc && npm run pub-doc
           
 
 
