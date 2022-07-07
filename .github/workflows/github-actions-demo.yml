@@ -26,6 +26,8 @@ jobs:
       - name: Git Docs Generate
         run: |
           cd packages/iot-device-sdk-react && yarn && yarn doc
+        with: 
+          INPUT_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Docs to Github pages
         run: |
           yarn pub-doc
