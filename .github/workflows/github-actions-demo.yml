@@ -26,7 +26,13 @@ jobs:
       - name: Git Docs Generate
         run: cd packages/iot-device-sdk-react && npm ci
       - run: cd packages/iot-device-sdk-react && npm run doc
-      - run: cd packages/iot-device-sdk-react && npm run pub-doc
+      - uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: only-for-manual
+          build_dir: packages/iot-device-sdk-react/dist/docs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITPAGES_TOKEN }}
+
           
 
 
