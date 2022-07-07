@@ -28,7 +28,7 @@ jobs:
           cd packages/iot-device-sdk-react && npm ci
       - name: Docs to Github pages
         run: |
-          npm doc && npm run pub-doc
+          npm run doc && npm run pub-doc
           
 
 
