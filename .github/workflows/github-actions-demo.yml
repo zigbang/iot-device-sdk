@@ -25,10 +25,10 @@ jobs:
           node-version: 16.13.0
       - name: Git Docs Generate
         run: |
-          cd packages/iot-device-sdk-react && npm run doc
+          cd packages/iot-device-sdk-react && yarn && yarn doc
       - name: Docs to Github pages
         run: |
-          npm run pub-doc
+          yarn pub-doc
           
 
 
