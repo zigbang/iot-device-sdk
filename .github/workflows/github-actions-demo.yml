@@ -20,6 +20,9 @@ jobs:
         with:
           token: ${{ secrets.NPM_TOKEN }}
           package: "./packages/iot-device-sdk-react/package.json"
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
       - name: Git Docs Generate
         run: |
           npm run doc
