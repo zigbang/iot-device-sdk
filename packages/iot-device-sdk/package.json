@@ -18,6 +18,7 @@
     "scripts": {
         "doc": "typedoc --plugin typedoc-plugin-extras --options typedoc.json ./src/index.ts",
         "web-doc": "live-server ./dist/docs &",
+        "pub-doc": "npx gh-pages -b only-for-manual -d ./dist/docs/",
         "postinstall": "cd .. && cd .. && husky install packages/iot-device-sdk-react/.husky",
         "lint": "npx eslint src test",
         "test": "npx jest",
@@ -28,6 +29,7 @@
         "deploy:beta": "npm run test && npm run build && npm publish --tag beta --registry https://registry.npmjs.org/"
     },
     "dependencies": {
+        "gh-pages": "^4.0.0",
         "lodash": "^4.17.21"
     },
     "devDependencies": {
