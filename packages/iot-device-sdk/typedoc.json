@@ -1,7 +1,7 @@
 {
     "customTitle": "iot-device-sdk-react-native",
     "customTitleLink": "https://seojinwoo.github.io/IotDeviceSdk4React/",
-    "name": "Runtime data validation for TypeScript",
+    "name": "IoT Device SDK For ReactNative",
     "includeVersion": true,
     "hideGenerator": true,
     "out": "dist/docs",
