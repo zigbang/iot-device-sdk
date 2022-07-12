@@ -1,17 +1,9 @@
-/**
- * @category Finance Validator
- */
-
-// ToDo Use elements
+/** @hidden */
 export type RegisterGwParam = {
     gw_id: string;
     product_id: string;
     timeout: number;
 };
-
-/**
- * @category Test Cat.
- */
 
 export type registerSubDeviceResponse = {
     result: string;
@@ -21,6 +13,7 @@ export type RemoveDeviceParams = {
     devId: string;
 };
 
+/** @hidden */
 export type HgwBean = {
     ip: string;
     gwId: string;
@@ -35,35 +28,118 @@ export type HgwBean = {
     wf_cfg: boolean;
 };
 
-export const enum debugCode {
+/**
+ * Debug code enum values from iot-device-sdk-react's callback.
+ * @enum
+ */
+export enum debugCode {
+    /**
+     * Not exist login session
+     */
     INF_NO_SESSION, // 0, 로그인 세션이 없습니다
+    /**
+     * Already exist login session
+     */
     INF_EXIST_SESSION, // 1, 이미 로그인 세션이 존재합니다
+    /**
+     * Created anonymous account
+     */
     INF_CREATE_ANONYMOUS_ACCOUNT, // 2, 익명 계정을 생성했습니다
+    /**
+     * Successfully logged in
+     */
     INF_LOGIN, // 3, 로그인에 성공했습니다
+    /**
+     * Successfully logged out
+     */
     INF_LOGOUT, // 4, 로그아웃에 성공했습니다
+    /**
+     * Successfully get home information
+     */
     INF_HOMEDETAIL, // 5, 홈 정보를 불러오는데에 성공했습니다
+    /**
+     * Successfully rename of gateway
+     */
     INF_RENAME_GW, // 6, 게이트웨이 이름 변경에 성공했습니다
+    /**
+     * Successfully reset device
+     */
     INF_RESET_DEVICE, // 7, 기기 공장초기화에 성공했습니다
+    /**
+     * Successfully delete device
+     */
     INF_REMOVE_DEVICE, // 8, 기기 삭제에 성공했습니다
+    /**
+     * startSearchWiredGw has not been called
+     */
     WARN_START_SEARCH_WIREDGW_FIRST, // 9, TuyaSdkBridge.startSearchWiredGw()가 호출되지 않았습니다
+    /**
+     * {@link startRegisterZigbeeSubDevice} has not been called
+     */
     WARN_START_REGISTER_ZIGBEE_SUBDEVICE_FIRST, // 10, TuyaSdkBridge.startRegisterZigbeeSubDevice()가 호출되지 않았습니다
+    /**
+     * User name make shorter
+     */
     WARN_CUT_USERNAME, // 11, 사용자 이름을 축약합니다
+    /**
+     * {@link init} has not been called
+     */
     ERR_INIT_FIRST, // 12, TuyaSdkBridge.Init()이 호출되지 않았습니다
+    /**
+     * Failed to login Tuya account
+     */
     ERR_LOGIN, // 13, 투야 로그인에 실패했습니다
+    /**
+     * Failed to synchronize with tuya account
+     */
     ERR_SYNC, // 14, 투야 계정을 Cloud에 Sync하는데에 실패했습니다
+    /**
+     * Failed to get User information
+     */
     ERR_GET_CURRENT_USER, // 15, 유저를 조회하는데 실패했습니다
+    /**
+     * Failed to create anonymous account
+     */
     ERR_CREATE_ANONYMOUS_ACCOUNT, // 16, 익명 계정 생성에 실패했습니다
+    /**
+     * Failed to get home information
+     */
     ERR_HOMEDETAIL, // 17, 홈 정보를 불러오는데 실패했습니다
+    /**
+     * {@link registerWiredGW} has been already called and not yet finished
+     */
     ERR_REGISTER_WIREDGW_ALREADY, // 18, TuyaSdkBridge.registerWiredGW()가 이미 호출되었습니다.
+    /**
+     * {@link startRegisterZigbeeSubDevice} has been already called and not yet finished
+     */
     ERR_START_REGISTER_ZIGBEE_SUBDEVICE_ALREAY, // 19, TuyaSdkBridge.startRegisterZigbeeSubDevice()가 이미 호출되었습니다.
+    /**
+     * Failed to rename device name of gateway
+     */
     ERR_RENAME_GW, // 20, 게이트웨이 이름 변경에 실패했습니다
+    /**
+     * Failed to reset device
+     */
     ERR_RESET_DEVICE, // 21, 기기 공장초기화에 실패했습니다
+    /**
+     * Failed to delete device
+     */
     ERR_REMOVE_DEVICE, // 22, 기기 삭제에 실패했습니다
+    /**
+     * pnu is too long
+     */
     ERR_PNU_TOO_LONG, // 23, pnu가 너무 깁니다
+    /**
+     * dong is too long
+     */
     ERR_DONG_TOO_LONG, // 24, 동의 글자수가 너무 깁니다
+    /**
+     * ho is too long
+     */
     ERR_HO_TOO_LONG, // 25, 호의 글자수가 너무 깁니다
 }
 
+/** @hidden */
 export class TuyaSdkBridge {
     public static readonly noValueYet: string = '0';
     private static readonly TuyaNameElimentsCount: number = 5;
@@ -103,6 +179,8 @@ export class TuyaSdkBridge {
     private static debugLogEventFunctionPointer: (code: any) => void;
 
     private static initialized = false;
+    private static inProcessRegisterGw = false;
+    private static targetGwIdForSubDevice = '';
 
     private static log(params: any) {
         if (TuyaSdkBridge.isShowDebugLog) {
@@ -246,9 +324,7 @@ export class TuyaSdkBridge {
 
         return ReturnValue;
     }
-
-
-    private static inProcessRegisterGw = false;
+    
     public static async registerWiredGW(gw_id: string, product_id: string, timeout: number): Promise<any> {
         let returnValue: any;
         let errorOccur = false;
@@ -316,7 +392,6 @@ export class TuyaSdkBridge {
         });
     }
 
-    private static targetGwIdForSubDevice = '';
     // 이벤트 리스너 등록 및 등록 시작
     public static async startRegisterZigbeeSubDevice(
         gw_id: string,
