@@ -1,4 +1,4 @@
-# Iot Device SDK for Provisioning
+# Only for Provisioning
 (This is not working yet!!!)
 
 see: https://seojinwoo.github.io/IotDeviceSdk4React/

@@ -1,6 +1,6 @@
 {
     "name": "iot-device-sdk-react",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Common Library",
     "license": "UNLICENSED",
     "author": "seojw@zigbang.com",
@@ -37,6 +37,7 @@
         "@commitlint/config-conventional": "^17.0.3",
         "@compodoc/live-server": "^1.2.3",
         "husky": "^8.0.1",
+        "standard-version": "^9.5.0",
         "typedoc": "^0.23.5",
         "typedoc-plugin-extras": "^2.2.3"
     }
