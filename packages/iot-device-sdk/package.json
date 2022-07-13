@@ -9,6 +9,8 @@
     "engines": {
         "node": ">=12.0.0"
     },
+    "homepage": "https://seojinwoo.github.io/IotDeviceSdk4React/",
+    "repository": "seojinwoo/IotDeviceSdk4React",
     "keywords": [
         "iot",
         "tuya",
@@ -25,6 +27,7 @@
         "compile": "npx tsc -p tsconfig.json",
         "clean": "rm -rf ./dist",
         "build": "npm run clean && npm run compile",
+        "version-up": "npm standard-version",
         "deploy": "npm run test && npm run build && npm publish --registry https://registry.npmjs.org/",
         "deploy:beta": "npm run test && npm run build && npm publish --tag beta --registry https://registry.npmjs.org/"
     },
