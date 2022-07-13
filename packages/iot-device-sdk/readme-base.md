@@ -10,4 +10,3 @@ it has dependency on following packages:
 - react-native-tuya 
 
 
-[ChangeLogs](CHANGELOG.md)

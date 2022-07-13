@@ -27,7 +27,7 @@
         "compile": "npx tsc -p tsconfig.json",
         "clean": "rm -rf ./dist",
         "build": "npm run clean && npm run compile",
-        "version-up": "npm standard-version",
+        "version-up": "npm run standard-version",
         "deploy": "npm run test && npm run build && npm publish --registry https://registry.npmjs.org/",
         "deploy:beta": "npm run test && npm run build && npm publish --tag beta --registry https://registry.npmjs.org/"
     },
