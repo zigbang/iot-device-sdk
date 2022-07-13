@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.2...v0.0.4) (2022-07-13)
+
+
+### Docs
+
+* include link change log to readme ([7961569](https://github.com/seojinwoo/IotDeviceSdk4React/commit/796156958d36c74e779fec92f40a46872f2cff49))
+
+
+### Others
+
+* **release:** 0.0.3 ([9292609](https://github.com/seojinwoo/IotDeviceSdk4React/commit/9292609e95e22e5b9b5867e31743f1fc221d8bd5))
+
+
+### CI
+
+* add test github action file ([6c64f7d](https://github.com/seojinwoo/IotDeviceSdk4React/commit/6c64f7de45a484fb51d487689e88e4081fc199c4))
+* github action make for test ([98bb29c](https://github.com/seojinwoo/IotDeviceSdk4React/commit/98bb29c81cdb6ac7369995eadf414b0499cc02ed))
+* link change log, change github action name ([c4cde9e](https://github.com/seojinwoo/IotDeviceSdk4React/commit/c4cde9e9e04503ffab9409957aae7be5ae4909ef))
+* merge two md files base and change log ([fee319a](https://github.com/seojinwoo/IotDeviceSdk4React/commit/fee319a53e2deedeacae8a2196c0a005d8f1b392))
+* reame.md file is combinded by github action ([983b31a](https://github.com/seojinwoo/IotDeviceSdk4React/commit/983b31ac5f66303f4c69d1fe1e0078f76f2b473f))
+
 ### [0.0.3](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.2...v0.0.3) (2022-07-13)
 
 
