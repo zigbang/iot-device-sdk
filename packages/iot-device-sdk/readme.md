@@ -9,3 +9,5 @@ iot-device-sdk-react is for device's provisioning
 it has dependency on following packages:
 - react-native-tuya 
 
+
+[ChangeLogs](CHANGELOG.md)

@@ -4,7 +4,7 @@ import { TuyaSdkBridge, RemoveDeviceParams } from './common';
  * iot-device-sdk-react has to be initialized with this API <br/>
  * logCallback is called with await
  *
- * @param isShowDebugLog - More debugging message (true - console logs are increaed)
+ * @param isShowDebugLog - More debugging message (true - console logs are increased)
  * @param pnu - Buildings information for device registration
  * @param dong - A Building information for device registration
  * @param ho - Home information for device registration
