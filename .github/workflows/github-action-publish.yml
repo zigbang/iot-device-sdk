@@ -18,6 +18,9 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: make readme.md by combination base.md and changelog
+        run: |
+          cat packages/iot-device-sdk-react/readme-base.md packages/iot-device-sdk-react/CHANGELOG.md > packages/iot-device-sdk-react/readme.md 
       - name: NPM Publish
         uses: JS-DevTools/npm-publish@v1
         with:

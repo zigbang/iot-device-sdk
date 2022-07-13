@@ -1,5 +1,2 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
-
-cat "$(dirname -- "$0")/../readme-base.md" "$(dirname -- "$0")/../CHANGELOG.md" > "$(dirname -- "$0")/../readme.md"
-git add "$(dirname -- "$0")/../readme.md"
