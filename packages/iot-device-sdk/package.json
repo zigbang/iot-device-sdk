@@ -2,7 +2,7 @@
     "name": "iot-device-sdk-react",
     "version": "0.0.4",
     "description": "Common Library",
-    "license": "UNLICENSED",
+    "license": "MIT License",
     "author": "seojw@zigbang.com",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
