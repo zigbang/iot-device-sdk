@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.4...v0.0.5) (2022-07-20)
+
+
+### Bug Fixes
+
+* remove about postinstall about husky ([4c8e49b](https://github.com/seojinwoo/IotDeviceSdk4React/commit/4c8e49b5e6f1239cc561c18057df8fa584fae715))
+
+
+### Docs
+
+* draw to describe of ci/cd ([e6a9a5d](https://github.com/seojinwoo/IotDeviceSdk4React/commit/e6a9a5d4d851643e303641fb5f1edaa466829ac7))
+
 ### [0.0.4](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.2...v0.0.4) (2022-07-13)
 
 
