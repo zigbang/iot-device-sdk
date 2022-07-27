@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.6](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.5...v0.0.6) (2022-07-27)
+
+
+### Features
+
+* remove using private function ([162cf2a](https://github.com/seojinwoo/IotDeviceSdk4React/commit/162cf2a810ea31aac11d1408193beb782e56dcea))
+
+
+### Styling
+
+* support typescript (make index.d.ts) ([f104c73](https://github.com/seojinwoo/IotDeviceSdk4React/commit/f104c738cfd969991143f879b88250ab8c9a01bf))
+
+
+### Docs
+
+* init function is changed ([726f4df](https://github.com/seojinwoo/IotDeviceSdk4React/commit/726f4dff050fe72abe45169a3f3d3cf992fc658a))
+
+
+### Others
+
+* add & remove as using module ([d12d823](https://github.com/seojinwoo/IotDeviceSdk4React/commit/d12d8239a44f836aa215e933ba60950624839716))
+
 ### [0.0.5](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.4...v0.0.5) (2022-07-20)
 
 
