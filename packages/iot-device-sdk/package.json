@@ -1,6 +1,6 @@
 {
     "name": "iot-device-sdk-react",
-    "version": "0.0.9",
+    "version": "0.1.0",
     "description": "Common Library",
     "license": "MIT License",
     "author": "seojw@zigbang.com",

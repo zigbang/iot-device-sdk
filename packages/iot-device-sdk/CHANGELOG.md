@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.9...v0.1.0) (2022-07-27)
+
+
+### Features
+
+* calling User Login ([b315fec](https://github.com/seojinwoo/IotDeviceSdk4React/commit/b315fec1cdc66874a3dd73feab3f14546aec1cd5))
+
+
+### CI
+
+* fix npm remove dist/doc ([f96684d](https://github.com/seojinwoo/IotDeviceSdk4React/commit/f96684d0524006450475653a46888b4f17c96637))
+* fix npm run build ([6baab31](https://github.com/seojinwoo/IotDeviceSdk4React/commit/6baab318c3c77fdbdf23684fc28678244ca9fd7f))
+
 ### [0.0.9](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.8...v0.0.9) (2022-07-27)
 
 
