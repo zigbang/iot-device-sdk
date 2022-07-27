@@ -22,7 +22,7 @@ jobs:
         run: |
           cat packages/iot-device-sdk-react/readme-base.md packages/iot-device-sdk-react/CHANGELOG.md > packages/iot-device-sdk-react/readme.md 
       - name: Build for dist
-        run: cd packages/iot-device-sdk-react && npm ci --force && npm run build 
+        run: cd packages/iot-device-sdk-react && npm install && npm ci && npm run build 
       - name: NPM Publish
         uses: JS-DevTools/npm-publish@v1
         with:
