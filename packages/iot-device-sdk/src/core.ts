@@ -9,16 +9,15 @@ import { TuyaSdkBridge, RemoveDeviceParams } from './common';
  * @param dong - A Building information for device registration
  * @param ho - Home information for device registration
  * @param user - User information for device registration
- * @param host - this is for Tuya only. "Anonymous Login" server address </br> about "Anaymous Login" [ref](https://developer.tuya.com/en/docs/app-development/usertourist?id=Ka6a99lylyces)
  * @param homeID - Home ID information
- * @param token - this is for Zigbang. Access token
  * @param logCallback - iot-device-sdk-react's log function
+ * @param loginCallback - User can handling login process as user own
  *
  * @returns Function's result
  *
  * @example
  * ```ts
- * iot-device-sdk-react.init(false, "1929129192919", "101dong", "301ho", "Johnny", "10.200.18.212", 5555555, "adfjekcjvlkekmdfkjen ...", (code) => {addDevDebugMessage(logTable[code])})
+ * iot-device-sdk-react.init(false, "1929129192919", "101dong", "301ho", "Johnny", "10.200.18.212", 5555555, "adfjekcjvlkekmdfkjen ...", (code) => {addDevDebugMessage(logTable[code]), UserLogin)
  * ```
  */
 export async function init(
