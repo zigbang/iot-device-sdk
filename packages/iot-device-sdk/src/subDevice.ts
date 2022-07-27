@@ -1,4 +1,4 @@
-import { TuyaSdkBridge, registerSubDeviceResponse } from './common';
+import { TuyaSdkBridge } from './common';
 
 /**
  * Start registration zigbee devices under gateway <br/>
@@ -34,7 +34,7 @@ import { TuyaSdkBridge, registerSubDeviceResponse } from './common';
 export async function startRegisterZigbeeSubDevice(
     gw_id: string,
     timeout: number,
-    callback: (result: registerSubDeviceResponse) => void
+    callback: (result: any) => void
 ): Promise<boolean> {
     return TuyaSdkBridge.startRegisterZigbeeSubDevice(gw_id, timeout, callback);
 }

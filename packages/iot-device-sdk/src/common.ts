@@ -1,12 +1,11 @@
+import * as TuyaNative from '@seojw/react-native-tuya';
+import { EmitterSubscription, Platform } from 'react-native';
+
 /** @hidden */
 export type RegisterGwParam = {
     gw_id: string;
     product_id: string;
     timeout: number;
-};
-
-export type registerSubDeviceResponse = {
-    result: string;
 };
 
 export type RemoveDeviceParams = {
@@ -170,13 +169,14 @@ export class TuyaSdkBridge {
     private static isShowDebugLog = false;
 
     // Event Emitter to get from Tuya SDK
-    // private static subscriptionForGw: EmitterSubscription | null;
-    // private static subscriptionForSubDevice: EmitterSubscription | null;
+    private static subscriptionForGw: EmitterSubscription | null;
+    private static subscriptionForSubDevice: EmitterSubscription | null;
 
     // Function variable to callback
     private static wiredGwSearchingEventFunctionPointer: (gw_id: string, product_id: string) => void;
     private static subDeviceRegisterEventFunctionPointer: (result: any) => void;
     private static debugLogEventFunctionPointer: (code: any) => void;
+    private static userLoginFunction: (code: any) => Promise<boolean>;
 
     private static initialized = false;
     private static inProcessRegisterGw = false;
@@ -238,17 +238,15 @@ export class TuyaSdkBridge {
         dong: string,
         ho: string,
         user: string,
-        host: string,
         homeID: number, // avoid duplicate name in home
-        token: string,
-        logCallback: (code: any) => void
+        logCallback: (code: any) => void,
+        loginCallback: (code: any) => Promise<boolean>
     ): Promise<string> {
         // Set Debugging config
         this.debugLogEventFunctionPointer = logCallback;
+        this.userLoginFunction = loginCallback;
         TuyaSdkBridge.isShowDebugLog = isShowDebugLog;
         TuyaSdkBridge.setInformation(pnu, dong, ho, user);
-        TuyaSdkBridge.basePath = host;
-        TuyaSdkBridge.accessToken = token;
         TuyaSdkBridge.homeId = homeID;
 
         let ErrorOccur = false;
@@ -257,16 +255,6 @@ export class TuyaSdkBridge {
         const result = await TuyaSdkBridge.tuyaLogin();
         if (result) {
             TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_LOGIN);
-            // await TuyaNative.getHomeDetail({ homeId: homeID })
-            //     .then(() => {
-            //         TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_HOMEDETAIL);
-            //     })
-            //     .catch(async (NgRes: any) => {
-            //         await this.logout();
-            //         ErrorOccur = true;
-            //         ReturnValue = '[getHomeDetail] ' + NgRes;
-            //         TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_HOMEDETAIL);
-            //     });
         } else {
             ErrorOccur = true;
             ReturnValue = '[Tuya Login] 실패';
@@ -286,25 +274,25 @@ export class TuyaSdkBridge {
     public static startSearchWiredGW(callback: (gw_id: string, product_id: string) => void): boolean {
         let returnValue = false;
 
-        // if (TuyaSdkBridge.initialized == false) {
-        //     TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_INIT_FIRST);
-        //     console.error('Call TuyaSdkBridge.Init() first');
-        // } else if (!TuyaSdkBridge.subscriptionForGw) {
-        //     TuyaNative.startSearcingGwDevice();
-        //     TuyaSdkBridge.wiredGwSearchingEventFunctionPointer = callback;
-        //     if (Platform.OS === 'ios') {
-        //         TuyaSdkBridge.subscriptionForGw = TuyaNative.addEvent(
-        //             TuyaSdkBridge.searchingGwDeviceEventName,
-        //             TuyaSdkBridge.searchingInternalFunctionForIos
-        //         );
-        //     } else {
-        //         TuyaSdkBridge.subscriptionForGw = TuyaNative.addEvent(
-        //             TuyaSdkBridge.searchingGwDeviceEventName,
-        //             TuyaSdkBridge.searchingInternalFunctionForAndroid
-        //         );
-        //     }
-        //     returnValue = true;
-        // }
+        if (TuyaSdkBridge.initialized == false) {
+            TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_INIT_FIRST);
+            console.error('Call TuyaSdkBridge.Init() first');
+        } else if (!TuyaSdkBridge.subscriptionForGw) {
+            TuyaNative.startSearcingGwDevice();
+            TuyaSdkBridge.wiredGwSearchingEventFunctionPointer = callback;
+            if (Platform.OS === 'ios') {
+                TuyaSdkBridge.subscriptionForGw = TuyaNative.addEvent(
+                    TuyaSdkBridge.searchingGwDeviceEventName,
+                    TuyaSdkBridge.searchingInternalFunctionForIos
+                );
+            } else {
+                TuyaSdkBridge.subscriptionForGw = TuyaNative.addEvent(
+                    TuyaSdkBridge.searchingGwDeviceEventName,
+                    TuyaSdkBridge.searchingInternalFunctionForAndroid
+                );
+            }
+            returnValue = true;
+        }
 
         return returnValue;
     }
@@ -312,19 +300,19 @@ export class TuyaSdkBridge {
     public static stopSearchWiredGW() {
         let ReturnValue = false;
 
-        // if (TuyaSdkBridge.subscriptionForGw != null) {
-        //     TuyaNative.removeEvent(TuyaSdkBridge.searchingGwDeviceEventName);
+        if (TuyaSdkBridge.subscriptionForGw != null) {
+            TuyaNative.removeEvent(TuyaSdkBridge.searchingGwDeviceEventName);
 
-        //     TuyaSdkBridge.subscriptionForGw = null;
-        //     ReturnValue = true;
-        // } else {
-        //     TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.WARN_START_SEARCH_WIREDGW_FIRST);
-        //     console.warn('startSearchWiredGW is not called');
-        // }
+            TuyaSdkBridge.subscriptionForGw = null;
+            ReturnValue = true;
+        } else {
+            TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.WARN_START_SEARCH_WIREDGW_FIRST);
+            console.warn('startSearchWiredGW is not called');
+        }
 
         return ReturnValue;
     }
-    
+
     public static async registerWiredGW(gw_id: string, product_id: string, timeout: number): Promise<any> {
         let returnValue: any;
         let errorOccur = false;
@@ -340,44 +328,44 @@ export class TuyaSdkBridge {
         } else {
             TuyaSdkBridge.inProcessRegisterGw = true;
 
-            // let passParam: any;
-            // if (Platform.OS === 'ios') {
-            //     passParam = {
-            //         homeId: TuyaSdkBridge.homeId,
-            //         time: timeout,
-            //         gwId: gw_id,
-            //         productId: product_id,
-            //     };
-            // } else {
-            //     passParam = {
-            //         homeId: TuyaSdkBridge.homeId,
-            //         time: timeout,
-            //         devId: gw_id,
-            //         productId: product_id, // Ignored
-            //     };
-            // }
+            let passParam: any;
+            if (Platform.OS === 'ios') {
+                passParam = {
+                    homeId: TuyaSdkBridge.homeId,
+                    time: timeout,
+                    gwId: gw_id,
+                    productId: product_id,
+                };
+            } else {
+                passParam = {
+                    homeId: TuyaSdkBridge.homeId,
+                    time: timeout,
+                    devId: gw_id,
+                    productId: product_id, // Ignored
+                };
+            }
 
-            // await TuyaNative.initSearchedGwDevice(passParam).then(
-            //     (okRes: any) => {
-            //         returnValue = okRes;
-            //         const CombinationName: string = TuyaSdkBridge.getCombinationTuyaName(okRes.name);
-            //         TuyaNative.renameDevice({ devId: okRes.devId, name: CombinationName }).then(
-            //             (RenameOkRes: string) => {
-            //                 TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_RENAME_GW);
-            //                 RenameOkRes += ''; // avoid unused variable warning
-            //             },
-            //             (RenameNgRes: string) => {
-            //                 TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_RENAME_GW);
-            //                 returnValue = RenameNgRes;
-            //                 errorOccur = true;
-            //             }
-            //         );
-            //     },
-            //     (errRes: any) => {
-            //         returnValue = errRes;
-            //         errorOccur = true;
-            //     }
-            // );
+            await TuyaNative.initSearchedGwDevice(passParam).then(
+                (okRes: any) => {
+                    returnValue = okRes;
+                    const CombinationName: string = TuyaSdkBridge.getCombinationTuyaName(okRes.name);
+                    TuyaNative.renameDevice({ devId: okRes.devId, name: CombinationName }).then(
+                        (RenameOkRes: string) => {
+                            TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_RENAME_GW);
+                            RenameOkRes += ''; // avoid unused variable warning
+                        },
+                        (RenameNgRes: string) => {
+                            TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_RENAME_GW);
+                            returnValue = RenameNgRes;
+                            errorOccur = true;
+                        }
+                    );
+                },
+                (errRes: any) => {
+                    returnValue = errRes;
+                    errorOccur = true;
+                }
+            );
 
             TuyaSdkBridge.inProcessRegisterGw = false;
         }
@@ -396,44 +384,44 @@ export class TuyaSdkBridge {
     public static async startRegisterZigbeeSubDevice(
         gw_id: string,
         timeout: number,
-        callback: (result: registerSubDeviceResponse) => void
+        callback: (result: any) => void
     ): Promise<boolean> {
         let errorOccur = false;
         let returnValue: any;
 
-        // if (TuyaSdkBridge.initialized == false) {
-        //     errorOccur = true;
-        //     returnValue = 'Call TuyaSdkBridge.Init() first';
-        //     TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_INIT_FIRST);
-        // } else if (TuyaSdkBridge.subscriptionForSubDevice) {
-        //     errorOccur = true;
-        //     returnValue = 'StartRegisterZigbeeSubDevice is started already';
-        //     TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_START_REGISTER_ZIGBEE_SUBDEVICE_ALREAY);
-        // } else {
-        //     TuyaSdkBridge.subscriptionForSubDevice = TuyaNative.addEvent(
-        //         TuyaSdkBridge.searchingSubDeviceEventName,
-        //         TuyaSdkBridge.subDeviceEventInternalFunction
-        //     );
-        //     TuyaSdkBridge.targetGwIdForSubDevice = gw_id;
-        //     TuyaSdkBridge.subDeviceRegisterEventFunctionPointer = callback;
-        //     let passParam: TuyaNative.RegistSubForGwParams;
-        //     passParam = {
-        //         devId: gw_id, // devId
-        //         time: timeout,
-        //     };
+        if (TuyaSdkBridge.initialized == false) {
+            errorOccur = true;
+            returnValue = 'Call TuyaSdkBridge.Init() first';
+            TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_INIT_FIRST);
+        } else if (TuyaSdkBridge.subscriptionForSubDevice) {
+            errorOccur = true;
+            returnValue = 'StartRegisterZigbeeSubDevice is started already';
+            TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_START_REGISTER_ZIGBEE_SUBDEVICE_ALREAY);
+        } else {
+            TuyaSdkBridge.subscriptionForSubDevice = TuyaNative.addEvent(
+                TuyaSdkBridge.searchingSubDeviceEventName,
+                TuyaSdkBridge.subDeviceEventInternalFunction
+            );
+            TuyaSdkBridge.targetGwIdForSubDevice = gw_id;
+            TuyaSdkBridge.subDeviceRegisterEventFunctionPointer = callback;
+            let passParam: TuyaNative.RegistSubForGwParams;
+            passParam = {
+                devId: gw_id, // devId
+                time: timeout,
+            };
 
-        //     TuyaNative.startGwSubDevActivator(passParam).then(
-        //         (okRes: any) => {
-        //             returnValue = okRes;
-        //         },
-        //         (errRes: any) => {
-        //             errorOccur = true;
-        //             returnValue = errRes;
-        //         }
-        //     );
+            TuyaNative.startGwSubDevActivator(passParam).then(
+                (okRes: any) => {
+                    returnValue = okRes;
+                },
+                (errRes: any) => {
+                    errorOccur = true;
+                    returnValue = errRes;
+                }
+            );
 
-        //     returnValue = true;
-        // }
+            returnValue = true;
+        }
 
         return new Promise((resolve, reject) => {
             if (errorOccur) {
@@ -449,20 +437,20 @@ export class TuyaSdkBridge {
     public static async stopRegisterZigbeeSubDevice() {
         let returnValue = false;
 
-        // if (TuyaSdkBridge.subscriptionForSubDevice) {
-        //     if (Platform.OS === 'ios') {
-        //         TuyaNative.stopNewGwSubDevActivatorConfig({ devId: TuyaSdkBridge.targetGwIdForSubDevice });
-        //     } else {
-        //         TuyaNative.stopConfig();
-        //     }
-        //     TuyaNative.removeSubscribtion(TuyaSdkBridge.subscriptionForSubDevice);
-        //     TuyaNative.removeEvent(TuyaSdkBridge.searchingSubDeviceEventName);
-        //     TuyaSdkBridge.subscriptionForSubDevice = null;
-        //     returnValue = true;
-        // } else {
-        //     console.warn('StartRegisterZigbeeSubDevice is not called');
-        //     TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.WARN_START_REGISTER_ZIGBEE_SUBDEVICE_FIRST);
-        // }
+        if (TuyaSdkBridge.subscriptionForSubDevice) {
+            if (Platform.OS === 'ios') {
+                TuyaNative.stopNewGwSubDevActivatorConfig({ devId: TuyaSdkBridge.targetGwIdForSubDevice });
+            } else {
+                TuyaNative.stopConfig();
+            }
+            TuyaNative.removeSubscribtion(TuyaSdkBridge.subscriptionForSubDevice);
+            TuyaNative.removeEvent(TuyaSdkBridge.searchingSubDeviceEventName);
+            TuyaSdkBridge.subscriptionForSubDevice = null;
+            returnValue = true;
+        } else {
+            console.warn('StartRegisterZigbeeSubDevice is not called');
+            TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.WARN_START_REGISTER_ZIGBEE_SUBDEVICE_FIRST);
+        }
 
         return returnValue;
     }
@@ -470,53 +458,53 @@ export class TuyaSdkBridge {
     // 기기 삭제
     public static async removeDevice(devId: RemoveDeviceParams, reset: boolean): Promise<boolean> {
         let returnValue: any = false;
-        // if (reset) {
-        //     await TuyaNative.resetDevice(devId)
-        //         .then((result) => {
-        //             console.log(result, 'Success!');
-        //             TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_RESET_DEVICE);
-        //             returnValue = true;
-        //         })
-        //         .catch((e) => {
-        //             console.log(e, 'Error!');
-        //             TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_RESET_DEVICE);
-        //         });
-        // } else {
-        //     await TuyaNative.removeDevice(devId)
-        //         .then((result) => {
-        //             console.log(result, 'Success!');
-        //             TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_REMOVE_DEVICE);
-        //             returnValue = true;
-        //         })
-        //         .catch((e) => {
-        //             console.log(e, 'Error!');
-        //             TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_REMOVE_DEVICE);
-        //         });
-        // }
+        if (reset) {
+            await TuyaNative.resetDevice(devId)
+                .then((result) => {
+                    console.log(result, 'Success!');
+                    TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_RESET_DEVICE);
+                    returnValue = true;
+                })
+                .catch((e) => {
+                    console.log(e, 'Error!');
+                    TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_RESET_DEVICE);
+                });
+        } else {
+            await TuyaNative.removeDevice(devId)
+                .then((result) => {
+                    console.log(result, 'Success!');
+                    TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_REMOVE_DEVICE);
+                    returnValue = true;
+                })
+                .catch((e) => {
+                    console.log(e, 'Error!');
+                    TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_REMOVE_DEVICE);
+                });
+        }
         return returnValue;
     }
 
     // 투야 계정 로그아웃
     private static async logout(): Promise<boolean> {
         let returnValue = false;
-        // await TuyaNative.getCurrentUser()
-        //     .then(async (result) => {
-        //         if (Platform.OS === 'ios' && result?.username === '') {
-        //             TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_NO_SESSION);
-        //             return;
-        //         }
+        await TuyaNative.getCurrentUser()
+            .then(async (result) => {
+                if (Platform.OS === 'ios' && result?.username === '') {
+                    TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_NO_SESSION);
+                    return;
+                }
 
-        //         await TuyaNative.logout();
-        //         // <iOS> 성공 - success 리턴, 실패 - (세션이 없는 경우) success 리턴, (세션이 만료된 경우) 체크 필요
-        //         // <android> 성공 - success 리턴, 실패 - (세션이 없는 경우) [Error: Session is not exist and need login again] 리턴, (세션이 만료된 경우) 체크 필요
+                await TuyaNative.logout();
+                // <iOS> 성공 - success 리턴, 실패 - (세션이 없는 경우) success 리턴, (세션이 만료된 경우) 체크 필요
+                // <android> 성공 - success 리턴, 실패 - (세션이 없는 경우) [Error: Session is not exist and need login again] 리턴, (세션이 만료된 경우) 체크 필요
 
-        //         TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_LOGOUT);
-        //         returnValue = true;
-        //     })
-        //     .catch((e) => {
-        //         console.log(e, 'Login First!');
-        //         TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_NO_SESSION);
-        //     });
+                TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_LOGOUT);
+                returnValue = true;
+            })
+            .catch((e) => {
+                console.log(e, 'Login First!');
+                TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_NO_SESSION);
+            });
         return returnValue;
     }
 
@@ -525,24 +513,24 @@ export class TuyaSdkBridge {
 
     // 콜백함수 : 기기 이름 변경 수행
     private static async subDeviceEventInternalFunction(result: any) {
-        // TuyaSdkBridge.log(result);
-        // if (result.result == 'onError') {
-        //     TuyaSdkBridge.log('onError');
-        //     TuyaSdkBridge.stopRegisterZigbeeSubDevice();
-        // } else if (result.result == 'onActiveSuccess') {
-        //     TuyaSdkBridge.log('onActiveSuccess');
-        //     const combinationName: string = TuyaSdkBridge.getCombinationTuyaName(result.var1.name);
-        //     try {
-        //         await TuyaNative.renameDevice({ devId: result.var1.devId, name: combinationName });
-        //         result.var1.name = combinationName;
-        //         TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_RENAME_GW);
-        //     } catch (e) {
-        //         TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_RENAME_GW);
-        //     }
-        //     TuyaSdkBridge.subDeviceRegisterEventFunctionPointer(result);
-        // } else {
-        //     TuyaSdkBridge.log('Others');
-        // }
+        TuyaSdkBridge.log(result);
+        if (result.result == 'onError') {
+            TuyaSdkBridge.log('onError');
+            TuyaSdkBridge.stopRegisterZigbeeSubDevice();
+        } else if (result.result == 'onActiveSuccess') {
+            TuyaSdkBridge.log('onActiveSuccess');
+            const combinationName: string = TuyaSdkBridge.getCombinationTuyaName(result.var1.name);
+            try {
+                await TuyaNative.renameDevice({ devId: result.var1.devId, name: combinationName });
+                result.var1.name = combinationName;
+                TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_RENAME_GW);
+            } catch (e) {
+                TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_RENAME_GW);
+            }
+            TuyaSdkBridge.subDeviceRegisterEventFunctionPointer(result);
+        } else {
+            TuyaSdkBridge.log('Others');
+        }
     }
 
     private static readonly delimiter: string = '/';
@@ -585,14 +573,14 @@ export class TuyaSdkBridge {
     }
 
     private static async searchingInternalFunction(gwId: string, productId: string) {
-        // if (TuyaSdkBridge.subscriptionForGw != null) {
-        //     if (Platform.OS === 'android') {
-        //         TuyaNative.startSearcingGwDevice(); // Call again continuously called events
-        //     }
-        //     TuyaSdkBridge.wiredGwSearchingEventFunctionPointer(gwId, productId);
-        // } else {
-        //     TuyaSdkBridge.stopSearchWiredGW(); // adjust sync problem
-        // }
+        if (TuyaSdkBridge.subscriptionForGw != null) {
+            if (Platform.OS === 'android') {
+                TuyaNative.startSearcingGwDevice(); // Call again continuously called events
+            }
+            TuyaSdkBridge.wiredGwSearchingEventFunctionPointer(gwId, productId);
+        } else {
+            TuyaSdkBridge.stopSearchWiredGW(); // adjust sync problem
+        }
     }
 
     private static async searchingInternalFunctionForAndroid(gwInfo: HgwBean) {
@@ -608,55 +596,40 @@ export class TuyaSdkBridge {
     public static async tuyaLogin(): Promise<boolean> {
         let returnValue = false;
 
-        // await TuyaNative.getCurrentUser()
-        //     .then((result) => {
-        //         if (Platform.OS === 'ios' && result?.username === '') {
-        //             console.log('세션 부재', result);
-        //             TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_NO_SESSION);
-        //             throw new Error('Session does not exist');
-        //         }
-        //         console.log('세션 존재', result);
-        //         TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_EXIST_SESSION);
-        //         returnValue = true;
-        //     })
-        //     .catch(async (error) => {
-        //         console.log('세션 부재', error);
-        //         TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_NO_SESSION);
-        //         await TuyaNative.touristRegisterAndLogin({
-        //             countryCode: TuyaSdkBridge.DefaultCountryCode,
-        //             username: TuyaSdkBridge.DefaultAnonymousName,
-        //         })
-        //             .then(async () => {
-        //                 TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_CREATE_ANONYMOUS_ACCOUNT);
-        //                 await TuyaNative.getCurrentUser()
-        //                     .then(async (result: TuyaNative.User | null) => {
-        //                         const { uid } = result!;
-        //                         const v1AdminTuya = new V1AdminTuya({
-        //                             basePath: TuyaSdkBridge.basePath,
-        //                             accessToken: TuyaSdkBridge.accessToken,
-        //                         });
-        //                         await v1AdminTuya
-        //                             .syncAdminTuya({ tuyaId: uid })
-        //                             .then(async (paasUserOkRes) => {
-        //                                 console.log(paasUserOkRes);
-        //                                 returnValue = true;
-        //                             })
-        //                             .catch(async (paasUserNgRes) => {
-        //                                 console.log('V1AdminTuya 오류', paasUserNgRes);
-        //                                 TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_SYNC);
-        //                                 await this.logout();
-        //                             });
-        //                     })
-        //                     .catch((error) => {
-        //                         console.log('유저 조회 오류', error);
-        //                         TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_GET_CURRENT_USER);
-        //                     });
-        //             })
-        //             .catch((error) => {
-        //                 console.log('익명 계정 생성 오류', error);
-        //                 TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_CREATE_ANONYMOUS_ACCOUNT);
-        //             });
-        //     });
+        await TuyaNative.getCurrentUser()
+            .then((result) => {
+                if (Platform.OS === 'ios' && result?.username === '') {
+                    console.log('세션 부재', result);
+                    TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_NO_SESSION);
+                    throw new Error('Session does not exist');
+                }
+                console.log('세션 존재', result);
+                TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_EXIST_SESSION);
+                returnValue = true;
+            })
+            .catch(async (error) => {
+                console.log('세션 부재', error);
+                TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_NO_SESSION);
+                await TuyaNative.touristRegisterAndLogin({
+                    countryCode: TuyaSdkBridge.DefaultCountryCode,
+                    username: TuyaSdkBridge.DefaultAnonymousName,
+                })
+                    .then(async () => {
+                        TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_CREATE_ANONYMOUS_ACCOUNT);
+                        await TuyaNative.getCurrentUser()
+                            .then(async (result: TuyaNative.User | null) => {
+                                const { uid } = result!;
+                            })
+                            .catch((error) => {
+                                console.log('유저 조회 오류', error);
+                                TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_GET_CURRENT_USER);
+                            });
+                    })
+                    .catch((error) => {
+                        console.log('익명 계정 생성 오류', error);
+                        TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_CREATE_ANONYMOUS_ACCOUNT);
+                    });
+            });
 
         return returnValue;
     }

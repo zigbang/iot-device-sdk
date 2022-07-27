@@ -27,12 +27,11 @@ export async function init(
     dong: string,
     ho: string,
     user: string,
-    host: string,
     homeID: number, // avoid duplicate name in home
-    token: string,
-    logCallback: (code: any) => void
+    logCallback: (code: any) => void,
+    loginCallback: (code: any) => Promise<boolean>
 ): Promise<string> {
-    return TuyaSdkBridge.init(isShowDebugLog, pnu, dong, ho, user, host, homeID, token, logCallback);
+    return TuyaSdkBridge.init(isShowDebugLog, pnu, dong, ho, user, homeID, logCallback, loginCallback);
 }
 
 /**

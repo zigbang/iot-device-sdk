@@ -1,6 +1,6 @@
 {
     "name": "iot-device-sdk-react",
-    "version": "0.0.5beta1",
+    "version": "0.0.5",
     "description": "Common Library",
     "license": "MIT License",
     "author": "seojw@zigbang.com",
@@ -32,8 +32,9 @@
         "deploy:beta": "npm run test && npm run build && npm publish --tag beta --registry https://registry.npmjs.org/"
     },
     "dependencies": {
+        "@zigbang/iot-sdk": "^0.0.45-beta.89",
         "gh-pages": "^4.0.0",
-        "lodash": "^4.17.21"
+        "@seojw/react-native-tuya": "^1.0.3"
     },
     "devDependencies": {
         "@commitlint/cli": "^17.0.3",
