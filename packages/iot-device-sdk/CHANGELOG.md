@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.7...v0.0.8) (2022-07-27)
+
+
+### Build System
+
+* add dist folder for using npm ([41238e4](https://github.com/seojinwoo/IotDeviceSdk4React/commit/41238e4332f4ad31596c717c4dc89a8388665d45))
+
+
+### CI
+
+* fix github action for publish ([431fd6a](https://github.com/seojinwoo/IotDeviceSdk4React/commit/431fd6aa13d5d3dce312d5cd6d91773863df7a65))
+
 ### [0.0.7](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.6...v0.0.7) (2022-07-27)
 
 
