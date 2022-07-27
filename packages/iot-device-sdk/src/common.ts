@@ -404,8 +404,8 @@ export class TuyaSdkBridge {
             );
             TuyaSdkBridge.targetGwIdForSubDevice = gw_id;
             TuyaSdkBridge.subDeviceRegisterEventFunctionPointer = callback;
-            let passParam: TuyaNative.RegistSubForGwParams;
-            passParam = {
+
+            const passParam: TuyaNative.RegistSubForGwParams = {
                 devId: gw_id, // devId
                 time: timeout,
             };
@@ -619,6 +619,13 @@ export class TuyaSdkBridge {
                         await TuyaNative.getCurrentUser()
                             .then(async (result: TuyaNative.User | null) => {
                                 const { uid } = result!;
+                                await this.userLoginFunction(uid)
+                                    .then(async () => {
+                                        returnValue = true;
+                                    })
+                                    .catch(async () => {
+                                        await this.logout();
+                                    });
                             })
                             .catch((error) => {
                                 console.log('유저 조회 오류', error);
