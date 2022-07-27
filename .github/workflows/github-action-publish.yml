@@ -26,13 +26,13 @@ jobs:
           node-version: 16.13.0
       - name: Preparing Environment
         run: cd packages/iot-device-sdk-react && npm ci && npm run build
-      - name: Gernerate documentation
-        run: cd packages/iot-device-sdk-react && npm run doc
       - name: NPM Publish
         uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
           package: "./packages/iot-device-sdk-react/package.json"
+      - name: Gernerate documentation
+        run: cd packages/iot-device-sdk-react && npm run doc
       - uses: crazy-max/ghaction-github-pages@v3
         with:
           target_branch: only-for-manual
