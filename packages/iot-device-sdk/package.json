@@ -32,14 +32,15 @@
         "deploy:beta": "npm run test && npm run build && npm publish --tag beta --registry https://registry.npmjs.org/"
     },
     "dependencies": {
-        "@zigbang/iot-sdk": "^0.0.45-beta.89",
+        "@seojw/react-native-tuya": "^1.0.3",
         "gh-pages": "^4.0.0",
-        "@seojw/react-native-tuya": "^1.0.3"
+        "react-native": "^0.69.3"
     },
     "devDependencies": {
         "@commitlint/cli": "^17.0.3",
         "@commitlint/config-conventional": "^17.0.3",
         "@compodoc/live-server": "^1.2.3",
+        "@types/react-native": "^0.69.3",
         "husky": "^8.0.1",
         "standard-version": "^9.5.0",
         "typedoc": "^0.23.5",
