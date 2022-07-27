@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: 16.13.0
       - name: Preparing Environment
-        run: cd packages/iot-device-sdk-react && npm ci && npm build
+        run: cd packages/iot-device-sdk-react && npm ci && npm run build
       - name: Gernerate documentation
         run: cd packages/iot-device-sdk-react && npm run doc
       - name: NPM Publish
