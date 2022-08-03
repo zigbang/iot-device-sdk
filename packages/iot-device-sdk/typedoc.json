@@ -1,0 +1,9 @@
+{
+    "customTitle": "iot-device-sdk-react-native",
+    "customTitleLink": "https://seojinwoo.github.io/IotDeviceSdk4React/",
+    "name": "IoT Device SDK For ReactNative",
+    "includeVersion": true,
+    "hideGenerator": true,
+    "out": "dist/docs",
+    "readme": "README-api.md"
+}

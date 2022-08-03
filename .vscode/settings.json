@@ -1,0 +1,16 @@
+{
+    "editor.formatOnSave": false,     // 저장시 format
+    "editor.codeActionsOnSave": {
+        // For ESLint
+        // "source.fixAll.eslint": true,
+    },
+    // Enable per-language
+    "[typescript]": {
+        // "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+        // "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+}

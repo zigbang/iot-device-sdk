@@ -1,0 +1,21 @@
+{
+    "extends": "../../tsconfig.default.json",
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.js",
+        "**/*.jsx",
+        "**/*.spec.ts",
+        "**/*.test.ts"
+    ],
+    "compilerOptions": {
+        "baseUrl": "./",
+        "rootDir": "src",
+        "outDir": "dist",
+        "declaration": true,
+        "experimentalDecorators": true
+    }
+}
