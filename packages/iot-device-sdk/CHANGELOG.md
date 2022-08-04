@@ -2,158 +2,104 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [0.1.0](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.9...v0.1.0) (2022-07-27)
+### 0.1.1 (2022-08-04)
 
 
 ### Features
 
-* calling User Login ([b315fec](https://github.com/seojinwoo/IotDeviceSdk4React/commit/b315fec1cdc66874a3dd73feab3f14546aec1cd5))
-
-
-### CI
-
-* fix npm remove dist/doc ([f96684d](https://github.com/seojinwoo/IotDeviceSdk4React/commit/f96684d0524006450475653a46888b4f17c96637))
-* fix npm run build ([6baab31](https://github.com/seojinwoo/IotDeviceSdk4React/commit/6baab318c3c77fdbdf23684fc28678244ca9fd7f))
-
-### [0.0.9](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.8...v0.0.9) (2022-07-27)
-
-
-### CI
-
-* fix to order github action ([c1822e4](https://github.com/seojinwoo/IotDeviceSdk4React/commit/c1822e41aa453f480cda887009376151b656da49))
-* recovery github script ([c9f9bda](https://github.com/seojinwoo/IotDeviceSdk4React/commit/c9f9bda4841c951d70d1460ed8c9213c51268ed0))
-* try to fix error again ([88fddda](https://github.com/seojinwoo/IotDeviceSdk4React/commit/88fdddab469c9cc993dd4a534deb60e6447f6ed0))
-* try to fix github action ([25241bb](https://github.com/seojinwoo/IotDeviceSdk4React/commit/25241bb6a5ce7cef280cb7e530e835cf3c6bbd7c))
-* try to fix github action again ([21b07e6](https://github.com/seojinwoo/IotDeviceSdk4React/commit/21b07e647c0150a70661909a4a97063d7a3428fb))
-
-### [0.0.8](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.7...v0.0.8) (2022-07-27)
-
-
-### Build System
-
-* add dist folder for using npm ([41238e4](https://github.com/seojinwoo/IotDeviceSdk4React/commit/41238e4332f4ad31596c717c4dc89a8388665d45))
-
-
-### CI
-
-* fix github action for publish ([431fd6a](https://github.com/seojinwoo/IotDeviceSdk4React/commit/431fd6aa13d5d3dce312d5cd6d91773863df7a65))
-
-### [0.0.7](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.6...v0.0.7) (2022-07-27)
-
-
-### Build System
-
-* module version is up ([645c06d](https://github.com/seojinwoo/IotDeviceSdk4React/commit/645c06d6c302dd8088d8b419b04c94f14e223522))
-
-### [0.0.6](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.5...v0.0.6) (2022-07-27)
-
-
-### Features
-
-* remove using private function ([162cf2a](https://github.com/seojinwoo/IotDeviceSdk4React/commit/162cf2a810ea31aac11d1408193beb782e56dcea))
-
-
-### Styling
-
-* support typescript (make index.d.ts) ([f104c73](https://github.com/seojinwoo/IotDeviceSdk4React/commit/f104c738cfd969991143f879b88250ab8c9a01bf))
-
-
-### Docs
-
-* init function is changed ([726f4df](https://github.com/seojinwoo/IotDeviceSdk4React/commit/726f4dff050fe72abe45169a3f3d3cf992fc658a))
-
-
-### Others
-
-* add & remove as using module ([d12d823](https://github.com/seojinwoo/IotDeviceSdk4React/commit/d12d8239a44f836aa215e933ba60950624839716))
-
-### [0.0.5](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.4...v0.0.5) (2022-07-20)
+* 기기 삭제 및 공장 초기화 기능 구현 ([1a92745](https://github.com/seojinwoo/IotDeviceSdk4React/commit/1a92745f0215d5dce27480e3a729195dd4d7fae4))
+* calling User Login ([8e5d5fe](https://github.com/seojinwoo/IotDeviceSdk4React/commit/8e5d5fe5eb290433299146e768eed54d782d8287))
+* logout 기능 구현 ([182b273](https://github.com/seojinwoo/IotDeviceSdk4React/commit/182b27371d2819cf4e93148ef92a0d9655e08eab))
+* remove using private function ([f65481a](https://github.com/seojinwoo/IotDeviceSdk4React/commit/f65481ad210c31fd6322934a7bb7bb09ee387530))
+* TuyaSdkBridge 디버깅 로그 콜백 이벤트 구현 ([cc80914](https://github.com/seojinwoo/IotDeviceSdk4React/commit/cc80914344b0505e9c245a35fc6af47f31ba434f))
 
 
 ### Bug Fixes
 
-* remove about postinstall about husky ([4c8e49b](https://github.com/seojinwoo/IotDeviceSdk4React/commit/4c8e49b5e6f1239cc561c18057df8fa584fae715))
-
-
-### Docs
-
-* draw to describe of ci/cd ([e6a9a5d](https://github.com/seojinwoo/IotDeviceSdk4React/commit/e6a9a5d4d851643e303641fb5f1edaa466829ac7))
-
-### [0.0.4](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.2...v0.0.4) (2022-07-13)
-
-
-### Docs
-
-* include link change log to readme ([7961569](https://github.com/seojinwoo/IotDeviceSdk4React/commit/796156958d36c74e779fec92f40a46872f2cff49))
-
-
-### Others
-
-* **release:** 0.0.3 ([9292609](https://github.com/seojinwoo/IotDeviceSdk4React/commit/9292609e95e22e5b9b5867e31743f1fc221d8bd5))
-
-
-### CI
-
-* add test github action file ([6c64f7d](https://github.com/seojinwoo/IotDeviceSdk4React/commit/6c64f7de45a484fb51d487689e88e4081fc199c4))
-* github action make for test ([98bb29c](https://github.com/seojinwoo/IotDeviceSdk4React/commit/98bb29c81cdb6ac7369995eadf414b0499cc02ed))
-* link change log, change github action name ([c4cde9e](https://github.com/seojinwoo/IotDeviceSdk4React/commit/c4cde9e9e04503ffab9409957aae7be5ae4909ef))
-* merge two md files base and change log ([fee319a](https://github.com/seojinwoo/IotDeviceSdk4React/commit/fee319a53e2deedeacae8a2196c0a005d8f1b392))
-* reame.md file is combinded by github action ([983b31a](https://github.com/seojinwoo/IotDeviceSdk4React/commit/983b31ac5f66303f4c69d1fe1e0078f76f2b473f))
-
-### [0.0.3](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.0.2...v0.0.3) (2022-07-13)
-
-
-### Docs
-
-* include link change log to readme ([7961569](https://github.com/seojinwoo/IotDeviceSdk4React/commit/796156958d36c74e779fec92f40a46872f2cff49))
-
-
-### Tests
-
-* combination md files ([4a13358](https://github.com/seojinwoo/IotDeviceSdk4React/commit/4a13358270cdde88ff9ad8406b9a4df13e1f42ef))
-
-
-### Others
-
-* github name change to check id ([6bfae3f](https://github.com/seojinwoo/IotDeviceSdk4React/commit/6bfae3f6c3aa27857d2f92327af9aa8f0929817a))
-
-
-### CI
-
-* add test github action file ([6c64f7d](https://github.com/seojinwoo/IotDeviceSdk4React/commit/6c64f7de45a484fb51d487689e88e4081fc199c4))
-* github action fix ([2dc59aa](https://github.com/seojinwoo/IotDeviceSdk4React/commit/2dc59aace588aeedd0c78c052c2dd6e51039ae56))
-* ingnore branch for test ([11697a8](https://github.com/seojinwoo/IotDeviceSdk4React/commit/11697a827c3e5bc6b7e013d3dde35990870bb9bb))
-* link change log, change github action name ([c4cde9e](https://github.com/seojinwoo/IotDeviceSdk4React/commit/c4cde9e9e04503ffab9409957aae7be5ae4909ef))
-* merge two md files base and change log ([f17a56f](https://github.com/seojinwoo/IotDeviceSdk4React/commit/f17a56f6c1d1f3cce990f24fe5c7e2c5e34be616))
-
-### 0.0.2 (2022-07-13)
+* 머지 오류 수정 ([8ad1a42](https://github.com/seojinwoo/IotDeviceSdk4React/commit/8ad1a4227a7994d59cb629f94c414ec9dcb7ad1a))
+* 머지 충돌 수정 ([d309305](https://github.com/seojinwoo/IotDeviceSdk4React/commit/d309305d1f19e29c892e9b943468091d7b8b790e))
+* 서브 기기 등록 중지 함수 await 제거 ([d253b68](https://github.com/seojinwoo/IotDeviceSdk4React/commit/d253b6874ab83bc7abfc46324428ce1e69f11e32))
+* 이벤트 stop 오류 수정, 익명 로그인 오류 수정 ([ad714be](https://github.com/seojinwoo/IotDeviceSdk4React/commit/ad714be701ccdcae05b57fba68c92b951d8c24ca))
+* activator에서 기기 타입에따라 다르게 응답하도록 수정 ([ac4681d](https://github.com/seojinwoo/IotDeviceSdk4React/commit/ac4681d0d95ef76f5a50f63f1cb6b58188ceb6ef))
+* debug 콜백 할당 전에 setInformation을 호출하여 init이 안되는 문제 수정 ([ce28f3d](https://github.com/seojinwoo/IotDeviceSdk4React/commit/ce28f3d786298a57b93030551b28de7d01f31c6a))
+* iOS에서 게이트웨이 이벤트 수신 시, 객체 전달이 아닌 String 전달로 수정 ([421cb6a](https://github.com/seojinwoo/IotDeviceSdk4React/commit/421cb6aa3f9c00842666d6fa9e16693af4e96173))
+* iOS에서 기기 삭제 또는 공장 초기화 실패 시, response 안오는 문제 해결 ([07046de](https://github.com/seojinwoo/IotDeviceSdk4React/commit/07046def820b7adb6d46c3c2eeb22153851ab0d7))
+* remove about postinstall about husky ([2f3aa8f](https://github.com/seojinwoo/IotDeviceSdk4React/commit/2f3aa8f3f4791479124b68c70a7ef35b836d2491))
 
 
 ### Styling
 
-* add commitlint ([937c01d](https://github.com/seojinwoo/IotDeviceSdk4React/commit/937c01dd0b0df9bc4f45745dd311001a44555766))
+* add commitlint ([929c004](https://github.com/seojinwoo/IotDeviceSdk4React/commit/929c004a5ffc7ed3127874ae59fe94b3cdcb5b09))
+* support typescript (make index.d.ts) ([ddc357e](https://github.com/seojinwoo/IotDeviceSdk4React/commit/ddc357ed556af250c9625f04351199a069472118))
 
 
 ### CI
 
-* add INPUT_TOKEN ([f4cde2c](https://github.com/seojinwoo/IotDeviceSdk4React/commit/f4cde2c2424debbf3cb2dda9d10c1a2c57b9cf7f))
-* apply github for github pages ([6a478cc](https://github.com/seojinwoo/IotDeviceSdk4React/commit/6a478cc327a73bda3d9044c4f0bc4a2cacfb580c))
-* apply path to run npm ([33e0332](https://github.com/seojinwoo/IotDeviceSdk4React/commit/33e0332d51667acf1f098ca38c0a9462865002a7))
-* chagne ci ([8f3952a](https://github.com/seojinwoo/IotDeviceSdk4React/commit/8f3952a0ac66dc41c4a319d581885e2aecf7313a))
-* change again ([6effc95](https://github.com/seojinwoo/IotDeviceSdk4React/commit/6effc955db8465542e5dcaac3c0b67297eb02ba9))
-* change to yarn ([a5d60e5](https://github.com/seojinwoo/IotDeviceSdk4React/commit/a5d60e5aaeb71c2bec70ca4b1de051cec4203e72))
-* fix action script error ([151df8b](https://github.com/seojinwoo/IotDeviceSdk4React/commit/151df8b733ebbd62b56938a16cde6d26b368be6f))
-* setup node ([7a6d533](https://github.com/seojinwoo/IotDeviceSdk4React/commit/7a6d5333f59f0f07bc5c13b63dffa17b3d4ff77a))
-* test ([a3ad11b](https://github.com/seojinwoo/IotDeviceSdk4React/commit/a3ad11be1798e00d125742d28b22548c3be51e3e))
-* test again ([9437225](https://github.com/seojinwoo/IotDeviceSdk4React/commit/9437225bec649a09a58ca8621d27d13d09944003))
-* using actions ([ed86ccc](https://github.com/seojinwoo/IotDeviceSdk4React/commit/ed86ccc64a22251f74e8b000984ba54c1f62a3d5))
-* using npm ci ([2eb05c7](https://github.com/seojinwoo/IotDeviceSdk4React/commit/2eb05c738beb1ba497743569349c4b3ff335df00))
-* version up ([79e6848](https://github.com/seojinwoo/IotDeviceSdk4React/commit/79e6848d1d01c1d042e95e5255a74d7e099369ef))
+* add INPUT_TOKEN ([ea9bf7d](https://github.com/seojinwoo/IotDeviceSdk4React/commit/ea9bf7da08ac5c76028e0c6a218383b3459119c0))
+* add test github action file ([0c837e7](https://github.com/seojinwoo/IotDeviceSdk4React/commit/0c837e7271d046532b346b29ddc6d7903c2b6d16))
+* apply github for github pages ([a9064e0](https://github.com/seojinwoo/IotDeviceSdk4React/commit/a9064e0e72599507672cf3c04e728765e67091b8))
+* apply path to run npm ([9ca8e16](https://github.com/seojinwoo/IotDeviceSdk4React/commit/9ca8e1685e8dab1732805c5dcc1418641fc6150b))
+* chagne ci ([d729aec](https://github.com/seojinwoo/IotDeviceSdk4React/commit/d729aec2bdbd72667bd355aa8c4f835e28da0f21))
+* change again ([85c987f](https://github.com/seojinwoo/IotDeviceSdk4React/commit/85c987fc63e81cd7cbdfca0c133eb321a6c5f5ec))
+* change to yarn ([c974a8c](https://github.com/seojinwoo/IotDeviceSdk4React/commit/c974a8cecea863552f84b90dcadaae5aa79d7a56))
+* fix action script error ([d5fe460](https://github.com/seojinwoo/IotDeviceSdk4React/commit/d5fe46062fbe295593bf51c45dcf6aac79772f4f))
+* fix github action for publish ([02bc71f](https://github.com/seojinwoo/IotDeviceSdk4React/commit/02bc71ff87cf91ab8fc7942e7213f5a3683f4f7f))
+* fix npm remove dist/doc ([5774b12](https://github.com/seojinwoo/IotDeviceSdk4React/commit/5774b12ed04c000c06e1853363fe3a49c64b1fd9))
+* fix npm run build ([d727c95](https://github.com/seojinwoo/IotDeviceSdk4React/commit/d727c95eaf583f3b1aad9b9fc62350fa97395555))
+* fix to order github action ([2df5f2f](https://github.com/seojinwoo/IotDeviceSdk4React/commit/2df5f2f4fd374e69f09807616fc340ed217f81d7))
+* github action make for test ([b03075e](https://github.com/seojinwoo/IotDeviceSdk4React/commit/b03075e5020e5245e8875aa5a5c1c1497780c34b))
+* link change log, change github action name ([061e832](https://github.com/seojinwoo/IotDeviceSdk4React/commit/061e832a5d373302953bdb2db856df3b9a9080af))
+* merge two md files base and change log ([8627844](https://github.com/seojinwoo/IotDeviceSdk4React/commit/862784487cda46556bb2dd550f319ecda9f4c7ca))
+* reame.md file is combinded by github action ([ba69524](https://github.com/seojinwoo/IotDeviceSdk4React/commit/ba695247d6aa4575b7bc59f1a8e161ee23c48555))
+* recovery github script ([240a1b6](https://github.com/seojinwoo/IotDeviceSdk4React/commit/240a1b6df9889a242522b5c0bf3782aaf885fadd))
+* setup node ([4d9d532](https://github.com/seojinwoo/IotDeviceSdk4React/commit/4d9d5329e33f2bb19aba04e6846b8c7389e25b61))
+* test ([d608c6e](https://github.com/seojinwoo/IotDeviceSdk4React/commit/d608c6ea0ee3fb7a27e43061694307bd37eb506d))
+* test again ([4e32314](https://github.com/seojinwoo/IotDeviceSdk4React/commit/4e323143242fda96f2701d299e719b831f372c73))
+* try to fix error again ([7733bbb](https://github.com/seojinwoo/IotDeviceSdk4React/commit/7733bbbc85413ae1c8d9240e0bf5f1be8e484ff4))
+* try to fix github action ([2a8f5e3](https://github.com/seojinwoo/IotDeviceSdk4React/commit/2a8f5e33f5d77b9a148397d12d8bbbe36b4b9b4a))
+* try to fix github action again ([d22b985](https://github.com/seojinwoo/IotDeviceSdk4React/commit/d22b985c097bd02b5258d6b07e0fe8dc5336a8de))
+* using actions ([0342d1e](https://github.com/seojinwoo/IotDeviceSdk4React/commit/0342d1eec319c3fae6ebd6dad36a039340c2cd80))
+* using npm ci ([78d545f](https://github.com/seojinwoo/IotDeviceSdk4React/commit/78d545fda257673e3031de85a171f2799b87f002))
+* version up ([a732673](https://github.com/seojinwoo/IotDeviceSdk4React/commit/a73267366cc083a1e516077e0a49ed9c81b1f48e))
+
+
+### Others
+
+* add & remove as using module ([a2314ee](https://github.com/seojinwoo/IotDeviceSdk4React/commit/a2314ee437a95c8b6c5edacce44a1038139b465b))
+* **release:** 0.0.2 ([160f287](https://github.com/seojinwoo/IotDeviceSdk4React/commit/160f287e45291d4c7368ffbd0e99e353aecdbb75))
+* **release:** 0.0.3 ([2c72129](https://github.com/seojinwoo/IotDeviceSdk4React/commit/2c721299cf225e53d3381de872f12beacdf7c5be))
+* **release:** 0.0.4 ([7b0329b](https://github.com/seojinwoo/IotDeviceSdk4React/commit/7b0329b5317272476ccb4c4fd7f803cbf374aeb5))
+* **release:** 0.0.5 ([3251134](https://github.com/seojinwoo/IotDeviceSdk4React/commit/3251134243e5c78c6ecfd46087d449d4db869c55))
+* **release:** 0.0.6 ([6d8f552](https://github.com/seojinwoo/IotDeviceSdk4React/commit/6d8f5520c75d9521868d6d1dca569190702d1557))
+* **release:** 0.0.7 ([38daae9](https://github.com/seojinwoo/IotDeviceSdk4React/commit/38daae96127b1e38ff165884138cf7afe609beae))
+* **release:** 0.0.8 ([057c11d](https://github.com/seojinwoo/IotDeviceSdk4React/commit/057c11d3d5bb16d00cca34cf75415b8cb074ea72))
+* **release:** 0.0.9 ([f32ec44](https://github.com/seojinwoo/IotDeviceSdk4React/commit/f32ec44e97888830cc423decdeb6b63715dd2090))
+* **release:** 0.1.0 ([b905d97](https://github.com/seojinwoo/IotDeviceSdk4React/commit/b905d9711b44e6d6f604bc1baa269f6d5a19b75f))
+
+
+### Code Refactoring
+
+* 코드 컨벤션 적용 ([8a1f840](https://github.com/seojinwoo/IotDeviceSdk4React/commit/8a1f8401434dbb2ad6430bb3d37304697c907ec7))
+* logout 함수 private으로 변경, init 메소드 구조 변경 ([02224ef](https://github.com/seojinwoo/IotDeviceSdk4React/commit/02224ef53e7d7e830169b5bb374ae5d1ce40fb0d))
+* merge for using module ([1c9a45b](https://github.com/seojinwoo/IotDeviceSdk4React/commit/1c9a45b14bf8bbd3e60a7cdf0273dadb0cd05bd6))
+* removeDevice 및 resetDevice 하나로 합침 ([91d312f](https://github.com/seojinwoo/IotDeviceSdk4React/commit/91d312f5c4ea3a6c051c4cf8e834b8f262dde400))
 
 
 ### Docs
 
-* apply typedoc ([77d414c](https://github.com/seojinwoo/IotDeviceSdk4React/commit/77d414c18fa9516c6461c1a013ae52f959b9accc))
-* change title for github page ([ac30819](https://github.com/seojinwoo/IotDeviceSdk4React/commit/ac308199072167c2cf460697b0c3ccdc6d2c2a8a))
-* typedoc 초안본 배포 ([2c96883](https://github.com/seojinwoo/IotDeviceSdk4React/commit/2c96883cf7286196d61a62146386ce290ad7fc00))
-* useing github pages ([089275d](https://github.com/seojinwoo/IotDeviceSdk4React/commit/089275d757ca5b3dccbc5960cb63010fd751637b))
+* apply typedoc ([52ab797](https://github.com/seojinwoo/IotDeviceSdk4React/commit/52ab797ac0fc7b7bdc6f360cd775a86c30be8b24))
+* change title for github page ([8c35823](https://github.com/seojinwoo/IotDeviceSdk4React/commit/8c35823f242ef42b60bf0f9db85b1d00fb777d59))
+* draw to describe of ci/cd ([b2dc586](https://github.com/seojinwoo/IotDeviceSdk4React/commit/b2dc5866d1663efa285533f5aba8e9585cc141b7))
+* include link change log to readme ([e0902a6](https://github.com/seojinwoo/IotDeviceSdk4React/commit/e0902a664ea7c37815396b2ea6db217aad665db2))
+* init function is changed ([83501b0](https://github.com/seojinwoo/IotDeviceSdk4React/commit/83501b01e5a6f83daa4cdea00b9b1958865649ac))
+* typedoc 초안본 배포 ([99bdff7](https://github.com/seojinwoo/IotDeviceSdk4React/commit/99bdff7cbaaad7b76dcd915b661ae1f9ddb6c108))
+* update github page address ([02e3696](https://github.com/seojinwoo/IotDeviceSdk4React/commit/02e3696bfd3d14afdfd216cdef0c274297fad90d))
+* useing github pages ([9a6bfa4](https://github.com/seojinwoo/IotDeviceSdk4React/commit/9a6bfa4370d975eff4d981481e0ce265da48495e))
+
+
+### Build System
+
+* add dist folder for using npm ([7c63992](https://github.com/seojinwoo/IotDeviceSdk4React/commit/7c63992b0411def0e44124b56cd55d92334acffb))
+* changing module name ([e9eb14b](https://github.com/seojinwoo/IotDeviceSdk4React/commit/e9eb14bae0b4a6fc342040677dec9d14dcda5fbc))
+* module change to zigbang/react-native-tuya ([d87b221](https://github.com/seojinwoo/IotDeviceSdk4React/commit/d87b221bc6a8ff14b009cdc777cd1eedc7cef720))
+* module version is up ([4fd8b59](https://github.com/seojinwoo/IotDeviceSdk4React/commit/4fd8b59cfc25e7914d0fe09251208be430cff3de))
