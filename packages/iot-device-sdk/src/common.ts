@@ -28,7 +28,7 @@ export type HgwBean = {
 };
 
 /**
- * Debug code enum values from iot-device-sdk-react's callback.
+ * Debug code enum values from iot-device-sdk's callback.
  * @enum
  */
 export enum debugCode {

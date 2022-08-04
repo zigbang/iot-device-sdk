@@ -36,7 +36,7 @@ export function startSearchWiredGW(callback: (gw_id: string, product_id: string)
  * @example
  * ```ts
  *  setTimeout(() => {
- *   iot-device-sdk-react.stopSearchWiredGW()
+ *   iot-device-sdk.stopSearchWiredGW()
  * }, 100000)
  * ```
  */
@@ -53,12 +53,12 @@ export function stopSearchWiredGW() {
  * @param timeout - maximum timeout for registration
  *
  * @returns Success and failure details as a result
- *  - in case OK: [ref](https://github.com/seojinwoo/IotDeviceSdk4React/blob/main/packages/iot-device-sdk-react/sample-gw.md)
+ *  - in case OK: [ref](https://github.com/seojinwoo/IotDeviceSdk4React/blob/main/packages/iot-device-sdk/sample-gw.md)
  *  - in case Processing: registerWiredGW is started
  *  - in case Occur Timeout: Timeout
  * @example
  * ```ts
- * iot-device-sdk-react.registerWiredGw({
+ * iot-device-sdk.registerWiredGw({
  *   "eb9a55f0d10d1c9a11luux",
  *   "keyyj3fy8x98arty",
  *   90

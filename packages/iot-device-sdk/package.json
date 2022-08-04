@@ -1,5 +1,5 @@
 {
-    "name": "iot-device-sdk-react",
+    "name": "iot-device-sdk",
     "version": "0.1.0",
     "description": "Common Library",
     "license": "MIT License",
@@ -25,7 +25,7 @@
         "doc": "typedoc --plugin typedoc-plugin-extras --options typedoc.json ./src/index.ts",
         "web-doc": "live-server ./dist/docs &",
         "pub-doc": "npx gh-pages -b only-for-manual -d ./dist/docs/",
-        "install-husky": "cd .. && cd .. && husky install packages/iot-device-sdk-react/.husky",
+        "install-husky": "cd .. && cd .. && husky install packages/iot-device-sdk/.husky",
         "lint": "npx eslint src test",
         "test": "npx jest",
         "compile": "npx tsc -p tsconfig.json",

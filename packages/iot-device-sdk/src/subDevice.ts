@@ -17,7 +17,7 @@ import { TuyaSdkBridge } from './common';
  *   console.log(result)
  * }
  *
- * iot-device-sdk-react.startRegisterZigbeeSubDevice(
+ * iot-device-sdk.startRegisterZigbeeSubDevice(
  *   "eb9a55f0d10d1c9a11luux",
  *   100,
  *   registerNotificationForSubDevice
@@ -47,7 +47,7 @@ export async function startRegisterZigbeeSubDevice(
  * @example
  * ```ts
  * setTimeout(() => {
- *   iot-device-sdk-react.stopRegisterZigbeeSubDevice()
+ *   iot-device-sdk.stopRegisterZigbeeSubDevice()
  * }, 100000)
  * ```
  */

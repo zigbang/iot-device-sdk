@@ -20,23 +20,23 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: make readme.md by combination base.md and changelog
         run: |
-          cat packages/iot-device-sdk-react/readme-base.md packages/iot-device-sdk-react/CHANGELOG.md > packages/iot-device-sdk-react/readme.md 
+          cat packages/iot-device-sdk/readme-base.md packages/iot-device-sdk/CHANGELOG.md > packages/iot-device-sdk/readme.md 
       - uses: actions/setup-node@v3
         with:
           node-version: 16.13.0
       - name: Preparing Environment
-        run: cd packages/iot-device-sdk-react && npm ci && npm run build
+        run: cd packages/iot-device-sdk && npm ci && npm run build
       - name: NPM Publish
         uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
-          package: "./packages/iot-device-sdk-react/package.json"
+          package: "./packages/iot-device-sdk/package.json"
       - name: Gernerate documentation
-        run: cd packages/iot-device-sdk-react && npm run doc
+        run: cd packages/iot-device-sdk && npm run doc
       - uses: crazy-max/ghaction-github-pages@v3
         with:
           target_branch: only-for-manual
-          build_dir: packages/iot-device-sdk-react/dist/docs
+          build_dir: packages/iot-device-sdk/dist/docs
         env:
           GITHUB_TOKEN: ${{ secrets.GITPAGES_TOKEN }}
 

@@ -1,7 +1,7 @@
 import { TuyaSdkBridge, RemoveDeviceParams } from './common';
 
 /**
- * iot-device-sdk-react has to be initialized with this API <br/>
+ * iot-device-sdk has to be initialized with this API <br/>
  * logCallback is called with await
  *
  * @param isShowDebugLog - More debugging message (true - console logs are increased)
@@ -10,14 +10,14 @@ import { TuyaSdkBridge, RemoveDeviceParams } from './common';
  * @param ho - Home information for device registration
  * @param user - User information for device registration
  * @param homeID - Home ID information
- * @param logCallback - iot-device-sdk-react's log function
+ * @param logCallback - iot-device-sdk's log function
  * @param loginCallback - User can handling login process as user own
  *
  * @returns Function's result
  *
  * @example
  * ```ts
- * iot-device-sdk-react.init(false, "1929129192919", "101dong", "301ho", "Johnny", "10.200.18.212", 5555555, "adfjekcjvlkekmdfkjen ...", (code) => {addDevDebugMessage(logTable[code]), UserLogin)
+ * iot-device-sdk.init(false, "1929129192919", "101dong", "301ho", "Johnny", "10.200.18.212", 5555555, "adfjekcjvlkekmdfkjen ...", (code) => {addDevDebugMessage(logTable[code]), UserLogin)
  * ```
  */
 export async function init(
@@ -43,7 +43,7 @@ export async function init(
  *
  * @example
  * ```ts
- * const res = await iot-device-sdk-react.removeDevice({ devId: "ebc2e6912054fa2a03ws5h" }, true)
+ * const res = await iot-device-sdk.removeDevice({ devId: "ebc2e6912054fa2a03ws5h" }, true)
  * console.log(res)
  * ```
  */
