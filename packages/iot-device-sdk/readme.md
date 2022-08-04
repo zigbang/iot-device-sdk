@@ -1,7 +1,7 @@
 # Only for Provisioning
 (This is not working yet!!!)
 
-see: https://seojinwoo.github.io/IotDeviceSdk4React/
+see: https://zigbang.github.io/iot-device-sdk/
 
 iot-device-sdk is for device's provisioning 
 
