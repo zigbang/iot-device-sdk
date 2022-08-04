@@ -2620,11 +2620,6 @@
   resolved "https://npm.zigbang.io/@react-native%2fpolyfills/-/polyfills-2.0.0.tgz#4c40b74655c83982c8cf47530ee7dc13d957b6aa"
   integrity sha512-K0aGNn1TjalKj+65D7ycc1//H9roAQ51GJVk5ZJQFb2teECGmzd86bYDC0aYdbRf7gtovescq4Zt6FR0tgXiHQ==
 
-"@seojw/react-native-tuya@^1.0.4":
-  version "1.0.4"
-  resolved "https://npm.zigbang.io/@seojw%2freact-native-tuya/-/react-native-tuya-1.0.4.tgz#931f0b9b1edd31632aa35fe3eaf5a38707cb2c32"
-  integrity sha512-0iJw0Ev9irfFs2JwucXtqrgJ4K4niuspPTwkuTTR7PaccyixrAi8CgXA7bvQMghO8pV8/28mdmaqCqQb3cAZ+Q==
-
 "@sideway/address@^4.1.3":
   version "4.1.4"
   resolved "https://npm.zigbang.io/@sideway%2faddress/-/address-4.1.4.tgz#03dccebc6ea47fdc226f7d3d1ad512955d4783f0"
@@ -2964,6 +2959,11 @@
   dependencies:
     "@typescript-eslint/types" "5.27.1"
     eslint-visitor-keys "^3.3.0"
+
+"@zigbang/react-native-tuya@^1.0.0":
+  version "1.0.0"
+  resolved "https://npm.zigbang.io/@zigbang%2freact-native-tuya/-/react-native-tuya-1.0.0.tgz#7fbc28384dc83e3abc0eb81489d058f9ba36f05b"
+  integrity sha512-FRxm/QKYKUNs7xxFMfazoBGvyMWRy29tOXl74fliDtG79iby/FXUdUP29SiYcL5OlFXrkARRn+kJG+4QwMSI9w==
 
 JSONStream@^1.0.4:
   version "1.3.5"

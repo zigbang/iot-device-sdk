@@ -1,4 +1,4 @@
-import * as TuyaNative from '@seojw/react-native-tuya';
+import * as TuyaNative from '@zigbang/react-native-tuya';
 import { EmitterSubscription, Platform } from 'react-native';
 
 /** @hidden */
