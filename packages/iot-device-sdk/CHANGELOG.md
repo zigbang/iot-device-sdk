@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.1.3...v0.1.4) (2022-08-25)
+
+
+### Build System
+
+* a module version make fix ([66f9a4a](https://github.com/seojinwoo/IotDeviceSdk4React/commit/66f9a4a2b3639383e017fd9a38c469f59d0ea898))
+* change module version ([fb754ea](https://github.com/seojinwoo/IotDeviceSdk4React/commit/fb754ead51a4702bf7e20796ee58db218f8f414d))
+
 ### [0.1.3](https://github.com/seojinwoo/IotDeviceSdk4React/compare/v0.1.2...v0.1.3) (2022-08-05)
 
 
