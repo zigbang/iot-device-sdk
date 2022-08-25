@@ -36,7 +36,7 @@
         "deploy:beta": "npm run test && npm run build && npm publish --tag beta --registry https://registry.npmjs.org/"
     },
     "dependencies": {
-        "@seojw/react-native-tuya": "^1.0.6",
+        "@seojw/react-native-tuya": "1.0.4",
         "gh-pages": "^4.0.0",
         "react-native": "^0.69.3"
     },
