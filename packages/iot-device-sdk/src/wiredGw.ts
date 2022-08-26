@@ -53,7 +53,7 @@ export function stopSearchWiredGW() {
  * @param timeout - maximum timeout for registration
  *
  * @returns Success and failure details as a result
- *  - in case OK: [ref](https://github.com/seojinwoo/IotDeviceSdk4React/blob/main/packages/iot-device-sdk/sample-gw.md)
+ *  - in case OK: [ref](https://github.com/iot-device-sdk/blob/main/packages/iot-device-sdk/sample-gw.md)
  *  - in case Processing: registerWiredGW is started
  *  - in case Occur Timeout: Timeout
  * @example
