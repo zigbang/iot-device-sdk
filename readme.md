@@ -1,3 +1,13 @@
+# Only for Provisioning
+
+see: https://zigbang.github.io/iot-device-sdk/
+
+iot-device-sdk is for device's provisioning 
+
+
+it has dependency on following packages:
+- react-native-tuya 
+
 ## Package.json
 Commit: <type> : <msg>
 

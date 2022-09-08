@@ -3,6 +3,7 @@ import { TuyaSdkBridge, RemoveDeviceParams } from './common';
 /**
  * iot-device-sdk has to be initialized with this API <br/>
  * logCallback is called with await
+ * this is replaced version 2 {@link init_v2} API  <br/>
  *
  * @param isShowDebugLog - More debugging message (true - console logs are increased)
  * @param pnu - Buildings information for device registration
@@ -31,6 +32,42 @@ export async function init(
     loginCallback: (code: any) => Promise<boolean>
 ): Promise<string> {
     return TuyaSdkBridge.init(isShowDebugLog, pnu, dong, ho, user, homeID, logCallback, loginCallback);
+}
+
+/**
+ * this is version 2 of {@link init} API  <br/>
+ * getDetailInfo is added
+ *
+ * @param isShowDebugLog - More debugging message (true - console logs are increased)
+ * @param pnu - Buildings information for device registration
+ * @param dong - A Building information for device registration
+ * @param ho - Home information for device registration
+ * @param user - User information for device registration
+ * @param homeID - Home ID information
+ * @param logCallback - iot-device-sdk's log function
+ * @param loginCallback - User can handling login process as user own
+ * @param getDetailInfo - This is a option for Getting more information internal
+ *
+ * @returns Function's result
+ *
+ * @example
+ * ```ts
+ * iot-device-sdk.init_v2(false, "1929129192919", "101dong", "301ho", "Johnny", "10.200.18.212", 5555555, "adfjekcjvlkekmdfkjen ...", (code) => {addDevDebugMessage(logTable[code]), UserLogin, false)
+ * ```
+ */
+ export async function init_v2(
+    isShowDebugLog: boolean,
+    pnu: string,
+    dong: string,
+    ho: string,
+    user: string,
+    homeID: number, // avoid duplicate name in home
+    logCallback: (code: any) => void,
+    loginCallback: (code: any) => Promise<boolean>,
+    getDetailInfo: boolean
+
+): Promise<string> {
+    return TuyaSdkBridge.init_v2(isShowDebugLog, pnu, dong, ho, user, homeID, logCallback, loginCallback, getDetailInfo);
 }
 
 /**

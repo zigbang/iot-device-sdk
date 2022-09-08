@@ -231,7 +231,6 @@ export class TuyaSdkBridge {
         );
     }
 
-    // initilize Tuya Sdk Bridge
     public static async init(
         isShowDebugLog: boolean,
         pnu: string,
@@ -241,6 +240,22 @@ export class TuyaSdkBridge {
         homeID: number, // avoid duplicate name in home
         logCallback: (code: any) => void,
         loginCallback: (code: any) => Promise<boolean>
+    ): Promise<string> {
+        return TuyaSdkBridge.init_v2(isShowDebugLog, pnu, dong, ho, user, homeID, logCallback, loginCallback, true)
+    }
+
+
+    // initilize Tuya Sdk Bridge
+    public static async init_v2(
+        isShowDebugLog: boolean,
+        pnu: string,
+        dong: string,
+        ho: string,
+        user: string,
+        homeID: number, // avoid duplicate name in home
+        logCallback: (code: any) => void,
+        loginCallback: (code: any) => Promise<boolean>,
+        getDetailInfo: boolean
     ): Promise<string> {
         // Set Debugging config
         this.debugLogEventFunctionPointer = logCallback;
@@ -255,6 +270,18 @@ export class TuyaSdkBridge {
         const result = await TuyaSdkBridge.tuyaLogin();
         if (result) {
             TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_LOGIN);
+            if( getDetailInfo ){
+                await TuyaNative.getHomeDetail({ homeId: homeID })
+                .then(() => {
+                    TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_HOMEDETAIL);
+                })
+                .catch(async (NgRes: any) => {
+                    await this.logout();
+                    ErrorOccur = true;
+                    ReturnValue = '[getHomeDetail] ' + NgRes;
+                    TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_HOMEDETAIL);
+                });
+            }
         } else {
             ErrorOccur = true;
             ReturnValue = '[Tuya Login] 실패';
