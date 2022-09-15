@@ -1,6 +1,6 @@
 {
     "name": "iot-device-sdk",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "description": "Common Library",
     "license": "MIT License",
     "author": "seojw@zigbang.com",

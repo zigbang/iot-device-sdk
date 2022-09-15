@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.7](https://github.com/zigbang/iot-device-sdk/compare/v0.1.6...v0.1.7) (2022-09-15)
+
+
+### Features
+
+* add param at login callback ([2ddcca4](https://github.com/zigbang/iot-device-sdk/commit/2ddcca44909d8ed3714dcb81773f92782e2a729b))
+
 ### 0.1.6 (2022-09-08)
 
 
