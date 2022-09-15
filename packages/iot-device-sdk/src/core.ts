@@ -29,7 +29,7 @@ export async function init(
     user: string,
     homeID: number, // avoid duplicate name in home
     logCallback: (code: any) => void,
-    loginCallback: (code: any) => Promise<boolean>
+    loginCallback: (code: any, isNew : boolean) => Promise<boolean>
 ): Promise<string> {
     return TuyaSdkBridge.init(isShowDebugLog, pnu, dong, ho, user, homeID, logCallback, loginCallback);
 }
@@ -63,7 +63,7 @@ export async function init(
     user: string,
     homeID: number, // avoid duplicate name in home
     logCallback: (code: any) => void,
-    loginCallback: (code: any) => Promise<boolean>,
+    loginCallback: (code: any, isNew : boolean) => Promise<boolean>,
     getDetailInfo: boolean
 
 ): Promise<string> {

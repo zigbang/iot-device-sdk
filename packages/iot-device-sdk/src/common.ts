@@ -176,7 +176,7 @@ export class TuyaSdkBridge {
     private static wiredGwSearchingEventFunctionPointer: (gw_id: string, product_id: string) => void;
     private static subDeviceRegisterEventFunctionPointer: (result: any) => void;
     private static debugLogEventFunctionPointer: (code: any) => void;
-    private static userLoginFunction: (code: any) => Promise<boolean>;
+    private static userLoginFunction: (code: any, isNew: boolean) => Promise<boolean>;
 
     private static initialized = false;
     private static inProcessRegisterGw = false;
@@ -239,7 +239,7 @@ export class TuyaSdkBridge {
         user: string,
         homeID: number, // avoid duplicate name in home
         logCallback: (code: any) => void,
-        loginCallback: (code: any) => Promise<boolean>
+        loginCallback: (code: any, isNew : boolean) => Promise<boolean>
     ): Promise<string> {
         return TuyaSdkBridge.init_v2(isShowDebugLog, pnu, dong, ho, user, homeID, logCallback, loginCallback, true)
     }
@@ -254,7 +254,7 @@ export class TuyaSdkBridge {
         user: string,
         homeID: number, // avoid duplicate name in home
         logCallback: (code: any) => void,
-        loginCallback: (code: any) => Promise<boolean>,
+        loginCallback: (code: any, isNew : boolean) => Promise<boolean>,
         getDetailInfo: boolean
     ): Promise<string> {
         // Set Debugging config
@@ -624,7 +624,7 @@ export class TuyaSdkBridge {
         let returnValue = false;
 
         await TuyaNative.getCurrentUser()
-            .then((result) => {
+            .then(async (result) => {
                 if (Platform.OS === 'ios' && result?.username === '') {
                     console.log('세션 부재', result);
                     TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_NO_SESSION);
@@ -632,6 +632,8 @@ export class TuyaSdkBridge {
                 }
                 console.log('세션 존재', result);
                 TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_EXIST_SESSION);
+                const { uid } = result!;
+                await this.userLoginFunction(uid, false)
                 returnValue = true;
             })
             .catch(async (error) => {
@@ -646,7 +648,7 @@ export class TuyaSdkBridge {
                         await TuyaNative.getCurrentUser()
                             .then(async (result: TuyaNative.User | null) => {
                                 const { uid } = result!;
-                                await this.userLoginFunction(uid)
+                                await this.userLoginFunction(uid, true)
                                     .then(async () => {
                                         returnValue = true;
                                     })
