@@ -532,7 +532,14 @@ export class TuyaSdkBridge {
                 console.log(e, 'Login First!');
                 TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_NO_SESSION);
             });
-        return returnValue;
+
+        return new Promise((resolve, reject) => {
+            if (returnValue) {
+                resolve(returnValue);
+            } else {
+                reject(returnValue);
+            }
+        });
     }
 
     // private static debugLogEventInternalFunction(log: any) {
