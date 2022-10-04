@@ -6,7 +6,7 @@ import { TuyaSdkBridge } from './common';
  * Callback function offer sub device detail information.
  *
  * @param gw_id - gateway id that zigbee device is connected to
- * @param timeout - maximum timeout for sub devices registration
+ * @param timeout - maximum timeout for sub devices registration, unit is seconds
  * @param callback - Callback function for get information about registration
  *
  * @returns Function's result

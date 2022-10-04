@@ -50,7 +50,7 @@ export function stopSearchWiredGW() {
  *
  * @param gw_id - gateway id for registration
  * @param product_id - product id for registration
- * @param timeout - maximum timeout for registration
+ * @param timeout - maximum timeout for registration, unit is seconds
  *
  * @returns Success and failure details as a result
  *  - in case OK: [ref](https://github.com/iot-device-sdk/blob/main/packages/iot-device-sdk/sample-gw.md)
