@@ -109,33 +109,37 @@ export enum debugCode {
      */
     ERR_REGISTER_WIREDGW_ALREADY, // 18, TuyaSdkBridge.registerWiredGW()가 이미 호출되었습니다.
     /**
+     * {@link registerWiredGW} has been already called and not yet finished
+     */
+    ERR_REGISTER_WIFI_EZ_DEVICE_ALREADY, // 19, TuyaSdkBridge.registerWiredGW()가 이미 호출되었습니다.
+    /**
      * {@link startRegisterZigbeeSubDevice} has been already called and not yet finished
      */
-    ERR_START_REGISTER_ZIGBEE_SUBDEVICE_ALREAY, // 19, TuyaSdkBridge.startRegisterZigbeeSubDevice()가 이미 호출되었습니다.
+    ERR_START_REGISTER_ZIGBEE_SUBDEVICE_ALREAY, // 20, TuyaSdkBridge.startRegisterZigbeeSubDevice()가 이미 호출되었습니다.
     /**
      * Failed to rename device name of gateway
      */
-    ERR_RENAME_GW, // 20, 게이트웨이 이름 변경에 실패했습니다
+    ERR_RENAME_GW, // 21, 게이트웨이 이름 변경에 실패했습니다
     /**
      * Failed to reset device
      */
-    ERR_RESET_DEVICE, // 21, 기기 공장초기화에 실패했습니다
+    ERR_RESET_DEVICE, // 22, 기기 공장초기화에 실패했습니다
     /**
      * Failed to delete device
      */
-    ERR_REMOVE_DEVICE, // 22, 기기 삭제에 실패했습니다
+    ERR_REMOVE_DEVICE, // 23, 기기 삭제에 실패했습니다
     /**
      * pnu is too long
      */
-    ERR_PNU_TOO_LONG, // 23, pnu가 너무 깁니다
+    ERR_PNU_TOO_LONG, // 24, pnu가 너무 깁니다
     /**
      * dong is too long
      */
-    ERR_DONG_TOO_LONG, // 24, 동의 글자수가 너무 깁니다
+    ERR_DONG_TOO_LONG, // 25, 동의 글자수가 너무 깁니다
     /**
      * ho is too long
      */
-    ERR_HO_TOO_LONG, // 25, 호의 글자수가 너무 깁니다
+    ERR_HO_TOO_LONG, // 26, 호의 글자수가 너무 깁니다
 }
 
 /** @hidden */
@@ -169,8 +173,8 @@ export class TuyaSdkBridge {
     private static isShowDebugLog = false;
 
     // Event Emitter to get from Tuya SDK
-    private static subscriptionForGw: EmitterSubscription | null;
-    private static subscriptionForSubDevice: EmitterSubscription | null;
+    private static subscriptionForGw: any;
+    private static subscriptionForSubDevice: any;
 
     // Function variable to callback
     private static wiredGwSearchingEventFunctionPointer: (gw_id: string, product_id: string) => void;
@@ -180,6 +184,7 @@ export class TuyaSdkBridge {
 
     private static initialized = false;
     private static inProcessRegisterGw = false;
+    private static inProcessRegisterWifiEz = false;
     private static targetGwIdForSubDevice = '';
 
     private static log(params: any) {
@@ -395,6 +400,75 @@ export class TuyaSdkBridge {
             );
 
             TuyaSdkBridge.inProcessRegisterGw = false;
+        }
+
+        return new Promise((resolve, reject) => {
+            if (errorOccur) {
+                console.error(returnValue);
+                reject(returnValue);
+            } else {
+                resolve(returnValue);
+            }
+        });
+    }
+
+    public static async registerWifiEzDevice(ssid: string, password: string, timeout: number): Promise<any> {
+        let returnValue: any;
+        let errorOccur = false;
+
+        if (TuyaSdkBridge.initialized == false) {
+            errorOccur = true;
+            returnValue = 'Call TuyaSdkBridge.init() first';
+            TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_INIT_FIRST);
+        } else if (TuyaSdkBridge.inProcessRegisterWifiEz) {
+            errorOccur = true;
+            returnValue = 'registerWifiEzDevice is started already';
+            TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_REGISTER_WIFI_EZ_DEVICE_ALREADY);
+        } else {
+            TuyaSdkBridge.inProcessRegisterWifiEz = true;
+
+            let passParam: any;
+            if (Platform.OS === 'ios') {
+                passParam = {
+                    homeId: TuyaSdkBridge.homeId,
+                    ssid: ssid,
+                    password: password,
+                    time: timeout,
+                    type: 'TY_EZ',
+                };
+            } else {
+                passParam = {
+                    homeId: TuyaSdkBridge.homeId,
+                    ssid: ssid,
+                    password: password,
+                    time: timeout,
+                    type: 'TY_EZ',
+                };
+            }
+
+            await TuyaNative.initActivator(passParam).then(
+                (okRes: any) => {
+                    returnValue = okRes;
+                    const CombinationName: string = TuyaSdkBridge.getCombinationTuyaName(okRes.name);
+                    TuyaNative.renameDevice({ devId: okRes.devId, name: CombinationName }).then(
+                        (RenameOkRes: string) => {
+                            TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_RENAME_GW);
+                            RenameOkRes += ''; // avoid unused variable warning
+                        },
+                        (RenameNgRes: string) => {
+                            TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_RENAME_GW);
+                            returnValue = RenameNgRes;
+                            errorOccur = true;
+                        }
+                    );
+                },
+                (errRes: any) => {
+                    returnValue = errRes;
+                    errorOccur = true;
+                }
+            );
+
+            TuyaSdkBridge.inProcessRegisterWifiEz = false;
         }
 
         return new Promise((resolve, reject) => {
