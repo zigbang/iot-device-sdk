@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.8](https://github.com/zigbang/iot-device-sdk/compare/v0.1.7...v0.1.8) (2022-10-07)
+
+
+### Features
+
+* add wifi ez mode register ([2f6ccd4](https://github.com/zigbang/iot-device-sdk/commit/2f6ccd405fc84e9f294b79b680d82b73b35136ff))
+
+
+### Bug Fixes
+
+* promise return of logout ([767dd7f](https://github.com/zigbang/iot-device-sdk/commit/767dd7f0b9d2b6e7b748e3a9807f175350ec34d2))
+
+
+### Docs
+
+* timeout unit is added ([193154b](https://github.com/zigbang/iot-device-sdk/commit/193154bd7de7fff9cc4aae2b5eac2f9f08419c23))
+
 ### [0.1.7](https://github.com/zigbang/iot-device-sdk/compare/v0.1.6...v0.1.7) (2022-09-15)
 
 
