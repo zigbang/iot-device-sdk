@@ -8,6 +8,7 @@ export type RegisterGwParam = {
     timeout: number;
 };
 
+/** @hidden */
 export type RemoveDeviceParams = {
     devId: string;
 };
@@ -481,7 +482,7 @@ export class TuyaSdkBridge {
     }
 
     // Get Token for Activator Wifi Ap Device
-    public static async getTokenForWifiAp(): Promise<any> {
+    public static async reqTokenForWifiAp(): Promise<any> {
         let returnValue: any;
         let errorOccur = false;
 
