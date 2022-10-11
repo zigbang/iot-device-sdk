@@ -14,11 +14,11 @@ import { TuyaSdkBridge } from './common';
  *  - in case Occur Timeout: Timeout
  * @example
  * ```ts
- * iot-device-sdk.registerWifiEzDevice({
+ * iot-device-sdk.registerWifiEzDevice(
  *   "ssid",
  *   "password",
  *   90
- * }).then(
+ * ).then(
  *   (okRes: any) => {
  *     debugText("Ok Res")
  *     assignedGwId = okRes.devId

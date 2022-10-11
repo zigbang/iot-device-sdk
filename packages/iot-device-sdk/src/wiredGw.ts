@@ -58,11 +58,11 @@ export function stopSearchWiredGW() {
  *  - in case Occur Timeout: Timeout
  * @example
  * ```ts
- * iot-device-sdk.registerWiredGw({
+ * iot-device-sdk.registerWiredGw(
  *   "eb9a55f0d10d1c9a11luux",
  *   "keyyj3fy8x98arty",
  *   90
- * }).then(
+ * ).then(
  *   (okRes: any) => {
  *     debugText("Ok Res")
  *     assignedGwId = okRes.devId
