@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.9](https://github.com/zigbang/iot-device-sdk/compare/v0.1.8...v0.1.9) (2022-10-11)
+
+
+### Features
+
+* add wifi ap mode register ([94f995a](https://github.com/zigbang/iot-device-sdk/commit/94f995a28f5e771a14abacf35af127c5d2260d00))
+
+
+### Docs
+
+* sample's parameter expression ([133ac57](https://github.com/zigbang/iot-device-sdk/commit/133ac57d3e4d710c8b5861fe1541fd6b3bb807ff))
+
 ### [0.1.8](https://github.com/zigbang/iot-device-sdk/compare/v0.1.7...v0.1.8) (2022-10-07)
 
 
