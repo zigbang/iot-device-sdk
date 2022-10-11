@@ -185,6 +185,7 @@ export class TuyaSdkBridge {
     private static initialized = false;
     private static inProcessRegisterGw = false;
     private static inProcessRegisterWifiEz = false;
+    private static inProcessRegisterWifiAp = false;
     private static targetGwIdForSubDevice = '';
 
     private static log(params: any) {
@@ -434,7 +435,6 @@ export class TuyaSdkBridge {
                     ssid: ssid,
                     password: password,
                     time: timeout,
-                    type: 'TY_EZ',
                 };
             } else {
                 passParam = {
@@ -442,11 +442,10 @@ export class TuyaSdkBridge {
                     ssid: ssid,
                     password: password,
                     time: timeout,
-                    type: 'TY_EZ',
                 };
             }
 
-            await TuyaNative.initActivator(passParam).then(
+            await TuyaNative.newWifiEzActivator(passParam).then(
                 (okRes: any) => {
                     returnValue = okRes;
                     const CombinationName: string = TuyaSdkBridge.getCombinationTuyaName(okRes.name);
@@ -469,6 +468,117 @@ export class TuyaSdkBridge {
             );
 
             TuyaSdkBridge.inProcessRegisterWifiEz = false;
+        }
+
+        return new Promise((resolve, reject) => {
+            if (errorOccur) {
+                console.error(returnValue);
+                reject(returnValue);
+            } else {
+                resolve(returnValue);
+            }
+        });
+    }
+
+    // Get Token for Activator Wifi Ap Device
+    public static async getTokenForWifiAp(): Promise<any> {
+        let returnValue: any;
+        let errorOccur = false;
+
+        if (TuyaSdkBridge.initialized == false) {
+            errorOccur = true;
+            returnValue = 'Call TuyaSdkBridge.init() first';
+            TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_INIT_FIRST);
+        } else {
+            let passParam: any;
+            if (Platform.OS === 'ios') {
+                passParam = {
+                    homeId: TuyaSdkBridge.homeId,
+                };
+            } else {
+                passParam = {
+                    homeId: TuyaSdkBridge.homeId,
+                };
+            }
+
+            await TuyaNative.getTokenForActivator(passParam).then(
+                (okRes: any) => {
+                    returnValue = okRes;
+                },
+                (errRes: any) => {
+                    returnValue = errRes;
+                    errorOccur = true;
+                }
+            );
+        }
+
+        return new Promise((resolve, reject) => {
+            if (errorOccur) {
+                console.error(returnValue);
+                reject(returnValue);
+            } else {
+                resolve(returnValue);
+            }
+        });
+    }
+
+    public static async registerWifiApDevice(ssid: string, password: string, timeout: number, token: string): Promise<any> {
+        let returnValue: any;
+        let errorOccur = false;
+
+        if (TuyaSdkBridge.initialized == false) {
+            errorOccur = true;
+            returnValue = 'Call TuyaSdkBridge.init() first';
+            TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_INIT_FIRST);
+        } else if (TuyaSdkBridge.inProcessRegisterWifiAp) {
+            errorOccur = true;
+            returnValue = 'registerWifiEzDevice is started already';
+            TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_REGISTER_WIFI_EZ_DEVICE_ALREADY);
+        } else {
+            TuyaSdkBridge.inProcessRegisterWifiAp = true;
+
+            let passParam: any;
+            if (Platform.OS === 'ios') {
+                passParam = {
+                    homeId: TuyaSdkBridge.homeId,
+                    ssid: ssid,
+                    password: password,
+                    time: timeout,
+                    token: token,
+                };
+            } else {
+                passParam = {
+                    homeId: TuyaSdkBridge.homeId,
+                    ssid: ssid,
+                    password: password,
+                    time: timeout,
+                    token: token,
+                };
+            }
+
+            await TuyaNative.newWifiApActivator(passParam).then(
+                (okRes: any) => {
+                    returnValue = okRes;
+                    const CombinationName: string = TuyaSdkBridge.getCombinationTuyaName(okRes.name);
+                    TuyaNative.renameDevice({ devId: okRes.devId, name: CombinationName }).then(
+                        (RenameOkRes: string) => {
+                            TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.INF_RENAME_GW);
+                            RenameOkRes += ''; // avoid unused variable warning
+                        },
+                        (RenameNgRes: string) => {
+                            TuyaSdkBridge.debugLogEventFunctionPointer(debugCode.ERR_RENAME_GW);
+                            returnValue = RenameNgRes;
+                            errorOccur = true;
+                        }
+                    );
+                },
+                (errRes: any) => {
+                    returnValue = errRes;
+                    errorOccur = true;
+                }
+            );
+
+            TuyaSdkBridge.inProcessRegisterWifiAp = false;
         }
 
         return new Promise((resolve, reject) => {
