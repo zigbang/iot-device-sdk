@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/zigbang/iot-device-sdk/compare/v0.2.0...v0.2.1) (2022-10-13)
+
+
+### Features
+
+* able to call multiple register a part ([f19e694](https://github.com/zigbang/iot-device-sdk/commit/f19e6941295b915157c7926aed921adb2a0dfb8e))
+* cancelation register device ([6e47e64](https://github.com/zigbang/iot-device-sdk/commit/6e47e64f7b265c7c2ec846b1647470ee0eb605ca))
+
+
+### Others
+
+* improve web-doc scripts ([fd0d957](https://github.com/zigbang/iot-device-sdk/commit/fd0d957473114eb787c0cd2133fce8f5ad115369))
+
+
+### Docs
+
+* add warning about Ez Mode ([d8e13cb](https://github.com/zigbang/iot-device-sdk/commit/d8e13cb70a307b996accbba54e840e685dab7b17))
+
 ## [0.2.0](https://github.com/zigbang/iot-device-sdk/compare/v0.1.9...v0.2.0) (2022-10-11)
 
 
