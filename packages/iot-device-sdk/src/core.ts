@@ -87,3 +87,20 @@ export async function init(
 export async function removeDevice(devId: RemoveDeviceParams, reset: boolean): Promise<boolean> {
     return TuyaSdkBridge.removeDevice(devId, reset);
 }
+
+
+/**
+ * Cancelation for registering any devices
+ * it is useful call after among {@link registerWifiApDevice}, {@link registerWifiEzDevice} and {@link registerWiredGW}
+ *
+ * @returns Function's result
+ *
+ * @example
+ * ```ts
+ * iot-device-sdk.registerCancelForce()
+ * console.log("canceled Registering")
+ * ```
+ */
+ export async function registerCancelForce() {
+    await TuyaSdkBridge.registerCancelForce();
+}
