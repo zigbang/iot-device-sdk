@@ -2,6 +2,12 @@ import { TuyaSdkBridge } from './common';
 
 /**
  * Register wifi device by EZ Mode <br/>
+ * 
+ * !!! Registering must be one device at a time.
+ * 
+ * > If you try to register multiple devices at the same time, 
+ * > you will receive only one registration event and no other events.
+ * 
  * In case success registration, Thing name is made by combination(building/dong/ho/user (zGuard meta info.)
  *
  * @param ssid - The name of the Wi-Fi network to which a paired device is connected
