@@ -1,6 +1,6 @@
 {
     "name": "iot-device-sdk",
-    "version": "0.2.1",
+    "version": "0.2.2-alpha.1",
     "description": "Common Library",
     "license": "MIT License",
     "author": "seojw@zigbang.com",
@@ -33,10 +33,11 @@
         "build": "npm run clean && npm run compile",
         "version-up": "npm run standard-version",
         "deploy": "npm run test && npm run build && npm publish --registry https://registry.npmjs.org/",
-        "deploy:beta": "npm run test && npm run build && npm publish --tag beta --registry https://registry.npmjs.org/"
+        "deploy:beta": "npm run test && npm run build && npm publish --tag beta --registry https://registry.npmjs.org/",
+        "deploy:alpha": "npm run test && npm run build && npm publish --tag alpha --registry https://registry.npmjs.org/"
     },
     "dependencies": {
-        "@seojw/react-native-tuya": "^1.0.7",
+        "@seojw/react-native-tuya": "^1.0.9-alpha.1",
         "gh-pages": "^4.0.0",
         "react-native": "^0.69.3"
     },
