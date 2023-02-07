@@ -1,6 +1,6 @@
 {
     "name": "iot-device-sdk",
-    "version": "0.2.2-alpha.8",
+    "version": "0.2.2-alpha.9",
     "description": "Common Library",
     "license": "MIT License",
     "author": "seojw@zigbang.com",
@@ -37,7 +37,7 @@
         "deploy:alpha": "npm run test && npm run build && npm publish --tag alpha --registry https://registry.npmjs.org/"
     },
     "dependencies": {
-        "@seojw/react-native-tuya": "^1.0.9-alpha.8",
+        "@seojw/react-native-tuya": "^1.0.9-alpha.9",
         "gh-pages": "^4.0.0",
         "react-native": "^0.69.3"
     },
