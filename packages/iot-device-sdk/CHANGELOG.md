@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/zigbang/iot-device-sdk/compare/v0.2.1...v0.2.2) (2023-02-08)
+
+
+### Build System
+
+* alpha tag test ([2cafaeb](https://github.com/zigbang/iot-device-sdk/commit/2cafaebf678004464becaf3d5f53c40767253ccb))
+* use react-native-tuya version 1.0.9 ([ccd73a2](https://github.com/zigbang/iot-device-sdk/commit/
 ### [0.2.1](https://github.com/zigbang/iot-device-sdk/compare/v0.2.0...v0.2.1) (2022-10-13)
 
 
