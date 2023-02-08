@@ -2620,10 +2620,10 @@
   resolved "https://npm.zigbang.io/@react-native%2fpolyfills/-/polyfills-2.0.0.tgz#4c40b74655c83982c8cf47530ee7dc13d957b6aa"
   integrity sha512-K0aGNn1TjalKj+65D7ycc1//H9roAQ51GJVk5ZJQFb2teECGmzd86bYDC0aYdbRf7gtovescq4Zt6FR0tgXiHQ==
 
-"@seojw/react-native-tuya@^1.0.9-alpha.7":
-  version "1.0.9-alpha.7"
-  resolved "https://npm.zigbang.io/@seojw%2freact-native-tuya/-/react-native-tuya-1.0.9-alpha.7.tgz#5d50e2a9a1926ff2170c34a2f9b2b3c7f35add33"
-  integrity sha512-JjVUB1id/ihRl2HPpm5jrluTxkDPpTrK4sgIYt3+g6j+QzYQhNDbEVAc6HbBP4v8LbrUGfw6Q/+FUw9qIZOn1A==
+"@seojw/react-native-tuya@^1.0.9-alpha.a":
+  version "1.0.9-alpha.a"
+  resolved "https://npm.zigbang.io/@seojw%2freact-native-tuya/-/react-native-tuya-1.0.9-alpha.a.tgz#f0a11161c6f6d5f4abe65ac8ddec71ef081e7da8"
+  integrity sha512-J3bPaUQ/p659RyehrBakSsiBj1qDCZ9sQOZ9MhSjKQiB6v2KLBR/zHJH3NL158n3HXepUYYy3RLJcxTCCq8AjQ==
 
 "@sideway/address@^4.1.3":
   version "4.1.4"
