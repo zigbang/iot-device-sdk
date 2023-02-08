@@ -1,0 +1,580 @@
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>IoT Device SDK For ReactNative - v0.2.2</title><meta name="description" content="Documentation for IoT Device SDK For ReactNative - v0.2.2"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container">
+<div class="table-cell" id="tsd-search" data-base=".">
+<div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
+<ul class="results">
+<li class="state loading">Preparing search index...</li>
+<li class="state failure">The search index is not available</li></ul><a href="https://zigbang.github.io/iot-device-sdk/" class="title">iot-device-sdk</a></div>
+<div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="7" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="11" width="14" height="2" fill="var(--color-text)"></rect></svg></a></div></div></header>
+<div class="container container-main">
+<div class="col-8 col-content">
+<div class="tsd-page-title">
+<h2>IoT Device SDK For ReactNative - v0.2.2</h2></div>
+<div class="tsd-panel tsd-typography">
+<a href="#only-for-provisioning" id="only-for-provisioning" style="color: inherit; text-decoration: none;">
+  <h1>Only for Provisioning</h1>
+</a>
+<p>(This is not working yet!!!)</p>
+<p>see: <a href="https://zigbang.github.io/iot-device-sdk/">https://zigbang.github.io/iot-device-sdk/</a></p>
+<p>iot-device-sdk is for device&#39;s provisioning </p>
+<p>it has dependency on following packages:</p>
+<ul>
+<li>react-native-tuya</li>
+</ul>
+
+<a href="#changelog" id="changelog" style="color: inherit; text-decoration: none;">
+  <h1>Changelog</h1>
+</a>
+<p>All notable changes to this project will be documented in this file. See <a href="https://github.com/conventional-changelog/standard-version">standard-version</a> for commit guidelines.</p>
+
+<a href="#022-2023-02-08" id="022-2023-02-08" style="color: inherit; text-decoration: none;">
+  <h3><a href="https://github.com/zigbang/iot-device-sdk/compare/v0.2.1...v0.2.2">0.2.2</a> (2023-02-08)</h3>
+</a>
+
+<a href="#build-system" id="build-system" style="color: inherit; text-decoration: none;">
+  <h3>Build System</h3>
+</a>
+<ul>
+<li>alpha tag test (<a href="https://github.com/zigbang/iot-device-sdk/commit/2cafaebf678004464becaf3d5f53c40767253ccb">2cafaeb</a>)</li>
+<li>use react-native-tuya version 1.0.9 ([ccd73a2](<a href="https://github.com/zigbang/iot-device-sdk/commit/">https://github.com/zigbang/iot-device-sdk/commit/</a></li>
+</ul>
+
+<a href="#021-2022-10-13" id="021-2022-10-13" style="color: inherit; text-decoration: none;">
+  <h3><a href="https://github.com/zigbang/iot-device-sdk/compare/v0.2.0...v0.2.1">0.2.1</a> (2022-10-13)</h3>
+</a>
+
+<a href="#features" id="features" style="color: inherit; text-decoration: none;">
+  <h3>Features</h3>
+</a>
+<ul>
+<li>able to call multiple register a part (<a href="https://github.com/zigbang/iot-device-sdk/commit/f19e6941295b915157c7926aed921adb2a0dfb8e">f19e694</a>)</li>
+<li>cancelation register device (<a href="https://github.com/zigbang/iot-device-sdk/commit/6e47e64f7b265c7c2ec846b1647470ee0eb605ca">6e47e64</a>)</li>
+</ul>
+
+<a href="#others" id="others" style="color: inherit; text-decoration: none;">
+  <h3>Others</h3>
+</a>
+<ul>
+<li>improve web-doc scripts (<a href="https://github.com/zigbang/iot-device-sdk/commit/fd0d957473114eb787c0cd2133fce8f5ad115369">fd0d957</a>)</li>
+</ul>
+
+<a href="#docs" id="docs" style="color: inherit; text-decoration: none;">
+  <h3>Docs</h3>
+</a>
+<ul>
+<li>add warning about Ez Mode (<a href="https://github.com/zigbang/iot-device-sdk/commit/d8e13cb70a307b996accbba54e840e685dab7b17">d8e13cb</a>)</li>
+</ul>
+
+<a href="#020-2022-10-11" id="020-2022-10-11" style="color: inherit; text-decoration: none;">
+  <h2><a href="https://github.com/zigbang/iot-device-sdk/compare/v0.1.9...v0.2.0">0.2.0</a> (2022-10-11)</h2>
+</a>
+
+<a href="#features-1" id="features-1" style="color: inherit; text-decoration: none;">
+  <h3>Features</h3>
+</a>
+<ul>
+<li>change api name &amp; update documents (<a href="https://github.com/zigbang/iot-device-sdk/commit/a8a2cc47e3a85fe5ce4802725a2d629ed7fb9e31">a8a2cc4</a>)</li>
+</ul>
+
+<a href="#019-2022-10-11" id="019-2022-10-11" style="color: inherit; text-decoration: none;">
+  <h3><a href="https://github.com/zigbang/iot-device-sdk/compare/v0.1.8...v0.1.9">0.1.9</a> (2022-10-11)</h3>
+</a>
+
+<a href="#features-2" id="features-2" style="color: inherit; text-decoration: none;">
+  <h3>Features</h3>
+</a>
+<ul>
+<li>add wifi ap mode register (<a href="https://github.com/zigbang/iot-device-sdk/commit/94f995a28f5e771a14abacf35af127c5d2260d00">94f995a</a>)</li>
+</ul>
+
+<a href="#docs-1" id="docs-1" style="color: inherit; text-decoration: none;">
+  <h3>Docs</h3>
+</a>
+<ul>
+<li>sample&#39;s parameter expression (<a href="https://github.com/zigbang/iot-device-sdk/commit/133ac57d3e4d710c8b5861fe1541fd6b3bb807ff">133ac57</a>)</li>
+</ul>
+
+<a href="#018-2022-10-07" id="018-2022-10-07" style="color: inherit; text-decoration: none;">
+  <h3><a href="https://github.com/zigbang/iot-device-sdk/compare/v0.1.7...v0.1.8">0.1.8</a> (2022-10-07)</h3>
+</a>
+
+<a href="#features-3" id="features-3" style="color: inherit; text-decoration: none;">
+  <h3>Features</h3>
+</a>
+<ul>
+<li>add wifi ez mode register (<a href="https://github.com/zigbang/iot-device-sdk/commit/2f6ccd405fc84e9f294b79b680d82b73b35136ff">2f6ccd4</a>)</li>
+</ul>
+
+<a href="#bug-fixes" id="bug-fixes" style="color: inherit; text-decoration: none;">
+  <h3>Bug Fixes</h3>
+</a>
+<ul>
+<li>promise return of logout (<a href="https://github.com/zigbang/iot-device-sdk/commit/767dd7f0b9d2b6e7b748e3a9807f175350ec34d2">767dd7f</a>)</li>
+</ul>
+
+<a href="#docs-2" id="docs-2" style="color: inherit; text-decoration: none;">
+  <h3>Docs</h3>
+</a>
+<ul>
+<li>timeout unit is added (<a href="https://github.com/zigbang/iot-device-sdk/commit/193154bd7de7fff9cc4aae2b5eac2f9f08419c23">193154b</a>)</li>
+</ul>
+
+<a href="#017-2022-09-15" id="017-2022-09-15" style="color: inherit; text-decoration: none;">
+  <h3><a href="https://github.com/zigbang/iot-device-sdk/compare/v0.1.6...v0.1.7">0.1.7</a> (2022-09-15)</h3>
+</a>
+
+<a href="#features-4" id="features-4" style="color: inherit; text-decoration: none;">
+  <h3>Features</h3>
+</a>
+<ul>
+<li>add param at login callback (<a href="https://github.com/zigbang/iot-device-sdk/commit/2ddcca44909d8ed3714dcb81773f92782e2a729b">2ddcca4</a>)</li>
+</ul>
+
+<a href="#016-2022-09-08" id="016-2022-09-08" style="color: inherit; text-decoration: none;">
+  <h3>0.1.6 (2022-09-08)</h3>
+</a>
+
+<a href="#features-5" id="features-5" style="color: inherit; text-decoration: none;">
+  <h3>Features</h3>
+</a>
+<ul>
+<li>기기 삭제 및 공장 초기화 기능 구현 (<a href="https://github.com/zigbang/iot-device-sdk/commit/1a92745f0215d5dce27480e3a729195dd4d7fae4">1a92745</a>)</li>
+<li>add init_v2 (<a href="https://github.com/zigbang/iot-device-sdk/commit/45cf88b12ccbb088ecc4dbaabdf0fa4377f7852c">45cf88b</a>)</li>
+<li>calling User Login (<a href="https://github.com/zigbang/iot-device-sdk/commit/8e5d5fe5eb290433299146e768eed54d782d8287">8e5d5fe</a>)</li>
+<li>logout 기능 구현 (<a href="https://github.com/zigbang/iot-device-sdk/commit/182b27371d2819cf4e93148ef92a0d9655e08eab">182b273</a>)</li>
+<li>remove using private function (<a href="https://github.com/zigbang/iot-device-sdk/commit/f65481ad210c31fd6322934a7bb7bb09ee387530">f65481a</a>)</li>
+<li>TuyaSdkBridge 디버깅 로그 콜백 이벤트 구현 (<a href="https://github.com/zigbang/iot-device-sdk/commit/cc80914344b0505e9c245a35fc6af47f31ba434f">cc80914</a>)</li>
+</ul>
+
+<a href="#bug-fixes-1" id="bug-fixes-1" style="color: inherit; text-decoration: none;">
+  <h3>Bug Fixes</h3>
+</a>
+<ul>
+<li>머지 오류 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/8ad1a4227a7994d59cb629f94c414ec9dcb7ad1a">8ad1a42</a>)</li>
+<li>머지 충돌 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/d309305d1f19e29c892e9b943468091d7b8b790e">d309305</a>)</li>
+<li>서브 기기 등록 중지 함수 await 제거 (<a href="https://github.com/zigbang/iot-device-sdk/commit/d253b6874ab83bc7abfc46324428ce1e69f11e32">d253b68</a>)</li>
+<li>이벤트 stop 오류 수정, 익명 로그인 오류 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/ad714be701ccdcae05b57fba68c92b951d8c24ca">ad714be</a>)</li>
+<li>activator에서 기기 타입에따라 다르게 응답하도록 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/ac4681d0d95ef76f5a50f63f1cb6b58188ceb6ef">ac4681d</a>)</li>
+<li>debug 콜백 할당 전에 setInformation을 호출하여 init이 안되는 문제 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/ce28f3d786298a57b93030551b28de7d01f31c6a">ce28f3d</a>)</li>
+<li>iOS에서 게이트웨이 이벤트 수신 시, 객체 전달이 아닌 String 전달로 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/421cb6aa3f9c00842666d6fa9e16693af4e96173">421cb6a</a>)</li>
+<li>iOS에서 기기 삭제 또는 공장 초기화 실패 시, response 안오는 문제 해결 (<a href="https://github.com/zigbang/iot-device-sdk/commit/07046def820b7adb6d46c3c2eeb22153851ab0d7">07046de</a>)</li>
+<li>remove about postinstall about husky (<a href="https://github.com/zigbang/iot-device-sdk/commit/2f3aa8f3f4791479124b68c70a7ef35b836d2491">2f3aa8f</a>)</li>
+</ul>
+
+<a href="#styling" id="styling" style="color: inherit; text-decoration: none;">
+  <h3>Styling</h3>
+</a>
+<ul>
+<li>add commitlint (<a href="https://github.com/zigbang/iot-device-sdk/commit/929c004a5ffc7ed3127874ae59fe94b3cdcb5b09">929c004</a>)</li>
+<li>support typescript (make index.d.ts) (<a href="https://github.com/zigbang/iot-device-sdk/commit/ddc357ed556af250c9625f04351199a069472118">ddc357e</a>)</li>
+</ul>
+
+<a href="#ci" id="ci" style="color: inherit; text-decoration: none;">
+  <h3>CI</h3>
+</a>
+<ul>
+<li>add INPUT_TOKEN (<a href="https://github.com/zigbang/iot-device-sdk/commit/ea9bf7da08ac5c76028e0c6a218383b3459119c0">ea9bf7d</a>)</li>
+<li>add test github action file (<a href="https://github.com/zigbang/iot-device-sdk/commit/0c837e7271d046532b346b29ddc6d7903c2b6d16">0c837e7</a>)</li>
+<li>apply github for github pages (<a href="https://github.com/zigbang/iot-device-sdk/commit/a9064e0e72599507672cf3c04e728765e67091b8">a9064e0</a>)</li>
+<li>apply path to run npm (<a href="https://github.com/zigbang/iot-device-sdk/commit/9ca8e1685e8dab1732805c5dcc1418641fc6150b">9ca8e16</a>)</li>
+<li>chagne ci (<a href="https://github.com/zigbang/iot-device-sdk/commit/d729aec2bdbd72667bd355aa8c4f835e28da0f21">d729aec</a>)</li>
+<li>change again (<a href="https://github.com/zigbang/iot-device-sdk/commit/85c987fc63e81cd7cbdfca0c133eb321a6c5f5ec">85c987f</a>)</li>
+<li>change to yarn (<a href="https://github.com/zigbang/iot-device-sdk/commit/c974a8cecea863552f84b90dcadaae5aa79d7a56">c974a8c</a>)</li>
+<li>fix action script error (<a href="https://github.com/zigbang/iot-device-sdk/commit/d5fe46062fbe295593bf51c45dcf6aac79772f4f">d5fe460</a>)</li>
+<li>fix github action for publish (<a href="https://github.com/zigbang/iot-device-sdk/commit/02bc71ff87cf91ab8fc7942e7213f5a3683f4f7f">02bc71f</a>)</li>
+<li>fix npm remove dist/doc (<a href="https://github.com/zigbang/iot-device-sdk/commit/5774b12ed04c000c06e1853363fe3a49c64b1fd9">5774b12</a>)</li>
+<li>fix npm run build (<a href="https://github.com/zigbang/iot-device-sdk/commit/d727c95eaf583f3b1aad9b9fc62350fa97395555">d727c95</a>)</li>
+<li>fix to order github action (<a href="https://github.com/zigbang/iot-device-sdk/commit/2df5f2f4fd374e69f09807616fc340ed217f81d7">2df5f2f</a>)</li>
+<li>github action make for test (<a href="https://github.com/zigbang/iot-device-sdk/commit/b03075e5020e5245e8875aa5a5c1c1497780c34b">b03075e</a>)</li>
+<li>link change log, change github action name (<a href="https://github.com/zigbang/iot-device-sdk/commit/061e832a5d373302953bdb2db856df3b9a9080af">061e832</a>)</li>
+<li>merge two md files base and change log (<a href="https://github.com/zigbang/iot-device-sdk/commit/862784487cda46556bb2dd550f319ecda9f4c7ca">8627844</a>)</li>
+<li>reame.md file is combinded by github action (<a href="https://github.com/zigbang/iot-device-sdk/commit/ba695247d6aa4575b7bc59f1a8e161ee23c48555">ba69524</a>)</li>
+<li>recovery github script (<a href="https://github.com/zigbang/iot-device-sdk/commit/240a1b6df9889a242522b5c0bf3782aaf885fadd">240a1b6</a>)</li>
+<li>setup node (<a href="https://github.com/zigbang/iot-device-sdk/commit/4d9d5329e33f2bb19aba04e6846b8c7389e25b61">4d9d532</a>)</li>
+<li>test (<a href="https://github.com/zigbang/iot-device-sdk/commit/d608c6ea0ee3fb7a27e43061694307bd37eb506d">d608c6e</a>)</li>
+<li>test again (<a href="https://github.com/zigbang/iot-device-sdk/commit/4e323143242fda96f2701d299e719b831f372c73">4e32314</a>)</li>
+<li>try to fix error again (<a href="https://github.com/zigbang/iot-device-sdk/commit/7733bbbc85413ae1c8d9240e0bf5f1be8e484ff4">7733bbb</a>)</li>
+<li>try to fix github action (<a href="https://github.com/zigbang/iot-device-sdk/commit/2a8f5e33f5d77b9a148397d12d8bbbe36b4b9b4a">2a8f5e3</a>)</li>
+<li>try to fix github action again (<a href="https://github.com/zigbang/iot-device-sdk/commit/d22b985c097bd02b5258d6b07e0fe8dc5336a8de">d22b985</a>)</li>
+<li>using actions (<a href="https://github.com/zigbang/iot-device-sdk/commit/0342d1eec319c3fae6ebd6dad36a039340c2cd80">0342d1e</a>)</li>
+<li>using npm ci (<a href="https://github.com/zigbang/iot-device-sdk/commit/78d545fda257673e3031de85a171f2799b87f002">78d545f</a>)</li>
+<li>version up (<a href="https://github.com/zigbang/iot-device-sdk/commit/a73267366cc083a1e516077e0a49ed9c81b1f48e">a732673</a>)</li>
+</ul>
+
+<a href="#code-refactoring" id="code-refactoring" style="color: inherit; text-decoration: none;">
+  <h3>Code Refactoring</h3>
+</a>
+<ul>
+<li>코드 컨벤션 적용 (<a href="https://github.com/zigbang/iot-device-sdk/commit/8a1f8401434dbb2ad6430bb3d37304697c907ec7">8a1f840</a>)</li>
+<li>logout 함수 private으로 변경, init 메소드 구조 변경 (<a href="https://github.com/zigbang/iot-device-sdk/commit/02224ef53e7d7e830169b5bb374ae5d1ce40fb0d">02224ef</a>)</li>
+<li>merge for using module (<a href="https://github.com/zigbang/iot-device-sdk/commit/1c9a45b14bf8bbd3e60a7cdf0273dadb0cd05bd6">1c9a45b</a>)</li>
+<li>removeDevice 및 resetDevice 하나로 합침 (<a href="https://github.com/zigbang/iot-device-sdk/commit/91d312f5c4ea3a6c051c4cf8e834b8f262dde400">91d312f</a>)</li>
+</ul>
+
+<a href="#build-system-1" id="build-system-1" style="color: inherit; text-decoration: none;">
+  <h3>Build System</h3>
+</a>
+<ul>
+<li>a module version make fix (<a href="https://github.com/zigbang/iot-device-sdk/commit/66f9a4a2b3639383e017fd9a38c469f59d0ea898">66f9a4a</a>)</li>
+<li>add dist folder for using npm (<a href="https://github.com/zigbang/iot-device-sdk/commit/7c63992b0411def0e44124b56cd55d92334acffb">7c63992</a>)</li>
+<li>change module version (<a href="https://github.com/zigbang/iot-device-sdk/commit/37fe38730b6591a253ee6c64c97377acd97fc555">37fe387</a>)</li>
+<li>change module version (<a href="https://github.com/zigbang/iot-device-sdk/commit/fb754ead51a4702bf7e20796ee58db218f8f414d">fb754ea</a>)</li>
+<li>changing module name (<a href="https://github.com/zigbang/iot-device-sdk/commit/e9eb14bae0b4a6fc342040677dec9d14dcda5fbc">e9eb14b</a>)</li>
+<li>module change to zigbang/react-native-tuya (<a href="https://github.com/zigbang/iot-device-sdk/commit/d87b221bc6a8ff14b009cdc777cd1eedc7cef720">d87b221</a>)</li>
+<li>module version is up (<a href="https://github.com/zigbang/iot-device-sdk/commit/4fd8b59cfc25e7914d0fe09251208be430cff3de">4fd8b59</a>)</li>
+<li>using seojw&#39;s one for pending reg module (<a href="https://github.com/zigbang/iot-device-sdk/commit/815267e0be1a75e26f14295144173f1beea69273">815267e</a>)</li>
+</ul>
+
+<a href="#others-1" id="others-1" style="color: inherit; text-decoration: none;">
+  <h3>Others</h3>
+</a>
+<ul>
+<li>add &amp; remove as using module (<a href="https://github.com/zigbang/iot-device-sdk/commit/a2314ee437a95c8b6c5edacce44a1038139b465b">a2314ee</a>)</li>
+<li><strong>release:</strong> 0.0.2 (<a href="https://github.com/zigbang/iot-device-sdk/commit/160f287e45291d4c7368ffbd0e99e353aecdbb75">160f287</a>)</li>
+<li><strong>release:</strong> 0.0.3 (<a href="https://github.com/zigbang/iot-device-sdk/commit/2c721299cf225e53d3381de872f12beacdf7c5be">2c72129</a>)</li>
+<li><strong>release:</strong> 0.0.4 (<a href="https://github.com/zigbang/iot-device-sdk/commit/7b0329b5317272476ccb4c4fd7f803cbf374aeb5">7b0329b</a>)</li>
+<li><strong>release:</strong> 0.0.5 (<a href="https://github.com/zigbang/iot-device-sdk/commit/3251134243e5c78c6ecfd46087d449d4db869c55">3251134</a>)</li>
+<li><strong>release:</strong> 0.0.6 (<a href="https://github.com/zigbang/iot-device-sdk/commit/6d8f5520c75d9521868d6d1dca569190702d1557">6d8f552</a>)</li>
+<li><strong>release:</strong> 0.0.7 (<a href="https://github.com/zigbang/iot-device-sdk/commit/38daae96127b1e38ff165884138cf7afe609beae">38daae9</a>)</li>
+<li><strong>release:</strong> 0.0.8 (<a href="https://github.com/zigbang/iot-device-sdk/commit/057c11d3d5bb16d00cca34cf75415b8cb074ea72">057c11d</a>)</li>
+<li><strong>release:</strong> 0.0.9 (<a href="https://github.com/zigbang/iot-device-sdk/commit/f32ec44e97888830cc423decdeb6b63715dd2090">f32ec44</a>)</li>
+<li><strong>release:</strong> 0.1.0 (<a href="https://github.com/zigbang/iot-device-sdk/commit/b905d9711b44e6d6f604bc1baa269f6d5a19b75f">b905d97</a>)</li>
+<li><strong>release:</strong> 0.1.1 (<a href="https://github.com/zigbang/iot-device-sdk/commit/6001492e3fb846d22adc603999d840dacd4b6e8a">6001492</a>)</li>
+<li><strong>release:</strong> 0.1.2 (<a href="https://github.com/zigbang/iot-device-sdk/commit/b71104e6d01182850fca3c9b16a70664521ecb74">b71104e</a>)</li>
+<li><strong>release:</strong> 0.1.3 (<a href="https://github.com/zigbang/iot-device-sdk/commit/567763ba7817cba471406a3f98ed88eaa8f0359f">567763b</a>)</li>
+<li><strong>release:</strong> 0.1.4 (<a href="https://github.com/zigbang/iot-device-sdk/commit/ad3c0a7228a6ce0d1760119f26247e47c1fb0c1a">ad3c0a7</a>)</li>
+<li><strong>release:</strong> 0.1.5 (<a href="https://github.com/zigbang/iot-device-sdk/commit/ac2a151ca9dd05dcf55810cb827679c5bd72499a">ac2a151</a>)</li>
+</ul>
+
+<a href="#docs-3" id="docs-3" style="color: inherit; text-decoration: none;">
+  <h3>Docs</h3>
+</a>
+<ul>
+<li>add legacy tuya api handling block diagram (<a href="https://github.com/zigbang/iot-device-sdk/commit/64f972ae57fdbc1e2376b84c7c4dc40f7425750d">64f972a</a>)</li>
+<li>add sample of using tuya api (<a href="https://github.com/zigbang/iot-device-sdk/commit/f71b1eca690cbb5a0eb982f269f3d0873e7bd14f">f71b1ec</a>)</li>
+<li>apply typedoc (<a href="https://github.com/zigbang/iot-device-sdk/commit/52ab797ac0fc7b7bdc6f360cd775a86c30be8b24">52ab797</a>)</li>
+<li>apply zigbang account (<a href="https://github.com/zigbang/iot-device-sdk/commit/562cd4d56be9ab3d33cf501e0a23fe600488a7c5">562cd4d</a>)</li>
+<li>change title for github page (<a href="https://github.com/zigbang/iot-device-sdk/commit/8c35823f242ef42b60bf0f9db85b1d00fb777d59">8c35823</a>)</li>
+<li>draw to describe of ci/cd (<a href="https://github.com/zigbang/iot-device-sdk/commit/b2dc5866d1663efa285533f5aba8e9585cc141b7">b2dc586</a>)</li>
+<li>include link change log to readme (<a href="https://github.com/zigbang/iot-device-sdk/commit/e0902a664ea7c37815396b2ea6db217aad665db2">e0902a6</a>)</li>
+<li>init function is changed (<a href="https://github.com/zigbang/iot-device-sdk/commit/83501b01e5a6f83daa4cdea00b9b1958865649ac">83501b0</a>)</li>
+<li>typedoc 초안본 배포 (<a href="https://github.com/zigbang/iot-device-sdk/commit/99bdff7cbaaad7b76dcd915b661ae1f9ddb6c108">99bdff7</a>)</li>
+<li>update github page address (<a href="https://github.com/zigbang/iot-device-sdk/commit/02e3696bfd3d14afdfd216cdef0c274297fad90d">02e3696</a>)</li>
+<li>update to show msg if uploaded gh-p by man (<a href="https://github.com/zigbang/iot-device-sdk/commit/b9bde2f80ee9c89ebd39775e978ae84c86aa5c70">b9bde2f</a>)</li>
+<li>useing github pages (<a href="https://github.com/zigbang/iot-device-sdk/commit/9a6bfa4370d975eff4d981481e0ce265da48495e">9a6bfa4</a>)</li>
+</ul>
+
+<a href="#015-2022-08-26" id="015-2022-08-26" style="color: inherit; text-decoration: none;">
+  <h3><a href="https://github.com/zigbang/iot-device-sdk/compare/v0.1.4...v0.1.5">0.1.5</a> (2022-08-26)</h3>
+</a>
+
+<a href="#docs-4" id="docs-4" style="color: inherit; text-decoration: none;">
+  <h3>Docs</h3>
+</a>
+<ul>
+<li>apply zigbang account (<a href="https://github.com/zigbang/iot-device-sdk/commit/562cd4d56be9ab3d33cf501e0a23fe600488a7c5">562cd4d</a>)</li>
+</ul>
+
+<a href="#014-2022-08-25" id="014-2022-08-25" style="color: inherit; text-decoration: none;">
+  <h3><a href="https://github.com/zigbang/iot-device-sdk/compare/v0.1.3...v0.1.4">0.1.4</a> (2022-08-25)</h3>
+</a>
+
+<a href="#build-system-2" id="build-system-2" style="color: inherit; text-decoration: none;">
+  <h3>Build System</h3>
+</a>
+<ul>
+<li>a module version make fix (<a href="https://github.com/zigbang/iot-device-sdk/commit/66f9a4a2b3639383e017fd9a38c469f59d0ea898">66f9a4a</a>)</li>
+<li>change module version (<a href="https://github.com/zigbang/iot-device-sdk/commit/fb754ead51a4702bf7e20796ee58db218f8f414d">fb754ea</a>)</li>
+</ul>
+
+<a href="#013-2022-08-05" id="013-2022-08-05" style="color: inherit; text-decoration: none;">
+  <h3><a href="https://github.com/zigbang/iot-device-sdk/compare/v0.1.2...v0.1.3">0.1.3</a> (2022-08-05)</h3>
+</a>
+
+<a href="#build-system-3" id="build-system-3" style="color: inherit; text-decoration: none;">
+  <h3>Build System</h3>
+</a>
+<ul>
+<li>change module version (<a href="https://github.com/zigbang/iot-device-sdk/commit/37fe38730b6591a253ee6c64c97377acd97fc555">37fe387</a>)</li>
+</ul>
+
+<a href="#012-2022-08-05" id="012-2022-08-05" style="color: inherit; text-decoration: none;">
+  <h3>0.1.2 (2022-08-05)</h3>
+</a>
+
+<a href="#features-6" id="features-6" style="color: inherit; text-decoration: none;">
+  <h3>Features</h3>
+</a>
+<ul>
+<li>기기 삭제 및 공장 초기화 기능 구현 (<a href="https://github.com/zigbang/iot-device-sdk/commit/1a92745f0215d5dce27480e3a729195dd4d7fae4">1a92745</a>)</li>
+<li>calling User Login (<a href="https://github.com/zigbang/iot-device-sdk/commit/8e5d5fe5eb290433299146e768eed54d782d8287">8e5d5fe</a>)</li>
+<li>logout 기능 구현 (<a href="https://github.com/zigbang/iot-device-sdk/commit/182b27371d2819cf4e93148ef92a0d9655e08eab">182b273</a>)</li>
+<li>remove using private function (<a href="https://github.com/zigbang/iot-device-sdk/commit/f65481ad210c31fd6322934a7bb7bb09ee387530">f65481a</a>)</li>
+<li>TuyaSdkBridge 디버깅 로그 콜백 이벤트 구현 (<a href="https://github.com/zigbang/iot-device-sdk/commit/cc80914344b0505e9c245a35fc6af47f31ba434f">cc80914</a>)</li>
+</ul>
+
+<a href="#bug-fixes-2" id="bug-fixes-2" style="color: inherit; text-decoration: none;">
+  <h3>Bug Fixes</h3>
+</a>
+<ul>
+<li>머지 오류 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/8ad1a4227a7994d59cb629f94c414ec9dcb7ad1a">8ad1a42</a>)</li>
+<li>머지 충돌 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/d309305d1f19e29c892e9b943468091d7b8b790e">d309305</a>)</li>
+<li>서브 기기 등록 중지 함수 await 제거 (<a href="https://github.com/zigbang/iot-device-sdk/commit/d253b6874ab83bc7abfc46324428ce1e69f11e32">d253b68</a>)</li>
+<li>이벤트 stop 오류 수정, 익명 로그인 오류 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/ad714be701ccdcae05b57fba68c92b951d8c24ca">ad714be</a>)</li>
+<li>activator에서 기기 타입에따라 다르게 응답하도록 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/ac4681d0d95ef76f5a50f63f1cb6b58188ceb6ef">ac4681d</a>)</li>
+<li>debug 콜백 할당 전에 setInformation을 호출하여 init이 안되는 문제 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/ce28f3d786298a57b93030551b28de7d01f31c6a">ce28f3d</a>)</li>
+<li>iOS에서 게이트웨이 이벤트 수신 시, 객체 전달이 아닌 String 전달로 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/421cb6aa3f9c00842666d6fa9e16693af4e96173">421cb6a</a>)</li>
+<li>iOS에서 기기 삭제 또는 공장 초기화 실패 시, response 안오는 문제 해결 (<a href="https://github.com/zigbang/iot-device-sdk/commit/07046def820b7adb6d46c3c2eeb22153851ab0d7">07046de</a>)</li>
+<li>remove about postinstall about husky (<a href="https://github.com/zigbang/iot-device-sdk/commit/2f3aa8f3f4791479124b68c70a7ef35b836d2491">2f3aa8f</a>)</li>
+</ul>
+
+<a href="#styling-1" id="styling-1" style="color: inherit; text-decoration: none;">
+  <h3>Styling</h3>
+</a>
+<ul>
+<li>add commitlint (<a href="https://github.com/zigbang/iot-device-sdk/commit/929c004a5ffc7ed3127874ae59fe94b3cdcb5b09">929c004</a>)</li>
+<li>support typescript (make index.d.ts) (<a href="https://github.com/zigbang/iot-device-sdk/commit/ddc357ed556af250c9625f04351199a069472118">ddc357e</a>)</li>
+</ul>
+
+<a href="#ci-1" id="ci-1" style="color: inherit; text-decoration: none;">
+  <h3>CI</h3>
+</a>
+<ul>
+<li>add INPUT_TOKEN (<a href="https://github.com/zigbang/iot-device-sdk/commit/ea9bf7da08ac5c76028e0c6a218383b3459119c0">ea9bf7d</a>)</li>
+<li>add test github action file (<a href="https://github.com/zigbang/iot-device-sdk/commit/0c837e7271d046532b346b29ddc6d7903c2b6d16">0c837e7</a>)</li>
+<li>apply github for github pages (<a href="https://github.com/zigbang/iot-device-sdk/commit/a9064e0e72599507672cf3c04e728765e67091b8">a9064e0</a>)</li>
+<li>apply path to run npm (<a href="https://github.com/zigbang/iot-device-sdk/commit/9ca8e1685e8dab1732805c5dcc1418641fc6150b">9ca8e16</a>)</li>
+<li>chagne ci (<a href="https://github.com/zigbang/iot-device-sdk/commit/d729aec2bdbd72667bd355aa8c4f835e28da0f21">d729aec</a>)</li>
+<li>change again (<a href="https://github.com/zigbang/iot-device-sdk/commit/85c987fc63e81cd7cbdfca0c133eb321a6c5f5ec">85c987f</a>)</li>
+<li>change to yarn (<a href="https://github.com/zigbang/iot-device-sdk/commit/c974a8cecea863552f84b90dcadaae5aa79d7a56">c974a8c</a>)</li>
+<li>fix action script error (<a href="https://github.com/zigbang/iot-device-sdk/commit/d5fe46062fbe295593bf51c45dcf6aac79772f4f">d5fe460</a>)</li>
+<li>fix github action for publish (<a href="https://github.com/zigbang/iot-device-sdk/commit/02bc71ff87cf91ab8fc7942e7213f5a3683f4f7f">02bc71f</a>)</li>
+<li>fix npm remove dist/doc (<a href="https://github.com/zigbang/iot-device-sdk/commit/5774b12ed04c000c06e1853363fe3a49c64b1fd9">5774b12</a>)</li>
+<li>fix npm run build (<a href="https://github.com/zigbang/iot-device-sdk/commit/d727c95eaf583f3b1aad9b9fc62350fa97395555">d727c95</a>)</li>
+<li>fix to order github action (<a href="https://github.com/zigbang/iot-device-sdk/commit/2df5f2f4fd374e69f09807616fc340ed217f81d7">2df5f2f</a>)</li>
+<li>github action make for test (<a href="https://github.com/zigbang/iot-device-sdk/commit/b03075e5020e5245e8875aa5a5c1c1497780c34b">b03075e</a>)</li>
+<li>link change log, change github action name (<a href="https://github.com/zigbang/iot-device-sdk/commit/061e832a5d373302953bdb2db856df3b9a9080af">061e832</a>)</li>
+<li>merge two md files base and change log (<a href="https://github.com/zigbang/iot-device-sdk/commit/862784487cda46556bb2dd550f319ecda9f4c7ca">8627844</a>)</li>
+<li>reame.md file is combinded by github action (<a href="https://github.com/zigbang/iot-device-sdk/commit/ba695247d6aa4575b7bc59f1a8e161ee23c48555">ba69524</a>)</li>
+<li>recovery github script (<a href="https://github.com/zigbang/iot-device-sdk/commit/240a1b6df9889a242522b5c0bf3782aaf885fadd">240a1b6</a>)</li>
+<li>setup node (<a href="https://github.com/zigbang/iot-device-sdk/commit/4d9d5329e33f2bb19aba04e6846b8c7389e25b61">4d9d532</a>)</li>
+<li>test (<a href="https://github.com/zigbang/iot-device-sdk/commit/d608c6ea0ee3fb7a27e43061694307bd37eb506d">d608c6e</a>)</li>
+<li>test again (<a href="https://github.com/zigbang/iot-device-sdk/commit/4e323143242fda96f2701d299e719b831f372c73">4e32314</a>)</li>
+<li>try to fix error again (<a href="https://github.com/zigbang/iot-device-sdk/commit/7733bbbc85413ae1c8d9240e0bf5f1be8e484ff4">7733bbb</a>)</li>
+<li>try to fix github action (<a href="https://github.com/zigbang/iot-device-sdk/commit/2a8f5e33f5d77b9a148397d12d8bbbe36b4b9b4a">2a8f5e3</a>)</li>
+<li>try to fix github action again (<a href="https://github.com/zigbang/iot-device-sdk/commit/d22b985c097bd02b5258d6b07e0fe8dc5336a8de">d22b985</a>)</li>
+<li>using actions (<a href="https://github.com/zigbang/iot-device-sdk/commit/0342d1eec319c3fae6ebd6dad36a039340c2cd80">0342d1e</a>)</li>
+<li>using npm ci (<a href="https://github.com/zigbang/iot-device-sdk/commit/78d545fda257673e3031de85a171f2799b87f002">78d545f</a>)</li>
+<li>version up (<a href="https://github.com/zigbang/iot-device-sdk/commit/a73267366cc083a1e516077e0a49ed9c81b1f48e">a732673</a>)</li>
+</ul>
+
+<a href="#code-refactoring-1" id="code-refactoring-1" style="color: inherit; text-decoration: none;">
+  <h3>Code Refactoring</h3>
+</a>
+<ul>
+<li>코드 컨벤션 적용 (<a href="https://github.com/zigbang/iot-device-sdk/commit/8a1f8401434dbb2ad6430bb3d37304697c907ec7">8a1f840</a>)</li>
+<li>logout 함수 private으로 변경, init 메소드 구조 변경 (<a href="https://github.com/zigbang/iot-device-sdk/commit/02224ef53e7d7e830169b5bb374ae5d1ce40fb0d">02224ef</a>)</li>
+<li>merge for using module (<a href="https://github.com/zigbang/iot-device-sdk/commit/1c9a45b14bf8bbd3e60a7cdf0273dadb0cd05bd6">1c9a45b</a>)</li>
+<li>removeDevice 및 resetDevice 하나로 합침 (<a href="https://github.com/zigbang/iot-device-sdk/commit/91d312f5c4ea3a6c051c4cf8e834b8f262dde400">91d312f</a>)</li>
+</ul>
+
+<a href="#others-2" id="others-2" style="color: inherit; text-decoration: none;">
+  <h3>Others</h3>
+</a>
+<ul>
+<li>add &amp; remove as using module (<a href="https://github.com/zigbang/iot-device-sdk/commit/a2314ee437a95c8b6c5edacce44a1038139b465b">a2314ee</a>)</li>
+<li><strong>release:</strong> 0.0.2 (<a href="https://github.com/zigbang/iot-device-sdk/commit/160f287e45291d4c7368ffbd0e99e353aecdbb75">160f287</a>)</li>
+<li><strong>release:</strong> 0.0.3 (<a href="https://github.com/zigbang/iot-device-sdk/commit/2c721299cf225e53d3381de872f12beacdf7c5be">2c72129</a>)</li>
+<li><strong>release:</strong> 0.0.4 (<a href="https://github.com/zigbang/iot-device-sdk/commit/7b0329b5317272476ccb4c4fd7f803cbf374aeb5">7b0329b</a>)</li>
+<li><strong>release:</strong> 0.0.5 (<a href="https://github.com/zigbang/iot-device-sdk/commit/3251134243e5c78c6ecfd46087d449d4db869c55">3251134</a>)</li>
+<li><strong>release:</strong> 0.0.6 (<a href="https://github.com/zigbang/iot-device-sdk/commit/6d8f5520c75d9521868d6d1dca569190702d1557">6d8f552</a>)</li>
+<li><strong>release:</strong> 0.0.7 (<a href="https://github.com/zigbang/iot-device-sdk/commit/38daae96127b1e38ff165884138cf7afe609beae">38daae9</a>)</li>
+<li><strong>release:</strong> 0.0.8 (<a href="https://github.com/zigbang/iot-device-sdk/commit/057c11d3d5bb16d00cca34cf75415b8cb074ea72">057c11d</a>)</li>
+<li><strong>release:</strong> 0.0.9 (<a href="https://github.com/zigbang/iot-device-sdk/commit/f32ec44e97888830cc423decdeb6b63715dd2090">f32ec44</a>)</li>
+<li><strong>release:</strong> 0.1.0 (<a href="https://github.com/zigbang/iot-device-sdk/commit/b905d9711b44e6d6f604bc1baa269f6d5a19b75f">b905d97</a>)</li>
+<li><strong>release:</strong> 0.1.1 (<a href="https://github.com/zigbang/iot-device-sdk/commit/6001492e3fb846d22adc603999d840dacd4b6e8a">6001492</a>)</li>
+</ul>
+
+<a href="#docs-5" id="docs-5" style="color: inherit; text-decoration: none;">
+  <h3>Docs</h3>
+</a>
+<ul>
+<li>apply typedoc (<a href="https://github.com/zigbang/iot-device-sdk/commit/52ab797ac0fc7b7bdc6f360cd775a86c30be8b24">52ab797</a>)</li>
+<li>change title for github page (<a href="https://github.com/zigbang/iot-device-sdk/commit/8c35823f242ef42b60bf0f9db85b1d00fb777d59">8c35823</a>)</li>
+<li>draw to describe of ci/cd (<a href="https://github.com/zigbang/iot-device-sdk/commit/b2dc5866d1663efa285533f5aba8e9585cc141b7">b2dc586</a>)</li>
+<li>include link change log to readme (<a href="https://github.com/zigbang/iot-device-sdk/commit/e0902a664ea7c37815396b2ea6db217aad665db2">e0902a6</a>)</li>
+<li>init function is changed (<a href="https://github.com/zigbang/iot-device-sdk/commit/83501b01e5a6f83daa4cdea00b9b1958865649ac">83501b0</a>)</li>
+<li>typedoc 초안본 배포 (<a href="https://github.com/zigbang/iot-device-sdk/commit/99bdff7cbaaad7b76dcd915b661ae1f9ddb6c108">99bdff7</a>)</li>
+<li>update github page address (<a href="https://github.com/zigbang/iot-device-sdk/commit/02e3696bfd3d14afdfd216cdef0c274297fad90d">02e3696</a>)</li>
+<li>update to show msg if uploaded gh-p by man (<a href="https://github.com/zigbang/iot-device-sdk/commit/b9bde2f80ee9c89ebd39775e978ae84c86aa5c70">b9bde2f</a>)</li>
+<li>useing github pages (<a href="https://github.com/zigbang/iot-device-sdk/commit/9a6bfa4370d975eff4d981481e0ce265da48495e">9a6bfa4</a>)</li>
+</ul>
+
+<a href="#build-system-4" id="build-system-4" style="color: inherit; text-decoration: none;">
+  <h3>Build System</h3>
+</a>
+<ul>
+<li>add dist folder for using npm (<a href="https://github.com/zigbang/iot-device-sdk/commit/7c63992b0411def0e44124b56cd55d92334acffb">7c63992</a>)</li>
+<li>changing module name (<a href="https://github.com/zigbang/iot-device-sdk/commit/e9eb14bae0b4a6fc342040677dec9d14dcda5fbc">e9eb14b</a>)</li>
+<li>module change to zigbang/react-native-tuya (<a href="https://github.com/zigbang/iot-device-sdk/commit/d87b221bc6a8ff14b009cdc777cd1eedc7cef720">d87b221</a>)</li>
+<li>module version is up (<a href="https://github.com/zigbang/iot-device-sdk/commit/4fd8b59cfc25e7914d0fe09251208be430cff3de">4fd8b59</a>)</li>
+<li>using seojw&#39;s one for pending reg module (<a href="https://github.com/zigbang/iot-device-sdk/commit/815267e0be1a75e26f14295144173f1beea69273">815267e</a>)</li>
+</ul>
+
+<a href="#011-2022-08-04" id="011-2022-08-04" style="color: inherit; text-decoration: none;">
+  <h3>0.1.1 (2022-08-04)</h3>
+</a>
+
+<a href="#features-7" id="features-7" style="color: inherit; text-decoration: none;">
+  <h3>Features</h3>
+</a>
+<ul>
+<li>기기 삭제 및 공장 초기화 기능 구현 (<a href="https://github.com/zigbang/iot-device-sdk/commit/1a92745f0215d5dce27480e3a729195dd4d7fae4">1a92745</a>)</li>
+<li>calling User Login (<a href="https://github.com/zigbang/iot-device-sdk/commit/8e5d5fe5eb290433299146e768eed54d782d8287">8e5d5fe</a>)</li>
+<li>logout 기능 구현 (<a href="https://github.com/zigbang/iot-device-sdk/commit/182b27371d2819cf4e93148ef92a0d9655e08eab">182b273</a>)</li>
+<li>remove using private function (<a href="https://github.com/zigbang/iot-device-sdk/commit/f65481ad210c31fd6322934a7bb7bb09ee387530">f65481a</a>)</li>
+<li>TuyaSdkBridge 디버깅 로그 콜백 이벤트 구현 (<a href="https://github.com/zigbang/iot-device-sdk/commit/cc80914344b0505e9c245a35fc6af47f31ba434f">cc80914</a>)</li>
+</ul>
+
+<a href="#bug-fixes-3" id="bug-fixes-3" style="color: inherit; text-decoration: none;">
+  <h3>Bug Fixes</h3>
+</a>
+<ul>
+<li>머지 오류 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/8ad1a4227a7994d59cb629f94c414ec9dcb7ad1a">8ad1a42</a>)</li>
+<li>머지 충돌 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/d309305d1f19e29c892e9b943468091d7b8b790e">d309305</a>)</li>
+<li>서브 기기 등록 중지 함수 await 제거 (<a href="https://github.com/zigbang/iot-device-sdk/commit/d253b6874ab83bc7abfc46324428ce1e69f11e32">d253b68</a>)</li>
+<li>이벤트 stop 오류 수정, 익명 로그인 오류 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/ad714be701ccdcae05b57fba68c92b951d8c24ca">ad714be</a>)</li>
+<li>activator에서 기기 타입에따라 다르게 응답하도록 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/ac4681d0d95ef76f5a50f63f1cb6b58188ceb6ef">ac4681d</a>)</li>
+<li>debug 콜백 할당 전에 setInformation을 호출하여 init이 안되는 문제 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/ce28f3d786298a57b93030551b28de7d01f31c6a">ce28f3d</a>)</li>
+<li>iOS에서 게이트웨이 이벤트 수신 시, 객체 전달이 아닌 String 전달로 수정 (<a href="https://github.com/zigbang/iot-device-sdk/commit/421cb6aa3f9c00842666d6fa9e16693af4e96173">421cb6a</a>)</li>
+<li>iOS에서 기기 삭제 또는 공장 초기화 실패 시, response 안오는 문제 해결 (<a href="https://github.com/zigbang/iot-device-sdk/commit/07046def820b7adb6d46c3c2eeb22153851ab0d7">07046de</a>)</li>
+<li>remove about postinstall about husky (<a href="https://github.com/zigbang/iot-device-sdk/commit/2f3aa8f3f4791479124b68c70a7ef35b836d2491">2f3aa8f</a>)</li>
+</ul>
+
+<a href="#styling-2" id="styling-2" style="color: inherit; text-decoration: none;">
+  <h3>Styling</h3>
+</a>
+<ul>
+<li>add commitlint (<a href="https://github.com/zigbang/iot-device-sdk/commit/929c004a5ffc7ed3127874ae59fe94b3cdcb5b09">929c004</a>)</li>
+<li>support typescript (make index.d.ts) (<a href="https://github.com/zigbang/iot-device-sdk/commit/ddc357ed556af250c9625f04351199a069472118">ddc357e</a>)</li>
+</ul>
+
+<a href="#ci-2" id="ci-2" style="color: inherit; text-decoration: none;">
+  <h3>CI</h3>
+</a>
+<ul>
+<li>add INPUT_TOKEN (<a href="https://github.com/zigbang/iot-device-sdk/commit/ea9bf7da08ac5c76028e0c6a218383b3459119c0">ea9bf7d</a>)</li>
+<li>add test github action file (<a href="https://github.com/zigbang/iot-device-sdk/commit/0c837e7271d046532b346b29ddc6d7903c2b6d16">0c837e7</a>)</li>
+<li>apply github for github pages (<a href="https://github.com/zigbang/iot-device-sdk/commit/a9064e0e72599507672cf3c04e728765e67091b8">a9064e0</a>)</li>
+<li>apply path to run npm (<a href="https://github.com/zigbang/iot-device-sdk/commit/9ca8e1685e8dab1732805c5dcc1418641fc6150b">9ca8e16</a>)</li>
+<li>chagne ci (<a href="https://github.com/zigbang/iot-device-sdk/commit/d729aec2bdbd72667bd355aa8c4f835e28da0f21">d729aec</a>)</li>
+<li>change again (<a href="https://github.com/zigbang/iot-device-sdk/commit/85c987fc63e81cd7cbdfca0c133eb321a6c5f5ec">85c987f</a>)</li>
+<li>change to yarn (<a href="https://github.com/zigbang/iot-device-sdk/commit/c974a8cecea863552f84b90dcadaae5aa79d7a56">c974a8c</a>)</li>
+<li>fix action script error (<a href="https://github.com/zigbang/iot-device-sdk/commit/d5fe46062fbe295593bf51c45dcf6aac79772f4f">d5fe460</a>)</li>
+<li>fix github action for publish (<a href="https://github.com/zigbang/iot-device-sdk/commit/02bc71ff87cf91ab8fc7942e7213f5a3683f4f7f">02bc71f</a>)</li>
+<li>fix npm remove dist/doc (<a href="https://github.com/zigbang/iot-device-sdk/commit/5774b12ed04c000c06e1853363fe3a49c64b1fd9">5774b12</a>)</li>
+<li>fix npm run build (<a href="https://github.com/zigbang/iot-device-sdk/commit/d727c95eaf583f3b1aad9b9fc62350fa97395555">d727c95</a>)</li>
+<li>fix to order github action (<a href="https://github.com/zigbang/iot-device-sdk/commit/2df5f2f4fd374e69f09807616fc340ed217f81d7">2df5f2f</a>)</li>
+<li>github action make for test (<a href="https://github.com/zigbang/iot-device-sdk/commit/b03075e5020e5245e8875aa5a5c1c1497780c34b">b03075e</a>)</li>
+<li>link change log, change github action name (<a href="https://github.com/zigbang/iot-device-sdk/commit/061e832a5d373302953bdb2db856df3b9a9080af">061e832</a>)</li>
+<li>merge two md files base and change log (<a href="https://github.com/zigbang/iot-device-sdk/commit/862784487cda46556bb2dd550f319ecda9f4c7ca">8627844</a>)</li>
+<li>reame.md file is combinded by github action (<a href="https://github.com/zigbang/iot-device-sdk/commit/ba695247d6aa4575b7bc59f1a8e161ee23c48555">ba69524</a>)</li>
+<li>recovery github script (<a href="https://github.com/zigbang/iot-device-sdk/commit/240a1b6df9889a242522b5c0bf3782aaf885fadd">240a1b6</a>)</li>
+<li>setup node (<a href="https://github.com/zigbang/iot-device-sdk/commit/4d9d5329e33f2bb19aba04e6846b8c7389e25b61">4d9d532</a>)</li>
+<li>test (<a href="https://github.com/zigbang/iot-device-sdk/commit/d608c6ea0ee3fb7a27e43061694307bd37eb506d">d608c6e</a>)</li>
+<li>test again (<a href="https://github.com/zigbang/iot-device-sdk/commit/4e323143242fda96f2701d299e719b831f372c73">4e32314</a>)</li>
+<li>try to fix error again (<a href="https://github.com/zigbang/iot-device-sdk/commit/7733bbbc85413ae1c8d9240e0bf5f1be8e484ff4">7733bbb</a>)</li>
+<li>try to fix github action (<a href="https://github.com/zigbang/iot-device-sdk/commit/2a8f5e33f5d77b9a148397d12d8bbbe36b4b9b4a">2a8f5e3</a>)</li>
+<li>try to fix github action again (<a href="https://github.com/zigbang/iot-device-sdk/commit/d22b985c097bd02b5258d6b07e0fe8dc5336a8de">d22b985</a>)</li>
+<li>using actions (<a href="https://github.com/zigbang/iot-device-sdk/commit/0342d1eec319c3fae6ebd6dad36a039340c2cd80">0342d1e</a>)</li>
+<li>using npm ci (<a href="https://github.com/zigbang/iot-device-sdk/commit/78d545fda257673e3031de85a171f2799b87f002">78d545f</a>)</li>
+<li>version up (<a href="https://github.com/zigbang/iot-device-sdk/commit/a73267366cc083a1e516077e0a49ed9c81b1f48e">a732673</a>)</li>
+</ul>
+
+<a href="#others-3" id="others-3" style="color: inherit; text-decoration: none;">
+  <h3>Others</h3>
+</a>
+<ul>
+<li>add &amp; remove as using module (<a href="https://github.com/zigbang/iot-device-sdk/commit/a2314ee437a95c8b6c5edacce44a1038139b465b">a2314ee</a>)</li>
+<li><strong>release:</strong> 0.0.2 (<a href="https://github.com/zigbang/iot-device-sdk/commit/160f287e45291d4c7368ffbd0e99e353aecdbb75">160f287</a>)</li>
+<li><strong>release:</strong> 0.0.3 (<a href="https://github.com/zigbang/iot-device-sdk/commit/2c721299cf225e53d3381de872f12beacdf7c5be">2c72129</a>)</li>
+<li><strong>release:</strong> 0.0.4 (<a href="https://github.com/zigbang/iot-device-sdk/commit/7b0329b5317272476ccb4c4fd7f803cbf374aeb5">7b0329b</a>)</li>
+<li><strong>release:</strong> 0.0.5 (<a href="https://github.com/zigbang/iot-device-sdk/commit/3251134243e5c78c6ecfd46087d449d4db869c55">3251134</a>)</li>
+<li><strong>release:</strong> 0.0.6 (<a href="https://github.com/zigbang/iot-device-sdk/commit/6d8f5520c75d9521868d6d1dca569190702d1557">6d8f552</a>)</li>
+<li><strong>release:</strong> 0.0.7 (<a href="https://github.com/zigbang/iot-device-sdk/commit/38daae96127b1e38ff165884138cf7afe609beae">38daae9</a>)</li>
+<li><strong>release:</strong> 0.0.8 (<a href="https://github.com/zigbang/iot-device-sdk/commit/057c11d3d5bb16d00cca34cf75415b8cb074ea72">057c11d</a>)</li>
+<li><strong>release:</strong> 0.0.9 (<a href="https://github.com/zigbang/iot-device-sdk/commit/f32ec44e97888830cc423decdeb6b63715dd2090">f32ec44</a>)</li>
+<li><strong>release:</strong> 0.1.0 (<a href="https://github.com/zigbang/iot-device-sdk/commit/b905d9711b44e6d6f604bc1baa269f6d5a19b75f">b905d97</a>)</li>
+</ul>
+
+<a href="#code-refactoring-2" id="code-refactoring-2" style="color: inherit; text-decoration: none;">
+  <h3>Code Refactoring</h3>
+</a>
+<ul>
+<li>코드 컨벤션 적용 (<a href="https://github.com/zigbang/iot-device-sdk/commit/8a1f8401434dbb2ad6430bb3d37304697c907ec7">8a1f840</a>)</li>
+<li>logout 함수 private으로 변경, init 메소드 구조 변경 (<a href="https://github.com/zigbang/iot-device-sdk/commit/02224ef53e7d7e830169b5bb374ae5d1ce40fb0d">02224ef</a>)</li>
+<li>merge for using module (<a href="https://github.com/zigbang/iot-device-sdk/commit/1c9a45b14bf8bbd3e60a7cdf0273dadb0cd05bd6">1c9a45b</a>)</li>
+<li>removeDevice 및 resetDevice 하나로 합침 (<a href="https://github.com/zigbang/iot-device-sdk/commit/91d312f5c4ea3a6c051c4cf8e834b8f262dde400">91d312f</a>)</li>
+</ul>
+
+<a href="#docs-6" id="docs-6" style="color: inherit; text-decoration: none;">
+  <h3>Docs</h3>
+</a>
+<ul>
+<li>apply typedoc (<a href="https://github.com/zigbang/iot-device-sdk/commit/52ab797ac0fc7b7bdc6f360cd775a86c30be8b24">52ab797</a>)</li>
+<li>change title for github page (<a href="https://github.com/zigbang/iot-device-sdk/commit/8c35823f242ef42b60bf0f9db85b1d00fb777d59">8c35823</a>)</li>
+<li>draw to describe of ci/cd (<a href="https://github.com/zigbang/iot-device-sdk/commit/b2dc5866d1663efa285533f5aba8e9585cc141b7">b2dc586</a>)</li>
+<li>include link change log to readme (<a href="https://github.com/zigbang/iot-device-sdk/commit/e0902a664ea7c37815396b2ea6db217aad665db2">e0902a6</a>)</li>
+<li>init function is changed (<a href="https://github.com/zigbang/iot-device-sdk/commit/83501b01e5a6f83daa4cdea00b9b1958865649ac">83501b0</a>)</li>
+<li>typedoc 초안본 배포 (<a href="https://github.com/zigbang/iot-device-sdk/commit/99bdff7cbaaad7b76dcd915b661ae1f9ddb6c108">99bdff7</a>)</li>
+<li>update github page address (<a href="https://github.com/zigbang/iot-device-sdk/commit/02e3696bfd3d14afdfd216cdef0c274297fad90d">02e3696</a>)</li>
+<li>useing github pages (<a href="https://github.com/zigbang/iot-device-sdk/commit/9a6bfa4370d975eff4d981481e0ce265da48495e">9a6bfa4</a>)</li>
+</ul>
+
+<a href="#build-system-5" id="build-system-5" style="color: inherit; text-decoration: none;">
+  <h3>Build System</h3>
+</a>
+<ul>
+<li>add dist folder for using npm (<a href="https://github.com/zigbang/iot-device-sdk/commit/7c63992b0411def0e44124b56cd55d92334acffb">7c63992</a>)</li>
+<li>changing module name (<a href="https://github.com/zigbang/iot-device-sdk/commit/e9eb14bae0b4a6fc342040677dec9d14dcda5fbc">e9eb14b</a>)</li>
+<li>module change to zigbang/react-native-tuya (<a href="https://github.com/zigbang/iot-device-sdk/commit/d87b221bc6a8ff14b009cdc777cd1eedc7cef720">d87b221</a>)</li>
+<li>module version is up (<a href="https://github.com/zigbang/iot-device-sdk/commit/4fd8b59cfc25e7914d0fe09251208be430cff3de">4fd8b59</a>)</li>
+</ul>
+</div></div>
+<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+<div class="tsd-navigation settings">
+<details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility">
+<h4 class="uppercase">Member Visibility</h4><form>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-private" name="private"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Private</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></form></div>
+<div class="tsd-theme-toggle">
+<h4 class="uppercase">Theme</h4><select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<nav class="tsd-navigation primary">
+<details class="tsd-index-accordion" open><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Modules</h3></summary>
+<div class="tsd-accordion-details">
+<ul>
+<li class="current selected"><a href="modules.html">Io<wbr/>T <wbr/>Device SDK <wbr/>For <wbr/>React<wbr/>Native -<wbr/> v0.2.2</a>
+<ul></ul></li></ul></div></details></nav>
+<nav class="tsd-navigation secondary menu-sticky">
+<ul>
+<li class="tsd-kind-enum"><a href="enums/debugCode.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-enum)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-8-path"></rect><path d="M9.45 16V7.24H14.49V8.224H10.518V10.936H14.07V11.908H10.518V15.016H14.49V16H9.45Z" fill="var(--color-text)" id="icon-8-text"></path></svg>debug<wbr/>Code</a></li>
+<li class="tsd-kind-function"><a href="functions/init.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-function)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-64-path"></rect><path d="M9.39 16V7.24H14.55V8.224H10.446V11.128H14.238V12.112H10.47V16H9.39Z" fill="var(--color-text)" id="icon-64-text"></path></svg>init</a></li>
+<li class="tsd-kind-function"><a href="functions/init_v2.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>init_<wbr/>v2</a></li>
+<li class="tsd-kind-function"><a href="functions/registerCancelForce.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>register<wbr/>Cancel<wbr/>Force</a></li>
+<li class="tsd-kind-function"><a href="functions/registerWifiApDevice.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>register<wbr/>Wifi<wbr/>Ap<wbr/>Device</a></li>
+<li class="tsd-kind-function"><a href="functions/registerWifiEzDevice.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>register<wbr/>Wifi<wbr/>Ez<wbr/>Device</a></li>
+<li class="tsd-kind-function"><a href="functions/registerWiredGW.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>register<wbr/>WiredGW</a></li>
+<li class="tsd-kind-function"><a href="functions/removeDevice.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>remove<wbr/>Device</a></li>
+<li class="tsd-kind-function"><a href="functions/reqTokenForWifiAp.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>req<wbr/>Token<wbr/>For<wbr/>Wifi<wbr/>Ap</a></li>
+<li class="tsd-kind-function"><a href="functions/startRegisterZigbeeSubDevice.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>start<wbr/>Register<wbr/>Zigbee<wbr/>Sub<wbr/>Device</a></li>
+<li class="tsd-kind-function"><a href="functions/startSearchWiredGW.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>start<wbr/>Search<wbr/>WiredGW</a></li>
+<li class="tsd-kind-function"><a href="functions/stopRegisterZigbeeSubDevice.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>stop<wbr/>Register<wbr/>Zigbee<wbr/>Sub<wbr/>Device</a></li>
+<li class="tsd-kind-function"><a href="functions/stopSearchWiredGW.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>stop<wbr/>Search<wbr/>WiredGW</a></li></ul></nav></div></div>
+<div class="overlay"></div><script src="assets/main.js"></script></body></html>
