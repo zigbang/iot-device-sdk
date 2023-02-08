@@ -2,7 +2,7 @@ name: GitHub Actions For Publish
 on: 
   push:
     branches:
-      - main
+      - master
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest

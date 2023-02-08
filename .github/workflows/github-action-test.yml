@@ -2,7 +2,7 @@ name: GitHub Actions For Test
 on: 
   push:
     branches-ignore:
-      - main
+      - master
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
