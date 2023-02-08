@@ -24,6 +24,7 @@ jobs:
       - name: NPM Publish
         uses: JS-DevTools/npm-publish@v1
         with:
+          tag: "alpha"
           token: ${{ secrets.NPM_TOKEN }}
           package: "./packages/iot-device-sdk/package.json"
       - uses: actions/setup-node@v3
